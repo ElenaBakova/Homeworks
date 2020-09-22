@@ -3,6 +3,10 @@
 
 long long exponentiation(const long long base, const int power)
 {
+	if (power < 0)
+	{
+		return -1;
+	}
 	long long answer = 1;
 	for (int i = 0; i < power; ++i)
 	{
@@ -18,6 +22,10 @@ int testLinear(void)
 
 long long exponentiationLogn(const long long base, int power)
 {
+	if (power < 0)
+	{
+		return -1;
+	}
 	if (power == 0)
 	{
 		return 1;
