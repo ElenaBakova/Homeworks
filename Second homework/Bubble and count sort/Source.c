@@ -11,9 +11,9 @@ void bubbleSort(int array[], const int size)
 		{
 			if (array[j] > array[j + 1])
 			{
-				int t = array[j];
+				const int temp = array[j];
 				array[j] = array[j + 1];
-				array[j + 1] = t;
+				array[j + 1] = temp;
 			}
 		}
 	}
@@ -70,7 +70,7 @@ void comparison(void)
 	free(arraySecond);
 }
 
-int makeArray(int array[], const int SIZE)
+void makeArray(int array[], const int SIZE)
 {
 	for (int i = 0; i < SIZE; ++i)
 	{
