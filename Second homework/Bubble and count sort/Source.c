@@ -1,96 +1,192 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stddef.h>
 
-void bubbleSort(int array[], const int size, const int code)
+void bubbleSort(int array[], const int size)
 {
-	for (int i = 0; i < size; ++i)
+	for (int i = 0; i < size - 1; ++i)
 	{
-		for (int j = i; j > 0; --j)
+		for (int j = 0; j < size - i - 1; ++j)
 		{
-			if (array[j] < array[j - 1])
+			if (array[j] > array[j + 1])
 			{
 				int t = array[j];
-				array[j] = array[j - 1];
-				array[j - 1] = t;
+				array[j] = array[j + 1];
+				array[j + 1] = t;
 			}
 		}
 	}
-	if (code == 1)
-	{
-		return;
-	}
-	printf("Result of bubble sort: ");
-	for (int i = 0; i < size; ++i)
-	{
-		printf("%i ", array[i]);
-	}
 }
 
-void countSort(const int massive[], const int max, const int min, const int massiveSize, const int code)
+void countSort(int massive[], const int massiveSize)
 {
-	int size = max + 1 + abs(min);
-	int* array = calloc(size, sizeof(int));
+	int max = INT_MIN;
+	int min = INT_MAX;
 	for (int i = 0; i < massiveSize; ++i)
 	{
-		array[massive[i] + abs(min)]++;
+		max = (massive[i] > max ? massive[i] : max);
+		min = (massive[i] < min ? massive[i] : min);
 	}
-	if (code == 1)
+	const size_t SIZE = max - min + 1;
+	int* array = calloc(SIZE, sizeof(int));
+	for (int i = 0; i < massiveSize; ++i)
 	{
-		return;
+		array[massive[i] - min]++;
 	}
-	printf("Result of counting sort: ");
-	for (int i = 0; i < size; ++i)
+	int k = 0;
+	for (int i = 0; i < SIZE; ++i)
 	{
 		for (int j = 0; j < array[i]; ++j)
 		{
-			printf("%i ", i - abs(min));
+			massive[k] = i + min;
+			k++;
 		}
 	}
-	printf("\n");
 
 	free(array);
 }
 
-void comparison()
+void comparison(void)
 {
-	int array[100000];
-	int max = -51000;
-	int min = 51000;
-	for (int i = 0; i < 100000; ++i)
+	const size_t SIZE = 100000;
+	int* arrayFirst = malloc(SIZE * sizeof(int));
+	int* arraySecond = malloc(SIZE * sizeof(int));
+	for (int i = 0; i < SIZE; ++i)
 	{
-		array[i] = rand() % 50000;
-		max = (max < array[i] ? array[i] : max);
-		min = (min > array[i] ? array[i] : min);
+		arrayFirst[i] = rand() % 10;
+		arraySecond[i] = arrayFirst[i];
 	}
 	int countingTime = clock();
-	countSort(array, max, min, 100000, 1);
+	countSort(arrayFirst, SIZE);
 	countingTime = clock() - countingTime;
 	int bubbleTime = clock();
-	bubbleSort(array, 100000, 1);
+	bubbleSort(arraySecond, SIZE);
 	bubbleTime = clock() - bubbleTime;
 	
 	printf("Array size: 100000\nTime:\n	Bubble sort: %f sec\n	Counting sort: %f sec\n\n", (double)bubbleTime / CLOCKS_PER_SEC, (double)countingTime / CLOCKS_PER_SEC);
+
+	free(arrayFirst);
+	free(arraySecond);
+}
+
+int makeArray(int array[], const int SIZE)
+{
+	for (int i = 0; i < SIZE; ++i)
+	{
+		array[i] = rand();
+	}
+}
+
+int testResult(const int array[], const int SIZE)
+{
+	for (int i = 0; i < SIZE - 1; ++i)
+	{
+		if (array[i] > array[i + 1])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int testCountingSort()
+{
+	const int SIZE = 1000;
+	int array[1000];
+	makeArray(array, SIZE);
+	countSort(array, SIZE);
+	return testResult(array, SIZE);
+}
+
+int testBubbleSort()
+{
+	const int SIZE = 1000;
+	int array[1000];
+	makeArray(array, SIZE);
+	bubbleSort(array, SIZE);
+	return testResult(array, SIZE);
+}
+
+int testSingleElement()
+{
+	int array[1];
+	int k = rand();
+	array[0] = k;
+	bubbleSort(array, 1);
+	return array[0] == k;
+}
+
+int testBig()
+{
+	const int SIZE = 1000;
+	int array[1000];
+	for (int i = 0; i < SIZE; ++i)
+	{
+		array[i] = rand() % 10 + 100000;
+	}
+	countSort(array, SIZE);
+	return testResult(array, SIZE);
+}
+
+int testNegative()
+{
+	const int SIZE = 1000;
+	int array[1000];
+	for (int i = 0; i < SIZE; ++i)
+	{
+		array[i] = -abs(rand());
+	}
+	countSort(array, SIZE);
+	return testResult(array, SIZE);
+}
+
+int tests()
+{
+	return testCountingSort() == 1 && testBubbleSort() == 1 && testSingleElement() == 1 && testBig() == 1 && testNegative() == 1;
+}
+
+void arrayPrint(const int array[], const int arraySize)
+{
+	printf("Sorting result:");
+	for (int i = 0; i < arraySize; ++i)
+	{
+		printf(" %i", array[i]);
+	}
+	printf("\n");
 }
 
 int main()
 {
 	comparison();
-	int massive[1000];
+	if (tests() == 0)
+	{
+		printf("Tests failed\n");
+		return 0;
+	}
+	printf("Tests succeed\n");
 	int amount = 0;
 	printf("Enter size of array: ");
 	scanf("%i", &amount);
-	int max = -10000;
-	int min = 10000;
+	if (amount < 0)
+	{
+		printf("Array size should be positive\n");
+		return 0;
+	}
+	int* massiveFirst = malloc(amount * sizeof(int));
+	int* massiveSecond = malloc(amount * sizeof(int));
 	for (int i = 0; i < amount; ++i)
 	{
-		scanf("%i", &massive[i]);
-		max = (max < massive[i] ? massive[i] : max);
-		min = (min > massive[i] ? massive[i] : min);
+		scanf("%i", &massiveFirst[i]);
+		massiveSecond[i] = massiveFirst[i];
 	}
 	
-	countSort(massive, max, min, amount, 0);
-	bubbleSort(massive, amount, 0);
-
+	countSort(massiveFirst,amount);
+	arrayPrint(massiveFirst, amount);
+	bubbleSort(massiveSecond, amount);
+	arrayPrint(massiveSecond, amount);
+	
+	free(massiveFirst);
+	free(massiveSecond);
 	return 0;
 }
