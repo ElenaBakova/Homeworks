@@ -102,7 +102,6 @@ int main()
 	makeArray(array, n);
 	printArray(array, n);
 	quickSort(array, 0, n - 1);
-	printArray(array, n);
 	for (int i = 0; i < k; ++i)
 	{
 		const int number = array[i];
