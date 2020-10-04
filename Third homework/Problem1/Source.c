@@ -3,7 +3,7 @@
 
 void swap(int* a, int* b)
 {
-	int temp = *a;
+	const int temp = *a;
 	*a = *b;
 	*b = temp;
 }
@@ -13,7 +13,7 @@ void insertionSort(int array[], const int left, const int right)
 	for (int i = left + 1; i <= right; i++)
 	{
 		int j = i - 1;
-		while (j >= 0 && array[j] > array[j + 1])
+		while (j >= left && array[j] > array[j + 1])
 		{
 			swap(&array[j], &array[j + 1]);
 			j--;
@@ -29,16 +29,16 @@ void quickSort(int array[], const int left, const int right)
 		return;
 	}
 	const int mid = (left + right) / 2;
-	const int prop = array[mid];
+	const int pivot = array[mid];
 	int i = left;
 	int j = right;
 	while (i <= j)
 	{
-		while (array[i] < prop)
+		while (array[i] < pivot)
 		{
 			i++;
 		}
-		while (array[j] > prop)
+		while (array[j] >= pivot)
 		{
 			j--;
 		}
@@ -59,7 +59,7 @@ void quickSort(int array[], const int left, const int right)
 	}
 }
 
-int check(const int array[], const int size)
+int checkRise(const int array[], const int size)
 {
 	for (int i = 1; i < size; i++)
 	{
@@ -100,37 +100,37 @@ int testSingle()
 int testInsertion()
 {
 	const int size = 7;
-	int* array = malloc(size * sizeof(int));
+	int array[7];
 	makeArray(array, size, 0);
 	quickSort(array, 0, size - 1);
-	return check(array, size);
+	return checkRise(array, size);
 }
 
 int testSorted()
 {
 	const int size = 20;
-	int* array = malloc(size * sizeof(int));
+	int array[20];
 	makeArray(array, size, 1);
 	quickSort(array, 0, size - 1);
-	return check(array, size);
+	return checkRise(array, size);
 }
 
 int testEven()
 {
 	const int size = 20;
-	int* array = malloc(size * sizeof(int));
+	int array[20];
 	makeArray(array, size, 2);
 	quickSort(array, 0, size - 1);
-	return check(array, size);
+	return checkRise(array, size);
 }
 
 int testArray()
 {
 	const int size = 125;
-	int* array = malloc(size * sizeof(int));
+	int array[125];
 	makeArray(array, size, 0);
 	quickSort(array, 0, size - 1);
-	return check(array, size);
+	return checkRise(array, size);
 }
 
 int tests()
@@ -162,5 +162,6 @@ int main()
 		printf("%i ", array[i]);
 	}
 
+	free(array);
 	return 0;
 }
