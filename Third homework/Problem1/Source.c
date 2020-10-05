@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 void swap(int* a, int* b)
 {
@@ -38,7 +39,7 @@ void quickSort(int array[], const int left, const int right)
 		{
 			i++;
 		}
-		while (array[j] >= pivot)
+		while (array[j] > pivot)
 		{
 			j--;
 		}
@@ -59,7 +60,7 @@ void quickSort(int array[], const int left, const int right)
 	}
 }
 
-int checkRise(const int array[], const int size)
+_Bool checkAscendingOrder(const int array[], const int size)
 {
 	for (int i = 1; i < size; i++)
 	{
@@ -90,52 +91,52 @@ void makeArray(int array[], const int size, const int code)
 	}
 }
 
-int testSingle()
+_Bool testSingle()
 {
 	int array[1] = { 5671 };
 	quickSort(array, 0, 0);
 	return array[0] == 5671;
 }
 
-int testInsertion()
+_Bool testInsertion()
 {
 	const int size = 7;
 	int array[7];
 	makeArray(array, size, 0);
 	quickSort(array, 0, size - 1);
-	return checkRise(array, size);
+	return checkAscendingOrder(array, size);
 }
 
-int testSorted()
+_Bool testSorted()
 {
 	const int size = 20;
 	int array[20];
 	makeArray(array, size, 1);
 	quickSort(array, 0, size - 1);
-	return checkRise(array, size);
+	return checkAscendingOrder(array, size);
 }
 
-int testEven()
+_Bool testEven()
 {
 	const int size = 20;
 	int array[20];
 	makeArray(array, size, 2);
 	quickSort(array, 0, size - 1);
-	return checkRise(array, size);
+	return checkAscendingOrder(array, size);
 }
 
-int testArray()
+_Bool testArray()
 {
 	const int size = 125;
 	int array[125];
 	makeArray(array, size, 0);
 	quickSort(array, 0, size - 1);
-	return checkRise(array, size);
+	return checkAscendingOrder(array, size);
 }
 
-int tests()
+_Bool tests()
 {
-	return testSingle() == 1 && testInsertion() == 1 && testSorted() == 1 && testEven() == 1 && testArray() == 1;
+	return testSingle() && testInsertion() && testSorted() && testEven() && testArray();
 }
 
 int main()
