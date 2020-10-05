@@ -1,25 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void swap(int* a, int* b)
+{
+	const int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+
 int findMostCommon(const int array[], const int size)
 {
-	int min = INT_MAX;
-	int max = INT_MIN;
-	for (int i = 0; i < size; ++i)
-	{
-		min = array[i] < min ? array[i] : min;
-		max = array[i] > max ? array[i] : max;
-	}
-	int* countArray = calloc(max - min + 1, sizeof(int));
 	int mostCommon = 0;
-	for (int i = 0; i < size; ++i)
-	{
-		countArray[array[i] - min]++;
-		if (countArray[array[i] - min] > countArray[mostCommon - min])
-		{
-			mostCommon = array[i];
-		}
-	}
 	return mostCommon;
 }
 
@@ -33,7 +25,9 @@ int main()
 	{
 		scanf("%i", &array[i]);
 	}
+	quickSort(array, 0, size - 1);
 	printf("The most common element in the array: %i", findMostCommon(array, size));
 
+	free(array);
 	return 0;
 }
