@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 void swap(int* a, int* b)
 {
@@ -25,11 +26,11 @@ void quickSort(int array[], const int left, const int right)
 	int j = right;
 	while (i <= j)
 	{
-		while (array[i] < pivot)
+		while (array[i] < pivot && i <= right)
 		{
 			i++;
 		}
-		while (array[j] >= pivot)
+		while (array[j] > pivot && j >= left)
 		{
 			j--;
 		}
@@ -68,13 +69,13 @@ void printArray(const int array[], const int size)
 	printf("\n");
 }
 
-int checkElement(const int array[], const int size, const int number)
+_Bool checkElement(const int array[], const int size, const int number)
 {
 	int left = 0;
 	int right = size - 1;
 	while (left + 1 < right)
 	{
-		int mid = (left + right) / 2;
+		const int mid = (left + right) / 2;
 		if (number == array[mid])
 		{
 			return 1;
@@ -91,13 +92,13 @@ int checkElement(const int array[], const int size, const int number)
 	return (array[left] == number || array[right] == number);
 }
 
-int testSingle()
+_Bool testSingle()
 {
 	int array[1] = { 1343 };
 	return checkElement(array, 1, 1343) == 1 && checkElement(array, 1, 12432) == 0 && checkElement(array, 1, -19) == 0;
 }
 
-int testDifferent()
+_Bool testDifferent()
 {
 	const int size = 5;
 	int array[5] = { 1534, 140 , -390, 30, 343 };
@@ -105,7 +106,7 @@ int testDifferent()
 	return checkElement(array, size, -390) == 1 && checkElement(array, size, 390) == 0 && checkElement(array, size, 1534) == 1 && checkElement(array, size, -24743) == 0;
 }
 
-int testNegative()
+_Bool testNegative()
 {
 	const int size = 8;
 	int array[8] = { -5, -1244, -1, -15, -3932, -5628, -12, -12 };
@@ -113,7 +114,7 @@ int testNegative()
 	return checkElement(array, size, -12) == 1 && checkElement(array, size, 15) == 0 && checkElement(array, size, -1244) == 1 && checkElement(array, size, -24743) == 0 && checkElement(array, size, -3932) == 1;
 }
 
-int testEven()
+_Bool testEven()
 {
 	const int size = 5;
 	int array[5] = { 14, 14, 14, 14, 14 };
@@ -121,7 +122,7 @@ int testEven()
 	return checkElement(array, size, -231) == 0 && checkElement(array, size, 14) == 1 && checkElement(array, size, -5315) == 0;
 }
 
-int tests()
+_Bool tests()
 {
 	return testSingle() == 1 && testDifferent() == 1 && testNegative() == 1 && testEven() == 1;
 }
