@@ -69,7 +69,7 @@ void printArray(const int array[], const int size)
 	printf("\n");
 }
 
-_Bool checkElement(const int array[], const int size, const int number)
+bool checkElement(const int array[], const int size, const int number)
 {
 	int left = 0;
 	int right = size - 1;
@@ -92,13 +92,13 @@ _Bool checkElement(const int array[], const int size, const int number)
 	return (array[left] == number || array[right] == number);
 }
 
-_Bool testSingle()
+bool testSingle()
 {
 	int array[1] = { 1343 };
 	return checkElement(array, 1, 1343) == 1 && checkElement(array, 1, 12432) == 0 && checkElement(array, 1, -19) == 0;
 }
 
-_Bool testDifferent()
+bool testDifferent()
 {
 	const int size = 5;
 	int array[5] = { 1534, 140 , -390, 30, 343 };
@@ -106,7 +106,7 @@ _Bool testDifferent()
 	return checkElement(array, size, -390) == 1 && checkElement(array, size, 390) == 0 && checkElement(array, size, 1534) == 1 && checkElement(array, size, -24743) == 0;
 }
 
-_Bool testNegative()
+bool testNegative()
 {
 	const int size = 8;
 	int array[8] = { -5, -1244, -1, -15, -3932, -5628, -12, -12 };
@@ -114,7 +114,7 @@ _Bool testNegative()
 	return checkElement(array, size, -12) == 1 && checkElement(array, size, 15) == 0 && checkElement(array, size, -1244) == 1 && checkElement(array, size, -24743) == 0 && checkElement(array, size, -3932) == 1;
 }
 
-_Bool testEven()
+bool testEven()
 {
 	const int size = 5;
 	int array[5] = { 14, 14, 14, 14, 14 };
@@ -122,7 +122,7 @@ _Bool testEven()
 	return checkElement(array, size, -231) == 0 && checkElement(array, size, 14) == 1 && checkElement(array, size, -5315) == 0;
 }
 
-_Bool tests()
+bool tests()
 {
 	return testSingle() == 1 && testDifferent() == 1 && testNegative() == 1 && testEven() == 1;
 }
@@ -130,7 +130,7 @@ _Bool tests()
 int main()
 {
 	srand(time(NULL));
-	if (tests() == 0)
+	if (!tests())
 	{
 		printf("Tests failed\n");
 		return 0;
