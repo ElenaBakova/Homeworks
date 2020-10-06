@@ -15,7 +15,7 @@ int main()
 		return 0;
 	}
 	
-	int countSymbol[128] = { 0 };
+	int countSymbol[256] = { 0 };
 	while (!feof(input))
 	{
 		int symbolCode = getc(input);
@@ -25,7 +25,7 @@ int main()
 		}
 	}
 	int count = 0;
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		if (countSymbol[i] > 1)
 		{

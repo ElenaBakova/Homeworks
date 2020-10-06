@@ -1,1 +1,5 @@
-'~' meets 1 time
+'g' meets 2 times
+'h' meets 2 times
+'»' meets 1 time
+'¿' meets 1 time
+'ï' meets 1 time
