@@ -83,7 +83,7 @@ bool testSingle()
 bool testDifferent()
 {
 	const int size = 10;
-	int array[10] = { 1, 4, 5, 4, 5, 4, 4, -4, 5,  4};
+	int array[10] = { 5, 4, 5, 4, 5, 4, 4, -5, 5,  4};
 	quickSort(array, 0, size - 1);
 	return findMostCommon(array, size) == 4;
 }
