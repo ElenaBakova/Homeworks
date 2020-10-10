@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//swap function
 void swap(int* a, int* b)
 {
 	const int temp = *a;
@@ -8,6 +9,7 @@ void swap(int* a, int* b)
 	*b = temp;
 }
 
+//sorting function
 void quickSort(int array[], const int left, const int right)
 {
 	if (right - left + 1 < 3)
