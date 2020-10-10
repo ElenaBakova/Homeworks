@@ -1,1 +1,2 @@
-Please enter array size and array The most common element in the array: 0
+Please enter array size and array 
+The most common element in the array: 10

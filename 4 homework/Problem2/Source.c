@@ -130,16 +130,16 @@ int main()
 		return -1;
 	}
 	int size = 0;
-	fprintf(output, "Please enter array size and array ");
+	fprintf(output, "Please enter array size and array \n");
 	fscanf(input, "%i", &size);
 	int* array = malloc(size * sizeof(int));
 	for (int i = 0; i < size; ++i)
 	{
-		scanf("%i", &array[i]);
+		fscanf(input, "%i", &array[i]);
 	}
 	fclose(input);
 	quickSort(array, 0, size - 1);
-	fprintf(output, "The most common element in the array: %i", findMostCommon(array, size));
+	fprintf(output, "The most common element in the array: %i\n", findMostCommon(array, size));
 
 	fclose(output);
 	free(array);
