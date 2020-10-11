@@ -29,32 +29,32 @@ int findMostCommon(const int array[], const int size)
 
 bool testSingle()
 {
-	int array[1] = { 1957 };
-	return findMostCommon(array, 1) == 1957;
+	int array[1] = { 52342 };
+	return findMostCommon(array, 1) == 52342;
 }
 
 bool testDifferent()
 {
 	const int size = 10;
-	int array[10] = { 5, 4, 5, 4, 5, 4, 4, -5, 5,  4 };
+	int array[10] = { 15, 40, 15, 15, 10, 4, 15, 3, 3, 3 };
 	quickSort(array, 0, size - 1);
-	return findMostCommon(array, size) == 4;
+	return findMostCommon(array, size) == 15;
 }
 
 bool testEvenQuantity()
 {
 	const int size = 8;
-	int array[8] = { 3, 5, 2, 1, 7, 4, 8, 6 };
+	int array[8] = { 8, 6, 9, 7, 5, 10, 4, 11 };
 	quickSort(array, 0, size - 1);
-	return findMostCommon(array, size);
+	return findMostCommon(array, size) == 4;
 }
 
 bool testEven()
 {
 	const int size = 5;
-	int array[5] = { -18, -18, -18, -18, -18 };
+	int array[5] = { -72, -72, -72, -72, -72 };
 	quickSort(array, 0, size - 1);
-	return findMostCommon(array, size);
+	return findMostCommon(array, size) == -72;
 }
 
 bool tests()
@@ -82,15 +82,18 @@ int main()
 	{
 		return -1;
 	}
+
 	int size = 0;
 	fprintf(output, "Please enter array size and array \n");
 	fscanf(input, "%i", &size);
+
 	int* array = malloc(size * sizeof(int));
 	for (int i = 0; i < size; ++i)
 	{
 		fscanf(input, "%i", &array[i]);
 	}
 	fclose(input);
+
 	quickSort(array, 0, size - 1);
 	fprintf(output, "The most common element in the array: %i\n", findMostCommon(array, size));
 

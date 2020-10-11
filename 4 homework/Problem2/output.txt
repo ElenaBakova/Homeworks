@@ -1,2 +1,2 @@
 Please enter array size and array 
-The most common element in the array: -15
+The most common element in the array: 0
