@@ -93,7 +93,7 @@ bool testEvenQuantity()
 	const int size = 8;
 	int array[8] = { 3, 5, 2, 1, 7, 4, 8, 6};
 	quickSort(array, 0, size - 1);
-	return findMostCommon(array, size);
+	return findMostCommon(array, size) == 1;
 }
 
 bool testEven()
@@ -101,7 +101,7 @@ bool testEven()
 	const int size = 5;
 	int array[5] = { -18, -18, -18, -18, -18};
 	quickSort(array, 0, size - 1);
-	return findMostCommon(array, size);
+	return findMostCommon(array, size) == -18;
 }
 
 bool tests()
