@@ -21,6 +21,9 @@
     <ClCompile Include="Sort.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -31,7 +34,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="Sort.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
