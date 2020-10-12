@@ -34,11 +34,11 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sort.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tests.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sort.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

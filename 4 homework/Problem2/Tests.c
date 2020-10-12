@@ -1,6 +1,8 @@
 #include "Tests.h"
-#include <stdio.h>
+#include "Sort.h"
 #include <stdbool.h>
+
+int findMostCommon(const int array[], const int size);
 
 bool testSingle(void)
 {
