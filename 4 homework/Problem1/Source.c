@@ -50,17 +50,12 @@ void twosComplement(int array[], int *size)
 	}
 }
 
-void addition(int first[], int second[], int result[], const int size)
-{
-
-}
-
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 	int n = 0;
 	int k = 0;
-	printf("¬ведите два числа: ");
+	printf("¬ведите данные: ");
 	scanf("%i %i", &n, &k);
 	int binaryK[20] = { 0 };
 	int binaryN[20] = { 0 };
