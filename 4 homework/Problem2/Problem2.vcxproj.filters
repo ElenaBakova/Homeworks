@@ -24,6 +24,9 @@
     <ClCompile Include="Tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MostCommonSearch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
@@ -38,6 +41,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MostCommonSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MostCommonSearch.c" />
     <ClCompile Include="Sort.c" />
     <ClCompile Include="Source.c" />
     <ClCompile Include="Tests.c" />
@@ -149,6 +150,7 @@
     <Text Include="output.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MostCommonSearch.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Tests.h" />
   </ItemGroup>

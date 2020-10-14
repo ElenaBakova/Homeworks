@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "Sort.h"
 #include "Tests.h"
+#include "MostCommonSearch.h"
 
 void swap(int* a, int* b)
 {
@@ -11,39 +12,8 @@ void swap(int* a, int* b)
 	*b = temp;
 }
 
-int findMostCommon(const int array[], const int size)
-{
-	int mostCommon = 0;
-	int maxQuantity = 0;
-	int i = 0;
-	while (i < size)
-	{
-		int countLength = 1;
-		while (array[i] == array[i + 1] && i + 1 < size)
-		{
-			countLength++;
-			i++;
-		}
-		if (maxQuantity < countLength)
-		{
-			maxQuantity = countLength;
-			mostCommon = array[i];
-		}
-		i++;
-	}
-
-	return mostCommon;
-}
-
 int main()
 {
-	if (!tests())
-	{
-		printf("Tests failed\n");
-		return 0;
-	}
-	printf("Tests succeed\n");
-
 	FILE* input = fopen("input.txt", "r");
 	if (input == NULL)
 	{
@@ -55,6 +25,13 @@ int main()
 	{
 		return -1;
 	}
+
+	if (!tests())
+	{
+		fprintf(output, "Tests failed\n");
+		return 0;
+	}
+	fprintf(output, "Tests succeed\n");
 
 	int size = 0;
 	fscanf(input, "%i", &size);

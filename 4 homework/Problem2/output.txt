@@ -1,1 +1,2 @@
-The most common element in the array: 20
+Tests succeed
+The most common element in the array: 4
