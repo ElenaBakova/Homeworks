@@ -2,9 +2,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-const int nameSize = 20;
-const int numberSize = 12;
-
 struct PhoneBook {
 	char name[20];
 	char number[12];
@@ -70,8 +67,28 @@ bool testSearch(void)
 		strcpy(array[i].name, name);
 		strcpy(array[i].number, number);
 	}
-	//makeArray(array, size);
-	return strcmp(findNumber("a", size, array), "1") == 0 && strcmp(findNumber("aaaa", size, array), "1111") == 0 && strcmp(findName("11", size, array), "aa") == 0 && strcmp(findName("111", size, array), "aaa") == 0 && strcmp(findName("11111", size, array), "aaaaa") == 0;
+	bool testResult = strcmp(findNumber("a", size, array), "1") == 0;
+	testResult *= strcmp(findNumber("aaaa", size, array), "1111") == 0;
+	testResult *= strcmp(findName("11", size, array), "aa") == 0 && strcmp(findName("111", size, array), "aaa") == 0;
+	testResult *= strcmp(findName("11111", size, array), "aaaaa") == 0;
+	return testResult;
+}
+
+bool readInitialDirectory(struct PhoneBook records[], int *countRecords)
+{
+	FILE* phones = fopen("Phone_Book.txt", "r");
+	if (phones == NULL)
+	{
+		printf("File not found!");
+		return 1;
+	}
+	while (!feof(phones))
+	{
+		fscanf(phones, "%s %s", &records[*countRecords].name, &records[*countRecords].number);
+		(*countRecords)++;
+	}
+	fclose(phones);
+	return 0;
 }
 
 int main()
@@ -82,21 +99,12 @@ int main()
 		return 0;
 	}
 	printf("Tests succeed\n");
-
-	FILE* phones = fopen("Phone_Book.txt", "r");
-	if (phones == NULL)
-	{
-		printf("File not found!");
-		return -1;
-	}
 	struct PhoneBook records[100];
 	int countRecords = 0;
-	while (!feof(phones))
+	if (readInitialDirectory(records, &countRecords))
 	{
-		fscanf(phones, "%s %s", &records[countRecords].name, &records[countRecords].number);
-		countRecords++;
+		return 0;
 	}
-	fclose(phones);
 
 	printf("What would you like to do?\n0 - exit\n1 - add record (name and phone)\n");
 	printf("2 - print all rocords\n3 - find number by name\n4 - find name by number\n5 - save actual data to the file\n");
@@ -107,6 +115,8 @@ int main()
 		scanf("%i", &code);
 		switch (code)
 		{
+		case 0:
+			return 0;
 		case 1:
 			if (countRecords >= 100)
 			{
@@ -136,8 +146,8 @@ int main()
 			saveDataToFile(countRecords, records);
 			break;
 		default: 
-			saveDataToFile(countRecords, records);
-			return 0;
+			printf("Incorrect data\n");
+			break;
 		}
 	}
 
