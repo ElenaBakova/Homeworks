@@ -1,3 +1,4 @@
+#include "Tests.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -54,26 +55,6 @@ void saveDataToFile(const int size, const struct PhoneBook array[])
 	fclose(phones);
 }
 
-bool testSearch(void)
-{
-	struct PhoneBook array[5] = { "", "" };
-	const int size = 5;
-	char name[6] = "";
-	char number[6] = "";
-	for (int i = 0; i < size; i++)
-	{
-		strcat(name, "a");
-		strcat(number, "1");
-		strcpy(array[i].name, name);
-		strcpy(array[i].number, number);
-	}
-	bool testResult = strcmp(findNumber("a", size, array), "1") == 0;
-	testResult *= strcmp(findNumber("aaaa", size, array), "1111") == 0;
-	testResult *= strcmp(findName("11", size, array), "aa") == 0 && strcmp(findName("111", size, array), "aaa") == 0;
-	testResult *= strcmp(findName("11111", size, array), "aaaaa") == 0;
-	return testResult;
-}
-
 bool readInitialDirectory(struct PhoneBook records[], int *countRecords)
 {
 	FILE* phones = fopen("Phone_Book.txt", "r");
@@ -93,7 +74,7 @@ bool readInitialDirectory(struct PhoneBook records[], int *countRecords)
 
 int main()
 {
-	if (!testSearch())
+	if (!tests())
 	{
 		printf("Tests failed\n");
 		return 0;
