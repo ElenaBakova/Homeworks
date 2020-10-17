@@ -1,15 +1,9 @@
 #include "Tests.h"
+#include "Struct.h"
+#include "Searching.h"
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
-
-struct PhoneBook {
-	char name[20];
-	char number[12];
-};
-
-char* findName(const char number[], const int size, struct PhoneBook array[]);
-char* findNumber(const char name[], const int size, struct PhoneBook array[]);
 
 bool testSearch(void)
 {
@@ -39,10 +33,10 @@ bool testPush(void)
 	char number[6] = "1";
 	strcpy(array[0].name, name);
 	strcpy(array[0].number, number);
-	bool pushResult = 0;
+	bool pushResult = 1;
 	for (int i = 1; i < size; i++)
 	{
-		pushResult += strcmp(array[i - 1].name, name) != 0 || strcmp(array[i - 1].number, number) != 0;
+		pushResult *= strcmp(array[i - 1].name, name) == 0 && strcmp(array[i - 1].number, number) == 0;
 		strcat(name, "a");
 		strcat(number, "1");
 		strcpy(array[i].name, name);
@@ -56,7 +50,7 @@ bool testFile(void)
 	FILE* phones = fopen("TestPhoneBook.txt", "w");
 	if (phones == NULL)
 	{
-		return 1;
+		return 0;
 	}
 	char testName[2] = "W";
 	char testNumber[5] = "1263";
@@ -68,15 +62,15 @@ bool testFile(void)
 	phones = fopen("TestPhoneBook.txt", "r");
 	if (phones == NULL)
 	{
-		return 1;
+		return 0;
 	}
 	char name[2] = "";
 	char number[5] = "";
-	bool testResult = 0;
+	bool testResult = 1;
 	for (int i = 0; i < 5; i++)
 	{
 		fscanf(phones, "%s %s", &name, &number);
-		testResult += strcmp(name, testName) != 0 || strcmp(number, testNumber) != 0;
+		testResult *= strcmp(name, testName) == 0 && strcmp(number, testNumber) == 0;
 	}
 	fclose(phones);
 	return testResult;
@@ -84,5 +78,5 @@ bool testFile(void)
 
 bool tests(void)
 {
-	return !testPush() && testSearch() && !testFile();
+	return testPush() && testSearch() && testFile();
 }

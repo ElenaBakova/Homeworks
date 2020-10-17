@@ -21,6 +21,9 @@
     <ClCompile Include="Tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Searching.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Phone_Book.txt">
@@ -32,6 +35,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Searching.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,9 @@
 #include "Tests.h"
+#include "Struct.h"
+#include "Searching.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-
-struct PhoneBook {
-	char name[20];
-	char number[12];
-};
 
 void printRecords(const struct PhoneBook array[], const int size)
 {
@@ -14,30 +11,6 @@ void printRecords(const struct PhoneBook array[], const int size)
 	{
 		printf("%s -- %s\n", array[i].name, array[i].number);
 	}
-}
-
-char* findNumber(const char name[], const int size, struct PhoneBook array[])
-{
-	for (int i = 0; i < size; i++)
-	{
-		if (strcmp(name, array[i].name) == 0)
-		{
-			return array[i].number;
-		}
-	}
-	return "Not found";
-}
-
-char* findName(const char number[], const int size, struct PhoneBook array[])
-{
-	for (int i = 0; i < size; i++)
-	{
-		if (strcmp(number, array[i].number) == 0)
-		{
-			return array[i].name;
-		}
-	}
-	return "Not found";
 }
 
 void saveDataToFile(const int size, const struct PhoneBook array[])
