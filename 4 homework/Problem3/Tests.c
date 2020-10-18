@@ -45,16 +45,17 @@ bool testPush(void)
 	return pushResult;
 }
 
-bool testFile(void)
+bool testSaveData(void)
 {
 	FILE* phones = fopen("TestPhoneBook.txt", "w");
 	if (phones == NULL)
 	{
 		return 0;
 	}
+	int testCount = 5;
 	char testName[2] = "W";
 	char testNumber[5] = "1263";
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < testCount; i++)
 	{
 		fprintf(phones, "%s %s\n", testName, testNumber);
 	}
@@ -66,17 +67,44 @@ bool testFile(void)
 	}
 	char name[2] = "";
 	char number[5] = "";
-	bool testResult = 1;
-	for (int i = 0; i < 5; i++)
+	bool testResult = true;
+	int i = 0;
+	while(!feof(phones))
 	{
 		fscanf(phones, "%s %s", &name, &number);
-		testResult *= strcmp(name, testName) == 0 && strcmp(number, testNumber) == 0;
+		testResult &= strcmp(name, testName) == 0 && strcmp(number, testNumber) == 0;
+		i++;
 	}
 	fclose(phones);
-	return testResult;
+	return testResult && (i == testCount + 1);
+}
+
+bool testReadDirectory()
+{
+	FILE* phones = fopen("TestPhoneBook.txt", "r");
+	if (phones == NULL)
+	{
+		return 0;
+	}
+	struct PhoneBook records[5];
+	int countRecords = 0;
+	while (!feof(phones))
+	{
+		fscanf(phones, "%s %s", &records[countRecords].name, &records[countRecords].number);
+		countRecords++;
+	}
+	fclose(phones);
+	char name[2] = "W";
+	char number[5] = "1263";
+	bool result = true;
+	for (int i = 0; i < countRecords - 1; i++)
+	{
+		result &= (strcmp(records[i].name, name) == 0 && strcmp(records[i].number, number) == 0);
+	}
+	return result;
 }
 
 bool tests(void)
 {
-	return testPush() && testSearch() && testFile();
+	return testPush() && testSearch() && testSaveData() && testReadDirectory();
 }
