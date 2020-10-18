@@ -54,8 +54,8 @@ bool test()
 	int result = 1;
 	while(!feof(test))
 	{
-		char string[20] = "";
-		fgets(string, 20, test);
+		char string[100] = "";
+		fgets(string, 100, test);
 		int answer = 0;
 		char space = "";
 		fscanf(test, "%i%c", &answer, &space);
