@@ -18,10 +18,10 @@
     <ClCompile Include="SourcePoblem1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stack.c">
+    <ClCompile Include="Stack\Stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestStack.c">
+    <ClCompile Include="Stack\TestStack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

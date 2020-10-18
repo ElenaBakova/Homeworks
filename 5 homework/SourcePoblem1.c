@@ -1,5 +1,5 @@
-#include "Stack.h"
-#include "TestStack.h"
+#include "Stack/Stack.h"
+#include "Stack/TestStack.h"
 #include <stdlib.h>
 #include <stdio.h>
 

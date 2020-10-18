@@ -141,8 +141,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SourcePoblem1.c" />
-    <ClCompile Include="Stack.c" />
-    <ClCompile Include="TestStack.c" />
+    <ClCompile Include="Stack\Stack.c" />
+    <ClCompile Include="Stack\TestStack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Stack.h" />
