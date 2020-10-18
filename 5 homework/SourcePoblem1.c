@@ -1,4 +1,3 @@
-#include "StructStack.h"
 #include "Stack.h"
 #include "TestStack.h"
 #include <stdlib.h>
@@ -53,7 +52,7 @@ bool test()
 		return 0;
 	}
 	int result = 1;
-	for (int i = 0; i < 3; i++)
+	while(!feof(test))
 	{
 		char string[20] = "";
 		fgets(string, 20, test);
