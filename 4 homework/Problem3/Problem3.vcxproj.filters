@@ -21,7 +21,7 @@
     <ClCompile Include="Tests.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Searching.c">
+    <ClCompile Include="PhoneBook.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,10 +37,7 @@
     <ClInclude Include="Tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Struct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Searching.h">
+    <ClInclude Include="PhoneBook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

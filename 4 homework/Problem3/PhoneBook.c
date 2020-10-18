@@ -1,4 +1,4 @@
-#include "Struct.h"
+#include "PhoneBook.h"
 
 char* findNumber(const char name[], const int size, struct PhoneBook array[])
 {

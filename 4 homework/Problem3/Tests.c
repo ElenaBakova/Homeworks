@@ -1,6 +1,5 @@
 #include "Tests.h"
-#include "Struct.h"
-#include "Searching.h"
+#include "PhoneBook.h"
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
@@ -27,21 +26,22 @@ bool testSearch(void)
 
 bool testPush(void)
 {
+	FILE* phones = fopen("TestPhoneBook.txt", "r");
+	if (phones == NULL)
+	{
+		return 0;
+	}
 	struct PhoneBook array[5] = { "", "" };
 	const int size = 5;
-	char name[6] = "a";
-	char number[6] = "1";
-	strcpy(array[0].name, name);
-	strcpy(array[0].number, number);
+	char name[6] = "W";
+	char number[6] = "1263";
 	bool pushResult = 1;
-	for (int i = 1; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
-		pushResult *= strcmp(array[i - 1].name, name) == 0 && strcmp(array[i - 1].number, number) == 0;
-		strcat(name, "a");
-		strcat(number, "1");
-		strcpy(array[i].name, name);
-		strcpy(array[i].number, number);
+		fscanf(phones, "%s %s", &array[i].name, &array[i].number);
+		pushResult &= (strcmp(array[i].name, name) == 0 && strcmp(array[i].number, number) == 0);
 	}
+	fclose(phones);
 	return pushResult;
 }
 

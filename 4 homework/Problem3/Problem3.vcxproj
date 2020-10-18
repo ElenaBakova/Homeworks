@@ -140,7 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Searching.c" />
+    <ClCompile Include="PhoneBook.c" />
     <ClCompile Include="Source.c" />
     <ClCompile Include="Tests.c" />
   </ItemGroup>
@@ -149,8 +149,7 @@
     <Text Include="TestPhoneBook.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Searching.h" />
-    <ClInclude Include="Struct.h" />
+    <ClInclude Include="PhoneBook.h" />
     <ClInclude Include="Tests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

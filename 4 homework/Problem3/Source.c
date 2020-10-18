@@ -1,6 +1,5 @@
 #include "Tests.h"
-#include "Struct.h"
-#include "Searching.h"
+#include "PhoneBook.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
