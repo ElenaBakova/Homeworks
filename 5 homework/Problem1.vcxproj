@@ -140,14 +140,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Stack.c" />
-    <ClCompile Include="..\TestStack.c" />
     <ClCompile Include="SourcePoblem1.c" />
+    <ClCompile Include="Stack.c" />
+    <ClCompile Include="TestStack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Stack.h" />
     <ClInclude Include="..\StructStack.h" />
     <ClInclude Include="..\TestStack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

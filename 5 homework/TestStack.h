@@ -2,4 +2,4 @@
 #include <stdbool.h>
 
 // Returns 'true' if all tests succeed
-bool tests();
+bool stackTests();

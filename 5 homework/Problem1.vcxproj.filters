@@ -18,10 +18,10 @@
     <ClCompile Include="SourcePoblem1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Stack.c">
+    <ClCompile Include="Stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\TestStack.c">
+    <ClCompile Include="TestStack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,5 +35,10 @@
     <ClInclude Include="..\TestStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Test.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

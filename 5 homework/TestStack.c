@@ -20,7 +20,7 @@ bool testPushPop()
 	return result;
 }
 
-bool StackTests()
+bool stackTests()
 {
 	return testPushPop();
 }
