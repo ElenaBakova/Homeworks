@@ -18,21 +18,21 @@
     <ClCompile Include="SourcePoblem1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stack.c">
+    <ClCompile Include="..\Stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestStack.c">
+    <ClCompile Include="..\TestStack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Stack.h">
+    <ClInclude Include="..\Stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StructStack.h">
+    <ClInclude Include="..\StructStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestStack.h">
+    <ClInclude Include="..\TestStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

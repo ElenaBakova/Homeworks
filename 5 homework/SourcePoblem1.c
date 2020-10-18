@@ -4,17 +4,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int main()
+int getTheAnswer(char string[])
 {
-	if (!tests())
-	{
-		printf("Tests failed\n");
-		return 0;
-	}
-	printf("Tests succeed\n");
 	StackElement* head = NULL;
-	char string[1000] = "";
-	gets(string);
 	for (int i = 0; string[i]; i++)
 	{
 		int a = 0;
@@ -48,7 +40,20 @@ int main()
 			break;
 		}
 	}
-	printf("%i", pop(&head));
+	return pop(&head);
+}
+
+int main()
+{
+	if (!StackTests())
+	{
+		printf("Stack tests failed\n");
+		return 0;
+	}
+	printf("Stack tests succeed\n");
+	char string[1000] = "";
+	gets(string);
+	printf("%i", getTheAnswer(string));
 
 	return 0;
 }
