@@ -1,4 +1,4 @@
-#include "StructStack.h"
+#include "Stack.h"
 #include <stdlib.h>
 #include <stdbool.h>
 

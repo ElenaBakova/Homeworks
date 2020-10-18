@@ -1,6 +1,11 @@
 #pragma once
 #include <stdbool.h>
 
+typedef struct StackElement {
+	int value;
+	struct StackElement* next;
+}StackElement;
+
 // Pushes new element
 struct StackElement* push(struct StackElement* head, int value);
 
