@@ -5,7 +5,7 @@
 
 const int size = sizeof(int) * 8;
 
-void decToBin(bool array[], long long number)
+void decToBin(bool array[], int number)
 {
 	for (int i = 0; i < size; ++i)
 	{
@@ -14,10 +14,10 @@ void decToBin(bool array[], long long number)
 	}
 }
 
-long long binToDec(const bool array[])
+int binToDec(const bool array[])
 {
-	long long decimal = 0;
-	long long power = 1;
+	int decimal = 0;
+	int power = 1;
 	for (int i = 0; i < size; i++)
 	{
 		decimal |= array[i] * power;
@@ -55,8 +55,8 @@ bool testBinToDec()
 			fscanf(test, "%c", &symbol);
 			binary[j] = symbol - '0';
 		}
-		long long answer = 0;
-		fscanf(test, "%li", &answer);
+		int answer = 0;
+		fscanf(test, "%i", &answer);
 		result &= (binToDec(binary) == answer);
 		free(binary);
 		char space = "";
@@ -93,8 +93,8 @@ bool testDecToBin()
 			fscanf(test, "%c", &symbol);
 			binary[j] = symbol - '0';
 		}
-		long long decimal = 0;
-		fscanf(test, "%ld", &decimal);
+		int decimal = 0;
+		fscanf(test, "%i", &decimal);
 		bool* answer = calloc(size);
 		decToBin(answer, decimal);
 		result &= compare(answer, binary);
@@ -107,9 +107,52 @@ bool testDecToBin()
 	return result;
 }
 
+bool testAddition()
+{
+	FILE* test = fopen("Test.txt", "r");
+	if (test == NULL)
+	{
+		return 0;
+	}
+
+	bool result = true;
+	bool* binaryN = calloc(size);
+	for (int j = 0; j < size; j++)
+	{
+		char symbol = "";
+		fscanf(test, "%c", &symbol);
+		binaryN[j] = symbol - '0';
+	}
+	int decimalN = 0;
+	fscanf(test, "%i", &decimalN);
+	char space = "";
+	fscanf(test, "%c", &space);
+	bool* binaryK = calloc(size);
+	for (int j = 0; j < size; j++)
+	{
+		char symbol = "";
+		fscanf(test, "%c", &symbol);
+		binaryK[j] = symbol - '0';
+	}
+	int decimalK = 0;
+	fscanf(test, "%i", &decimalK);
+	bool* binSum = calloc(size);
+	binSum = addition(binaryK, binaryN);
+	free(binaryN);
+	free(binaryK);
+	bool* decSum = calloc(size);
+	decToBin(decSum, decimalK + decimalN);
+	result &= compare(decSum, binSum);
+
+	free(binSum);
+	free(decSum);
+	fclose(test);
+	return result;
+}
+
 bool tests()
 {
-	return testBinToDec() && testDecToBin();
+	return testBinToDec() && testDecToBin() && testAddition();
 }
 
 int main()
@@ -121,20 +164,20 @@ int main()
 		return 0;
 	}
 	printf("Тесты пройдены успешно\n");
-	long long n = 0;
-	long long k = 0;
+	int n = 0;
+	int k = 0;
 	printf("Введите два числа: ");
-	scanf("%li %ld", &n, &k);
+	scanf("%i %i", &n, &k);
 	bool *binaryK = calloc(size);
 	bool *binaryN = calloc(size);
 	decToBin(binaryN, n);
 	decToBin(binaryK, k);
-	printf("%ld в дополнительном коде: ", n);
+	printf("%i в дополнительном коде: ", n);
 	for (int i = size - 1; i >= 0; i--)
 	{
 		printf("%i", binaryN[i]);
 	}
-	printf("\n%ld в дополнительном коде: ", k);
+	printf("\n%i в дополнительном коде: ", k);
 	for (int i = size - 1; i >= 0; i--)
 	{
 		printf("%i", binaryK[i]);
@@ -145,7 +188,7 @@ int main()
 	{
 		printf("%i", additionResult[i]);
 	}
-	printf("\nСумма в десятичном виде: %ld", binToDec(additionResult));
+	printf("\nСумма в десятичном виде: %i", binToDec(additionResult));
 
 	free(additionResult);
 	free(binaryK);
