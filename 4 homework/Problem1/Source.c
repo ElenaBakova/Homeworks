@@ -48,7 +48,7 @@ bool testBinToDec()
 	bool result = true;
 	for (int i = 0; i < 2; i++)
 	{
-		bool* binary = calloc(size);
+		bool* binary = calloc(size, sizeof(bool));
 		for (int j = 0; j < size; j++)
 		{
 			char symbol = "";
@@ -86,7 +86,7 @@ bool testDecToBin()
 	bool result = true;
 	for (int i = 0; i < 2; i++)
 	{
-		bool* binary = calloc(size);
+		bool* binary = calloc(size, sizeof(bool));
 		for (int j = 0; j < size; j++)
 		{
 			char symbol = "";
@@ -95,7 +95,7 @@ bool testDecToBin()
 		}
 		int decimal = 0;
 		fscanf(test, "%i", &decimal);
-		bool* answer = calloc(size);
+		bool* answer = calloc(size, sizeof(bool));
 		decToBin(answer, decimal);
 		result &= compare(answer, binary);
 		free(binary);
@@ -116,7 +116,7 @@ bool testAddition()
 	}
 
 	bool result = true;
-	bool* binaryN = calloc(size);
+	bool* binaryN = calloc(size, sizeof(bool));
 	for (int j = 0; j < size; j++)
 	{
 		char symbol = "";
@@ -127,7 +127,7 @@ bool testAddition()
 	fscanf(test, "%i", &decimalN);
 	char space = "";
 	fscanf(test, "%c", &space);
-	bool* binaryK = calloc(size);
+	bool* binaryK = calloc(size, sizeof(bool));
 	for (int j = 0; j < size; j++)
 	{
 		char symbol = "";
@@ -136,11 +136,11 @@ bool testAddition()
 	}
 	int decimalK = 0;
 	fscanf(test, "%i", &decimalK);
-	bool* binSum = calloc(size);
+	bool* binSum = calloc(size, sizeof(bool));
 	binSum = addition(binaryK, binaryN);
 	free(binaryN);
 	free(binaryK);
-	bool* decSum = calloc(size);
+	bool* decSum = calloc(size, sizeof(bool));
 	decToBin(decSum, decimalK + decimalN);
 	result &= compare(decSum, binSum);
 
@@ -168,8 +168,8 @@ int main()
 	int k = 0;
 	printf("¬ведите два числа: ");
 	scanf("%i %i", &n, &k);
-	bool *binaryK = calloc(size);
-	bool *binaryN = calloc(size);
+	bool *binaryK = calloc(size, sizeof(bool));
+	bool *binaryN = calloc(size, sizeof(bool));
 	decToBin(binaryN, n);
 	decToBin(binaryK, k);
 	printf("%i в дополнительном коде: ", n);
