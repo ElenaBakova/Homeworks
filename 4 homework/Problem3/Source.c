@@ -4,46 +4,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-void printRecords(const struct PhoneBook array[], const int size)
-{
-	for (int i = 0; i < size; i++)
-	{
-		printf("%s -- %s\n", array[i].name, array[i].number);
-	}
-}
-
-void saveDataToFile(const int size, const struct PhoneBook array[])
-{
-	FILE* phones = fopen("Phone_Book.txt", "w");
-	if (phones == NULL)
-	{
-		printf("File not found!");
-		return;
-	}
-	for (int i = 0; i < size; i++)
-	{
-		fprintf(phones, "%s %s\n", array[i].name, array[i].number);
-	}
-	fclose(phones);
-}
-
-bool readInitialDirectory(struct PhoneBook records[], int *countRecords)
-{
-	FILE* phones = fopen("Phone_Book.txt", "r");
-	if (phones == NULL)
-	{
-		printf("File not found!");
-		return 1;
-	}
-	while (!feof(phones))
-	{
-		fscanf(phones, "%s %s", &records[*countRecords].name, &records[*countRecords].number);
-		(*countRecords)++;
-	}
-	fclose(phones);
-	return 0;
-}
-
 int main()
 {
 	if (!tests())
