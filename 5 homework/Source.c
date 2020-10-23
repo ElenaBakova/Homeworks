@@ -4,29 +4,32 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-bool getTheAnswer()
+bool getTheAnswer(char string[])
 {
-	const int size = 500;
-	char string[500] = "0";
 	StackElement* head = NULL;
-	gets_s(string, size);
 	for (int i = 0; string[i] != '\0'; i++)
 	{
 		if (string[i] == '(' || string[i] == '{' || string[i] == '[')
 		{
 			head = push(head, string[i]);
+			continue;
 		}
 		if ((string[i] == ')' || string[i] == '}' || string[i] == ']') && (head == NULL))
 		{
-			return 1;
+			return 0;
 		}
 		char brace = pop(&head);
 		if (string[i] == ')' && brace != '(' || string[i] == ']' && brace != '[' || string[i] == '}' && brace != '{')
 		{
-			return 1;
+			return 0;
 		}
 	}
 	return head == NULL;
+}
+
+bool test()
+{
+	return !getTheAnswer("()(") && !getTheAnswer("}}") && getTheAnswer("[]([[]]){}{{}}") && getTheAnswer("[[{({})}]]");
 }
 
 int main()
@@ -37,17 +40,22 @@ int main()
 		return 0;
 	}
 	printf("Stack tests succeed\n");
-	if (getTheAnswer())
+	if (!test())
 	{
-		printf("Not ok");
+		printf("Tests failed\n");
 		return 0;
 	}
-	printf("Ok");
-	//char string[500] = "0";
-	//gets_s(string, 10);
-	//StackElement* head = NULL;
-	//head = push(head, string[0]);
-	//printf("%c", pop(&head));
+	printf("Tests succeed\n");
+	printf("Please enter string\n");
+	const int size = 500;
+	char string[500] = "\0";
+	gets_s(string, size);
+	if (!getTheAnswer(string))
+	{
+		printf("Braces are not balanced");
+		return 0;
+	}
+	printf("Braces are balanced");
 
 	return 0;
 }

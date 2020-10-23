@@ -21,6 +21,9 @@
     <ClCompile Include="Stack\Stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Stack\TestStack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stack\Stack.h">

@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Source.c" />
     <ClCompile Include="Stack\Stack.c" />
+    <ClCompile Include="Stack\TestStack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stack\Stack.h" />
