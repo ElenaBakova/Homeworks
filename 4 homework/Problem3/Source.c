@@ -14,7 +14,7 @@ int main()
 	printf("Tests succeed\n");
 	struct PhoneBook records[100];
 	int countRecords = 0;
-	if (readInitialDirectory(records, &countRecords))
+	if (readInitialDirectory(records, &countRecords, "Phone_Book.txt"))
 	{
 		return 0;
 	}
@@ -56,7 +56,7 @@ int main()
 			printf("%s\n", findName(number, countRecords, records));
 			break;
 		case 5:
-			saveDataToFile(countRecords, records);
+			saveDataToFile(countRecords, records, "Phone_Book.txt");
 			break;
 		default: 
 			printf("Incorrect data\n");

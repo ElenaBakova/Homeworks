@@ -35,9 +35,9 @@ void printRecords(const struct PhoneBook array[], const int size)
 	}
 }
 
-void saveDataToFile(const int size, const struct PhoneBook array[])
+void saveDataToFile(const int size, const struct PhoneBook array[], const char file[])
 {
-	FILE* phones = fopen("Phone_Book.txt", "w");
+	FILE* phones = fopen(file, "w");
 	if (phones == NULL)
 	{
 		printf("File not found!");
@@ -50,9 +50,9 @@ void saveDataToFile(const int size, const struct PhoneBook array[])
 	fclose(phones);
 }
 
-bool readInitialDirectory(struct PhoneBook records[], int* countRecords)
+bool readInitialDirectory(struct PhoneBook records[], int* countRecords, const char file[])
 {
-	FILE* phones = fopen("Phone_Book.txt", "r");
+	FILE* phones = fopen(file, "r");
 	if (phones == NULL)
 	{
 		printf("File not found!");

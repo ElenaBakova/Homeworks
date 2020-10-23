@@ -58,11 +58,10 @@ bool testSaveData(void)
 	return testResult && (i == testCount + 1);
 }
 
-bool testReadDirectory()
+bool testReadDirectory(struct PhoneBook records[])
 {
-	struct PhoneBook records[5];
 	int countRecords = 0;
-	if (readInitialDirectory(records, &countRecords) || countRecords != 2)
+	if (readInitialDirectory(records, &countRecords, "TestPhoneBook.txt") || countRecords != 2)
 	{
 		return 0;
 	}
@@ -74,5 +73,8 @@ bool testReadDirectory()
 
 bool tests(void)
 {
-	return testSearch() && testSaveData() && testReadDirectory();
+	struct PhoneBook records[5] = {0};
+	records[0].name = "abac";
+	records[0].number = "1234";
+	return testSearch() && testSaveData(records) && testReadDirectory(records);
 }

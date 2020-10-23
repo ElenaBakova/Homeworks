@@ -16,7 +16,7 @@ char* findNumber(const char name[], const int size, struct PhoneBook array[]);
 void printRecords(const struct PhoneBook array[], const int size);
 
 // Saves all records to file
-void saveDataToFile(const int size, const struct PhoneBook array[]);
+void saveDataToFile(const int size, const struct PhoneBook array[], const char file[]);
 
 // Reads initial directory from file
-bool readInitialDirectory(struct PhoneBook records[], int* countRecords);
+bool readInitialDirectory(struct PhoneBook records[], int* countRecords, const char file[])
