@@ -6,7 +6,7 @@
 
 bool testSearch(void)
 {
-	struct PhoneBook array[5] = { "", "" };
+	PhoneBook array[5] = { "", "" };
 	const int size = 5;
 	char name[6] = "";
 	char number[6] = "";
@@ -24,41 +24,16 @@ bool testSearch(void)
 	return testResult;
 }
 
-bool testSaveData(void)
+bool testSaveData(PhoneBook records[])
 {
-	FILE* phones = fopen("TestPhoneBook.txt", "w");
-	if (phones == NULL)
+	if (saveDataToFile(2, records, "TestPhoneBook.txt"))
 	{
 		return 0;
 	}
-	int testCount = 5;
-	char testName[2] = "W";
-	char testNumber[5] = "1263";
-	for (int i = 0; i < testCount; i++)
-	{
-		fprintf(phones, "%s %s\n", testName, testNumber);
-	}
-	fclose(phones);
-	phones = fopen("TestPhoneBook.txt", "r");
-	if (phones == NULL)
-	{
-		return 0;
-	}
-	char name[2] = "";
-	char number[5] = "";
-	bool testResult = true;
-	int i = 0;
-	while(!feof(phones))
-	{
-		fscanf(phones, "%s %s", &name, &number);
-		testResult &= strcmp(name, testName) == 0 && strcmp(number, testNumber) == 0;
-		i++;
-	}
-	fclose(phones);
-	return testResult && (i == testCount + 1);
+
 }
 
-bool testReadDirectory(struct PhoneBook records[])
+bool testReadDirectory(PhoneBook records[])
 {
 	int countRecords = 0;
 	if (readInitialDirectory(records, &countRecords, "TestPhoneBook.txt") || countRecords != 2)
@@ -73,8 +48,10 @@ bool testReadDirectory(struct PhoneBook records[])
 
 bool tests(void)
 {
-	struct PhoneBook records[5] = {0};
-	records[0].name = "abac";
-	records[0].number = "1234";
+	PhoneBook records[5] = { "abac", "h" };
+	strcpy(records[0].name, "abac");
+	strcpy(records[0].number, "1234");
+	strcpy(records[0].name, "abacaba");
+	strcpy(records[0].number, "1263");
 	return testSearch() && testSaveData(records) && testReadDirectory(records);
 }

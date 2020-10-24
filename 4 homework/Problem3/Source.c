@@ -12,7 +12,7 @@ int main()
 		return 0;
 	}
 	printf("Tests succeed\n");
-	struct PhoneBook records[100];
+	PhoneBook records[100];
 	int countRecords = 0;
 	if (readInitialDirectory(records, &countRecords, "Phone_Book.txt"))
 	{

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char* findNumber(const char name[], const int size, struct PhoneBook array[])
+char* findNumber(const char name[], const int size, PhoneBook array[])
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -15,7 +15,7 @@ char* findNumber(const char name[], const int size, struct PhoneBook array[])
 	return "Not found";
 }
 
-char* findName(const char number[], const int size, struct PhoneBook array[])
+char* findName(const char number[], const int size, PhoneBook array[])
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -27,7 +27,7 @@ char* findName(const char number[], const int size, struct PhoneBook array[])
 	return "Not found";
 }
 
-void printRecords(const struct PhoneBook array[], const int size)
+void printRecords(const PhoneBook array[], const int size)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -35,22 +35,23 @@ void printRecords(const struct PhoneBook array[], const int size)
 	}
 }
 
-void saveDataToFile(const int size, const struct PhoneBook array[], const char file[])
+bool saveDataToFile(const int size, const PhoneBook array[], const char file[])
 {
 	FILE* phones = fopen(file, "w");
 	if (phones == NULL)
 	{
 		printf("File not found!");
-		return;
+		return 1;
 	}
 	for (int i = 0; i < size; i++)
 	{
 		fprintf(phones, "%s %s\n", array[i].name, array[i].number);
 	}
 	fclose(phones);
+	return 0;
 }
 
-bool readInitialDirectory(struct PhoneBook records[], int* countRecords, const char file[])
+bool readInitialDirectory(PhoneBook records[], int* countRecords, const char file[])
 {
 	FILE* phones = fopen(file, "r");
 	if (phones == NULL)
