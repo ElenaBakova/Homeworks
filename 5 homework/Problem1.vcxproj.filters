@@ -15,30 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourcePoblem1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Text Include="Test.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Stack\Stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Stack\TestStack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SourceProblem1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Stack.h">
+    <ClInclude Include="Stack\Stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\StructStack.h">
+    <ClInclude Include="Stack\TestStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\TestStack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Test.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>

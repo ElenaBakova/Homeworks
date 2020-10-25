@@ -3,10 +3,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void getValues(int* a, int* b, StackElement** head)
+{
+	if (isEmpty(*head))
+	{
+		printf("Invalid expression");
+		exit(0);
+	}
+	*a = pop(head);
+	if (isEmpty(*head))
+	{
+		printf("Invalid expression");
+		exit(0);
+	}
+	*b = pop(head);
+}
+
 int getTheAnswer(char string[])
 {
 	StackElement* head = NULL;
-	for (int i = 0; string[i]; i++)
+	for (int i = 0; string[i] != '\0'; i++)
 	{
 		int a = 0;
 		int b = 0;
@@ -15,33 +31,38 @@ int getTheAnswer(char string[])
 		case ' ':
 			break;
 		case '+':
-			a = pop(&head);
-			b = pop(&head);
+			getValues(&a, &b, &head);
 			head = push(head, b + a);
 			break;
 		case '-':
-			a = pop(&head);
-			b = pop(&head);
+			getValues(&a, &b, &head);
 			head = push(head, b - a);
 			break;
 		case '*':
-			a = pop(&head);
-			b = pop(&head);
+			getValues(&a, &b, &head);
 			head = push(head, b * a);
 			break;
 		case '/':
-			a = pop(&head);
-			b = pop(&head);
+			getValues(&a, &b, &head);
 			head = push(head, b / a);
 			break;
 		default:
 			head = push(head, string[i] - '0');
 			if (head->value < 0)
+			{
 				pop(&head);
+			}
 			break;
 		}
 	}
-	return pop(&head);
+	int result = pop(&head);
+	if (!isEmpty(head))
+	{
+		freeStack(&head);
+		printf("Invalid expression");
+		exit(0);
+	}
+	return result;
 }
 
 bool test()
@@ -52,12 +73,12 @@ bool test()
 		return 0;
 	}
 	int result = 1;
-	while(!feof(test))
+	while (!feof(test))
 	{
-		char string[100] = "";
+		char string[100] = "\0";
 		fgets(string, 100, test);
 		int answer = 0;
-		char space = "";
+		char space = '\0';
 		fscanf(test, "%i%c", &answer, &space);
 		result &= (answer == getTheAnswer(string));
 	}
@@ -80,7 +101,7 @@ int main()
 	}
 	printf("Tests succeed\n");
 	printf("Please enter an expression:");
-	char string[1000] = "";
+	char string[1000] = "\0";
 	gets(string);
 	printf("The result: %i\n", getTheAnswer(string));
 
