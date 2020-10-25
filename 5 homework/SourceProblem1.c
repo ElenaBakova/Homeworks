@@ -101,7 +101,7 @@ int main()
 		return 0;
 	}
 	printf("Tests succeed\n");
-	printf("Please enter an expression:");
+	printf("Please enter an expression: ");
 	char string[1000] = "\0";
 	gets(string);
 	int answer = 0;
