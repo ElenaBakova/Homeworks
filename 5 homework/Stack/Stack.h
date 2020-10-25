@@ -4,16 +4,16 @@
 typedef struct StackElement {
 	int value;
 	struct StackElement* next;
-}StackElement;
+} StackElement;
 
 // Pushes new element
-struct StackElement* push(struct StackElement* head, int value);
+struct StackElement* push(StackElement* head, int value);
 
 // Removes top elment from stack. Returns its value
-int pop(struct StackElement** head);
+int pop(StackElement** head);
 
 // Returns 'true' if stack is emty
-bool empty(struct StackElement* head);
+bool isEmpty(StackElement* head);
 
 // Removes all stack
-void freeStack(struct StackElement** head);
+void freeStack(StackElement** head);

@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct StackElement* push(struct StackElement* head, int value)
+StackElement* push(StackElement* head, int value)
 {
-	struct StackElement* newElement = malloc(sizeof(struct StackElement));
+	StackElement* newElement = malloc(sizeof(StackElement));
 	if (newElement == NULL)
 	{
 		return NULL;
@@ -15,27 +15,27 @@ struct StackElement* push(struct StackElement* head, int value)
 	return head;
 }
 
-int pop(struct StackElement** head)
+int pop(StackElement** head)
 {
 	if (*head == NULL)
 	{
 		return 0;
 	}
 	int value = (*head)->value;
-	struct StackElement* oldElement = *head;
+	StackElement* oldElement = *head;
 	*head = (*head)->next;
 	free(oldElement);
 	return value;
 }
 
-bool empty(struct StackElement* head)
+bool isEmpty(StackElement* head)
 {
 	return head == NULL;
 }
 
-void freeStack(struct StackElement** head)
+void freeStack(StackElement** head)
 {
-	while (!empty(*head))
+	while (!isEmpty(*head))
 	{
 		pop(head);
 	}
