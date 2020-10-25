@@ -11,7 +11,7 @@ bool testPushPop()
 	head = push(head, 47);
 	bool result = (head != NULL);
 	int k = 47;
-	while (!empty(head))
+	while (!isEmpty(head))
 	{
 		result &= (pop(&head) == k);
 		k--;

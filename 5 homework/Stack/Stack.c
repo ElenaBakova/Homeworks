@@ -28,14 +28,14 @@ int pop(StackElement** head)
 	return value;
 }
 
-bool empty(StackElement* head)
+bool isEmpty(StackElement* head)
 {
 	return head == NULL;
 }
 
 void freeStack(StackElement** head)
 {
-	while (!empty(*head))
+	while (!isEmpty(*head))
 	{
 		pop(head);
 	}

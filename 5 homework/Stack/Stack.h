@@ -13,7 +13,7 @@ struct StackElement* push(StackElement* head, int value);
 int pop(StackElement** head);
 
 // Returns 'true' if stack is emty
-bool empty(StackElement* head);
+bool isEmpty(StackElement* head);
 
 // Removes all stack
 void freeStack(StackElement** head);
