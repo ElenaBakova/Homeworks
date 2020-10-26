@@ -30,7 +30,7 @@ int binToDec(const bool array[])
 
 bool* addition(const bool first[], const bool second[])
 {
-	bool* result = malloc(size);
+	bool* result = malloc(size * sizeof(bool));
 	bool carry = false;
 	for (int i = 0; i < size; i++)
 	{

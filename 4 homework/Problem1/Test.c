@@ -24,7 +24,7 @@ bool testBinToDec()
 		bool* binary = calloc(size, sizeof(bool));
 		for (int j = 0; j < size; j++)
 		{
-			char symbol = "0";
+			char symbol = '\0';
 			fscanf(test, "%c", &symbol);
 			binary[j] = symbol - '0';
 		}
@@ -73,7 +73,7 @@ bool testDecToBin()
 		result &= compare(answer, binary);
 		free(binary);
 		free(answer);
-		char space = "";
+		char space = '\0';
 		fscanf(test, "%c", &space);
 	}
 	fclose(test);
@@ -85,7 +85,7 @@ bool testAddition()
 	FILE* test = fopen("Test.txt", "r");
 	if (test == NULL)
 	{
-		return 0;
+		return false;
 	}
 
 	bool result = true;
