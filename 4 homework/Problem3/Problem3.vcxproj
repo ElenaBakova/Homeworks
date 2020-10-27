@@ -145,6 +145,7 @@
     <ClCompile Include="Tests.c" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="EmptyBook.txt" />
     <Text Include="Phone_Book.txt" />
     <Text Include="TestPhoneBook.txt" />
   </ItemGroup>

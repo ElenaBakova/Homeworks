@@ -24,13 +24,26 @@ bool testSearch(void)
 	return testResult;
 }
 
-bool testSaveData(PhoneBook records[])
+bool testSaveData(const PhoneBook records[])
 {
-	if (saveDataToFile(2, records, "TestPhoneBook.txt"))
+	if (saveDataToFile(2, records, "EmptyBook.txt"))
 	{
 		return 0;
 	}
-
+	bool result = true;
+	FILE* test = fopen("EmptyBook.txt", "r");
+	if (test == NULL)
+	{
+		return 0;
+	}
+	char name[10] = "";
+	char number[10] = "";
+	fscanf(test, "%s %s", &name, &number);
+	result &= (strcmp(name, "abac") == 0 && strcmp(number, "1234") == 0);
+	fscanf(test, "%s %s", &name, &number);
+	result &= (strcmp(name, "abacaba") == 0 && strcmp(number, "1263") == 0);
+	fclose(test);
+	return result;
 }
 
 bool testReadDirectory(PhoneBook records[])
@@ -48,10 +61,10 @@ bool testReadDirectory(PhoneBook records[])
 
 bool tests(void)
 {
-	PhoneBook records[5] = { "abac", "h" };
+	PhoneBook records[5] = { "", "" };
 	strcpy(records[0].name, "abac");
 	strcpy(records[0].number, "1234");
-	strcpy(records[0].name, "abacaba");
-	strcpy(records[0].number, "1263");
+	strcpy(records[1].name, "abacaba");
+	strcpy(records[1].number, "1263");
 	return testSearch() && testSaveData(records) && testReadDirectory(records);
 }
