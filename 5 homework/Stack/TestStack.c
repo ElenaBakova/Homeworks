@@ -20,7 +20,19 @@ bool testPushPop()
 	return result;
 }
 
+bool testTop()
+{
+	StackElement* head = NULL;
+	if (head = NULL)
+	{
+		return 0;
+	}
+	head = push(head, 45);
+	head = push(head, 46);
+	return top(head) == 46;
+}
+
 bool stackTests()
 {
-	return testPushPop();
+	return testPushPop() && testTop();
 }
