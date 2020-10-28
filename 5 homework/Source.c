@@ -2,7 +2,8 @@
 #include "Stack/TestStack.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <string.h>
+#include <ctype.h>
 
 bool isOperator(char operator)
 {
@@ -77,7 +78,34 @@ char* postfixToInfix(char string[])
 		output[index++] = token;
 		output[index++] = ' ';
 	}
+	freeStack(&head);
 	return output;
+}
+
+bool checkEquality(char string1[], char string2[])
+{
+	size_t length1 = strlen(string1);
+	size_t length2 = strlen(string2);
+	if (string1[length1 - 1] == '\n')
+	{
+		length1--;
+	}
+	if (string2[length2 - 1] == '\n')
+	{
+		length2--;
+	}
+	if (length1 != length2)
+	{
+		return false;
+	}
+	for (int i = 0; string2[i] != '\n' && string2[i] != '\0'; i++)
+	{
+		if (string1[i] != string2[i])
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool test()
@@ -94,8 +122,10 @@ bool test()
 		fgets(string, 1000, test);
 		char answer[1000] = "";
 		fgets(answer, 1000, test);
-		char* output = postfixToInfix(string);
-		printf("%s\n", output);
+		char output[1000] = "";
+		strcpy(output, postfixToInfix(string));
+		//printf("%s\n", output);
+		result &= checkEquality(output, answer);
 	}
 	fclose(test);
 	return result;
