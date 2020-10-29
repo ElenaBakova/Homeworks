@@ -4,7 +4,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-bool getTheAnswer(char string[])
+bool isMatchingBracket(char closing, char opening)
+{
+	return closing == ')' && opening != '(' || closing == ']' && opening != '[' || closing == '}' && opening != '{';
+}
+
+bool checkBracketsBalance(char string[])
 {
 	StackElement* head = NULL;
 	for (int i = 0; string[i] != '\0'; i++)
@@ -16,20 +21,26 @@ bool getTheAnswer(char string[])
 		}
 		if ((string[i] == ')' || string[i] == '}' || string[i] == ']') && (head == NULL))
 		{
-			return 0;
+			return false;
 		}
 		char brace = pop(&head);
-		if (string[i] == ')' && brace != '(' || string[i] == ']' && brace != '[' || string[i] == '}' && brace != '{')
+		if (isMatchingBracket(string[i], brace))
 		{
-			return 0;
+			freeStack(&head);
+			return false;
 		}
 	}
-	return head == NULL;
+	if (head == NULL)
+	{
+		return true;
+	}
+	freeStack(&head);
+	return false;
 }
 
 bool test()
 {
-	return !getTheAnswer("()(") && !getTheAnswer("}}") && getTheAnswer("[]([[]]){}{{}}") && getTheAnswer("[[{({})}]]");
+	return !checkBracketsBalance("()(") && !checkBracketsBalance("}}") && checkBracketsBalance("[]([[]]){}{{}}") && checkBracketsBalance("[[{({})}]]");
 }
 
 int main()
@@ -50,12 +61,12 @@ int main()
 	const int size = 500;
 	char string[500] = "\0";
 	gets_s(string, size);
-	if (!getTheAnswer(string))
+	if (!checkBracketsBalance(string))
 	{
-		printf("Braces are not balanced");
+		printf("Brackets are not balanced");
 		return 0;
 	}
-	printf("Braces are balanced");
+	printf("Brackets are balanced");
 
 	return 0;
 }
