@@ -10,7 +10,7 @@ bool isOperator(char operator)
 	return operator == '*' || operator == '-' || operator == '/' || operator == '+';
 }
 
-char* postfixToInfix(char string[])
+char* infixToPostfix(char string[])
 {
 	StackElement* head = NULL;
 	char output[1000] = "";
@@ -115,7 +115,7 @@ bool test()
 	{
 		return false;
 	}
-	int result = true;
+	bool result = true;
 	while (!feof(test))
 	{
 		char string[1000] = "";
@@ -123,8 +123,7 @@ bool test()
 		char answer[1000] = "";
 		fgets(answer, 1000, test);
 		char output[1000] = "";
-		strcpy(output, postfixToInfix(string));
-		//printf("%s\n", output);
+		strcpy(output, infixToPostfix(string));
 		result &= checkEquality(output, answer);
 	}
 	fclose(test);
@@ -146,11 +145,16 @@ int main()
 	}
 	printf("Tests succeed\n");
 
-	printf("Please enter an expression\n");
+	printf("Please enter an expression in infix notation\n");
 	char string[1000] = "";
 	gets(string);
-	char *output = postfixToInfix(string);
-	printf("%s", output);
+	char *output = infixToPostfix(string);
+	if (strcmp(output, "Invalid expression") == 0)
+	{
+		printf("%s", output);
+		return 1;
+	}
+	printf("Postfix notation: %s", output);
 
 	return 0;
 }
