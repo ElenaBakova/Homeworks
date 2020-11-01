@@ -1,26 +1,22 @@
 #pragma once
 #include <stdbool.h>
 
-typedef struct ListElement {
-	int value;
-	//int position;
-	struct ListElement* next;
-} ListElement;
+typedef struct List List;
 
 // Makes a new list
-ListElement* initListItem(int value);
+List* initListItem(int value);
 
 // Add new element into its position
-void addItem(ListElement** head, const int value);
+void addItem(List* list, const int value);
 
 // Removes elment from the list. Recieves value of the element
-bool pop(ListElement** head, const int value);
+bool removeValue(List* list, const int value);
 
 // Returns 'true' if stack is emty
-bool isEmpty(ListElement* head);
+bool isEmpty(List* list);
 
 // Removes all stack
-void freeList(ListElement** head);
+void freeList(List** list);
 
 // Prints all list
-void printList(ListElement* head);
+void printList(List* list);

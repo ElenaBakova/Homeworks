@@ -2,34 +2,48 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-ListElement* initListItem(int value)
+typedef struct ListElement {
+	int value;
+	struct ListElement* next;
+} ListElement;
+
+typedef struct List {
+	ListElement* head;
+} List;
+
+List* initListItem(int value)
 {
-	ListElement* listItem = malloc(sizeof(ListElement));
+	ListElement *listItem = malloc(sizeof(ListElement));
 	if (listItem == NULL) {
 		return NULL;
 	}
 	listItem->value = value;
 	listItem->next = NULL;
-	return listItem;
+	List* list = malloc(sizeof(List));
+	if (list == NULL) {
+		return NULL;
+	}
+	list->head = listItem;
+	return list;
 }
 
-void addItem(ListElement** head, const int value)
+void addItem(List* list, const int value)
 {
 	ListElement* newElement = malloc(sizeof(ListElement));
 	if (newElement == NULL)
 	{
 		return;
 	}
-	ListElement* pointer = *head;
+	ListElement* pointer = list->head;
 	while (pointer->next != NULL && pointer->next->value < value)
 	{
 		pointer = pointer->next;
 	}
-	if (pointer == *head)
+	if (pointer == list->head && pointer->value > value)
 	{
 		newElement->value = value;
-		newElement->next = *head;
-		*head = newElement;
+		newElement->next = list->head;
+		list->head = newElement;
 		return;
 	}
 	newElement->value = value;
@@ -38,13 +52,13 @@ void addItem(ListElement** head, const int value)
 	return;
 }
 
-bool pop(ListElement** head, const int value)
+bool removeValue(List* list, const int value)
 {
-	if (*head == NULL)
+	if (list->head == NULL)
 	{
 		return true;
 	}
-	ListElement* pointer = *head;
+	ListElement* pointer = list->head;
 	while (pointer->value != value && pointer->next != NULL && pointer->next->value != value)
 	{
 		pointer = pointer->next;
@@ -53,10 +67,10 @@ bool pop(ListElement** head, const int value)
 	{
 		return true;
 	}
-	ListElement* oldElement = *head;
-	if (pointer == *head)
+	ListElement* oldElement = list->head;
+	if (pointer == list->head)
 	{
-		*head = (*head)->next;
+		list->head = list->head->next;
 		return false;
 	}
 	oldElement = pointer;
@@ -64,24 +78,26 @@ bool pop(ListElement** head, const int value)
 	return false;
 }
 
-bool isEmpty(ListElement* head)
+bool isEmpty(List* list)
 {
-	return head == NULL;
+	return list->head == NULL;
 }
 
-void freeList(ListElement** head)
+void freeList(List** list)
 {
-	while (!isEmpty(*head))
+	while (!isEmpty(*list))
 	{
-		pop(head, (*head)->value);
+		removeValue(*list, (*list)->head->value);
 	}
+	*list = NULL;
 }
 
-void printList(ListElement* head)
+void printList(List *list)
 {
-	while (head != NULL)
+	List listCopy = *list;
+	while (listCopy.head != NULL)
 	{
-		printf("%i ", head->value);
-		head = head->next;
+		printf("%i ", listCopy.head->value);
+		listCopy.head = listCopy.head->next;
 	}
 }
