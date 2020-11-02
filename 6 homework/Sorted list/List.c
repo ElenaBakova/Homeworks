@@ -11,6 +11,16 @@ typedef struct List {
 	ListElement* head;
 } List;
 
+int getTheValue(List *list)
+{
+	return list->head->value;
+}
+
+void nextItem(List* list)
+{
+	list->head = list->head->next;
+}
+
 List* initListItem(int value)
 {
 	ListElement *listItem = malloc(sizeof(ListElement));
@@ -59,22 +69,26 @@ bool removeValue(List* list, const int value)
 		return true;
 	}
 	ListElement* pointer = list->head;
-	while (pointer->value != value && pointer->next != NULL && pointer->next->value != value)
-	{
-		pointer = pointer->next;
-	}
-	if (pointer->value != value)
-	{
-		return true;
-	}
-	ListElement* oldElement = list->head;
-	if (pointer == list->head)
+	if (pointer->value == value)
 	{
 		list->head = list->head->next;
 		return false;
 	}
-	oldElement = pointer;
-	pointer->next = pointer->next->next;
+	while (pointer->next != NULL && pointer->next->value != value)
+	{
+		pointer = pointer->next;
+	}
+	if (pointer->next == NULL && pointer->value != value)
+	{
+		return true;
+	}
+	ListElement* oldElement = pointer;
+	if (pointer->next != NULL) {
+		pointer->next = pointer->next->next;
+	}
+	else {
+		pointer = NULL;
+	}
 	return false;
 }
 
@@ -90,12 +104,18 @@ void freeList(List** list)
 		removeValue(*list, (*list)->head->value);
 	}
 	*list = NULL;
+	free(*list);
 }
 
 void printList(List *list)
 {
 	List listCopy = *list;
-	while (listCopy.head != NULL)
+	if (isEmpty(&listCopy))
+	{
+		printf("List is empty\n");
+		return;
+	}
+	while (!isEmpty(&listCopy))
 	{
 		printf("%i ", listCopy.head->value);
 		listCopy.head = listCopy.head->next;
