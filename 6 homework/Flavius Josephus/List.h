@@ -6,7 +6,7 @@ typedef struct List List;
 // Returns value of the item
 int getThePosition(List* list);
 
-// changes pointer to the next item
+// Changes pointer to the next item
 void nextItem(List* list);
 
 // Returns 'true' if list is emty
@@ -23,6 +23,3 @@ bool removePosition(List* list, const int position);
 
 // Removes all list
 void freeList(List** list);
-
-// Prints all list
-//void printList(List* list);

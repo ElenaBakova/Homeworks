@@ -93,18 +93,3 @@ void freeList(List** list)
 	*list = NULL;
 	free(*list);
 }
-
-//void printList(List *list)
-//{
-//	List listCopy = *list;
-//	if (isEmpty(&listCopy))
-//	{
-//		printf("List is empty\n");
-//		return;
-//	}
-//	while (!isEmpty(&listCopy))
-//	{
-//		printf("%i ", listCopy.head->position);
-//		listCopy.head = listCopy.head->next;
-//	}
-//}
