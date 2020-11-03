@@ -2,12 +2,16 @@
 #include <stdbool.h>
 
 typedef struct List List;
+typedef struct ListElement Position;
 
-// Returns value of the item
-int getThePosition(List* list);
+// Returns list head
+struct ListElement* getHead(List* list);
+
+// Returns position of the item
+int getThePosition(struct ListElement* list);
 
 // Changes pointer to the next item
-void nextItem(List* list);
+struct ListElement* nextItem(struct ListElement* list);
 
 // Returns 'true' if list is emty
 bool isEmpty(List* list);

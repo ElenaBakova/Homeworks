@@ -12,14 +12,19 @@ typedef struct List {
 	ListElement* tail;
 } List;
 
-int getThePosition(List *list)
+ListElement* getHead(List* list)
 {
-	return list->head->position;
+	return list->head;
 }
 
-void nextItem(List* list)
+int getThePosition(ListElement *list)
 {
-	list->head = list->head->next;
+	return list->position;
+}
+
+ListElement* nextItem(ListElement* list)
+{
+	return list->next;
 }
 
 bool isEmpty(List* list)
@@ -79,7 +84,10 @@ bool removePosition(List* list, const int position)
 	{
 		return true;
 	}
-	ListElement* oldElement = pointer;
+	if (pointer->next->next == list->head)
+	{
+		list->tail = pointer;
+	}
 	pointer->next = pointer->next->next;
 	return false;
 }
