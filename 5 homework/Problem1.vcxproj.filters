@@ -26,7 +26,7 @@
     <ClCompile Include="Stack\TestStack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceProblem1.c">
+    <ClCompile Include="PostfixCalc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

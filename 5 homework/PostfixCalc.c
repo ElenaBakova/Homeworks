@@ -21,7 +21,7 @@ bool getValues(int* a, int* b, StackElement** head)
 
 bool isOperator(char symbol)
 {
-	return symbol == '+' || symbol == '*' || symbol == '/' || symbol == '-';
+	return symbol == '+' || symbol == '-' || symbol == '/' || symbol == '*';
 }
 
 bool getAnExpressionValue(char string[], int *result)
@@ -107,6 +107,7 @@ int main()
 		return 1;
 	}
 	printf("Tests succeed\n");
+
 	printf("Please enter an expression: ");
 	char string[1000] = "";
 	gets(string);
