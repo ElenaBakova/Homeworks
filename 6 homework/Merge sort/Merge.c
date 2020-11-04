@@ -25,6 +25,11 @@ int main()
 		addItem(&list, record);
 	}
 	fclose(input);
+	printf("Sort by name or number?\n0 - by number\n1 - by name\n");
+	bool code = 0;
+	scanf("%i", &code);
+	sortList(list, code);
+	printList(list);
 
 	freeList(&list);
 	return 0;

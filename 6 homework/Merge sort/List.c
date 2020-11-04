@@ -84,7 +84,80 @@ void printList(List *list)
 	}
 	while (!isEmpty(&listCopy))
 	{
-		printf("%s -- %s", listCopy.head->name, listCopy.head->number);
+		printf("%s -- %s\n", listCopy.head->name, listCopy.head->number);
 		listCopy.head = listCopy.head->next;
 	}
+}
+
+int getLength(List *list)
+{
+	int size = 0;
+	ListElement* current = list->head;
+	while (current != NULL)
+	{
+		size++;
+		current = current->next;
+	}
+	return size;
+}
+
+ListElement* getRight(ListElement* head, const int length)
+{
+	ListElement* current = head;
+	for (int i = 0; i < length; i++)
+	{
+		current = current->next;
+	}
+	return current;
+}
+
+// First string > second string -> true || fs <= ss -> false
+bool compare(ListElement* first, ListElement* second, const bool code)
+{
+	if (code) {
+		return strcmp(first->name, second->name) > 0 ? true : false;
+	}
+	return strcmp(first->number, second->number) > 0 ? true : false;
+}
+
+ListElement* merge(ListElement *a, ListElement *b, const bool code)
+{
+	ListElement* left = a;
+	ListElement* right = b;
+	if (left == NULL) {
+		return right;
+	}
+	if (right == NULL) {
+		return left;
+	}
+	left->next = NULL;
+	right->next = NULL;
+	ListElement* mergedLeftRight = NULL;
+	if (compare(left, right, code))
+	{
+		mergedLeftRight = right;
+		mergedLeftRight->next = merge(left, b->next, code);
+	}
+	else {
+		mergedLeftRight = left;
+		mergedLeftRight->next = merge(a->next, right, code);
+	}
+	return mergedLeftRight;
+}
+
+void sort(ListElement* head, const int size, const bool code)
+{
+	if (size < 2){
+		return;
+	}
+	ListElement* left = head;
+	ListElement* right = getRight(head, size / 2);
+	sort(left, size / 2, code);
+	sort(right, size - size / 2, code);
+	head = merge(left, right, code);
+}
+
+void sortList(List* list, const bool code)
+{
+	sort(list->head, getLength(list), code);
 }

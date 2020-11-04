@@ -15,7 +15,7 @@ void nextItem(List* list);
 List* initListItem(Pair pair);
 
 // Add new element into its position
-void addItem(List* list, Pair pair);
+void addItem(List** list, Pair pair);
 
 // Removes elment from the list. Recieves value of the element
 bool removeItem(List* list);
@@ -28,3 +28,6 @@ void freeList(List** list);
 
 // Prints all list
 void printList(List* list);
+
+// Sorts list. code = 0 - sort by number. 1 - by name
+void sortList(List* list, const bool code);
