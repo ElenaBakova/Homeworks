@@ -6,42 +6,36 @@
 bool testAddItem(void)
 {
 	List *list = initListItem(0);
-	for (int i = 1; i < 5; i++)
+	const int count = 5;
+	for (int i = 1; i < count; i++)
 	{
 		addItem(list, i);
 	}
-	int k = 0;
+	Position *current = getHead(list);
 	bool result = true;
-	while (!isEmpty(list))
+	for (int k = 0; k < count; k++)
 	{
-		result &= (getTheValue(list) == k);
-		nextItem(list);
-		k++;
+		result &= (getThePosition(current) == k);
+		current = nextItem(current);
 	}
 	freeList(&list);
+	free(current);
 	return result;
 }
 
 bool testRemove(void)
 {
 	List* list = initListItem(0);
-	addItem(list, 1);
-	addItem(list, -1);
-	addItem(list, 3);
-	addItem(list, 2);
-	addItem(list, 4);
-	addItem(list, 65);
-	addItem(list, -2);
-	addItem(list, 70);
-
-	bool result = true;
-	for (int k = -1; k < 5; k++)
+	for (int i = 1; i < 10; i++)
 	{
-		result &= !removeValue(list, k);
+		addItem(list, i);
 	}
-	result &= !removeValue(list, 65);
-	result &= !removeValue(list, 70);
-	result &= !removeValue(list, -2);
+
+	bool result = removePosition(list, 9);
+	for (int k = 0; k < 9; k++)
+	{
+		result &= removePosition(list, k);
+	}
 	freeList(&list);
 	return result;
 }

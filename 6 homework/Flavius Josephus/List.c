@@ -29,7 +29,7 @@ ListElement* nextItem(ListElement* list)
 
 bool isEmpty(List* list)
 {
-	return list->tail == list->head;
+	return list->tail == NULL && list->head == NULL;
 }
 
 List* initListItem(int position)
@@ -52,8 +52,7 @@ List* initListItem(int position)
 void addItem(List* list, const int position)
 {
 	ListElement* newElement = malloc(sizeof(ListElement));
-	if (newElement == NULL)
-	{
+	if (newElement == NULL) {
 		return;
 	}
 	newElement->position = position;
@@ -65,16 +64,22 @@ void addItem(List* list, const int position)
 
 bool removePosition(List* list, const int position)
 {
-	if (isEmpty(list))
+	if (isEmpty(list)) {
+		return false;
+	}
+	if (list->head == list->tail)
 	{
+		list->head = NULL;
+		list->tail = NULL;
 		return true;
 	}
 	ListElement* pointer = list->head;
 	if (pointer->position == position)
 	{
 		list->head = list->head->next;
+		pointer->next = NULL;
 		list->tail->next = list->head;
-		return false;
+		return true;
 	}
 	while (pointer->next != list->head && pointer->next->position != position)
 	{
@@ -82,14 +87,14 @@ bool removePosition(List* list, const int position)
 	}
 	if (pointer->next == list->head && pointer->position != position)
 	{
-		return true;
+		return false;
 	}
 	if (pointer->next->next == list->head)
 	{
 		list->tail = pointer;
 	}
 	pointer->next = pointer->next->next;
-	return false;
+	return true;
 }
 
 void freeList(List** list)
