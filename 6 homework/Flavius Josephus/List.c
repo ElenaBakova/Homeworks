@@ -77,7 +77,6 @@ bool removePosition(List* list, const int position)
 	if (pointer->position == position)
 	{
 		list->head = list->head->next;
-		pointer->next = NULL;
 		list->tail->next = list->head;
 		return true;
 	}
