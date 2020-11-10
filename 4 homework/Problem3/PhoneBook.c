@@ -41,14 +41,14 @@ bool saveDataToFile(const int size, const PhoneBook array[], const char file[])
 	if (phones == NULL)
 	{
 		printf("File not found!");
-		return 1;
+		return true;
 	}
 	for (int i = 0; i < size; i++)
 	{
 		fprintf(phones, "%s %s\n", array[i].name, array[i].number);
 	}
 	fclose(phones);
-	return 0;
+	return false;
 }
 
 bool readInitialDirectory(PhoneBook records[], int* countRecords, const char file[])
@@ -57,7 +57,7 @@ bool readInitialDirectory(PhoneBook records[], int* countRecords, const char fil
 	if (phones == NULL)
 	{
 		printf("File not found!");
-		return 1;
+		return true;
 	}
 	while (!feof(phones))
 	{
@@ -65,5 +65,5 @@ bool readInitialDirectory(PhoneBook records[], int* countRecords, const char fil
 		(*countRecords)++;
 	}
 	fclose(phones);
-	return 0;
+	return false;
 }
