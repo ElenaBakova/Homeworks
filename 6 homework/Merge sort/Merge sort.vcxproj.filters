@@ -15,10 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Merge.c">
+    <Text Include="input.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="List.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="List.c">
+    <ClCompile Include="TestList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,10 +34,8 @@
     <ClInclude Include="List.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="input.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
+    <ClInclude Include="TestList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

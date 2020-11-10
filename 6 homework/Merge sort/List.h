@@ -3,31 +3,26 @@
 
 typedef struct List List;
 
-typedef struct Pair {
-	char name[100];
-	char number[100];
-} Pair;
+// Returns value of the item
+int getTheValue(List *list);
 
-// Changes pointer to the next item
+// changes pointer to the next item
 void nextItem(List* list);
 
 // Makes a new list
-List* initListItem(Pair pair);
+List* initListItem(int value);
 
 // Add new element into its position
-void addItem(List** list, Pair pair);
+void addItem(List* list, const int value);
 
 // Removes elment from the list. Recieves value of the element
-bool removeItem(List* list);
+bool removeValue(List* list, const int value);
 
-// Returns 'true' if list is emty
+// Returns 'true' if stack is emty
 bool isEmpty(List* list);
 
-// Removes all list
+// Removes all stack
 void freeList(List** list);
 
 // Prints all list
 void printList(List* list);
-
-// Sorts list. code = 0 - sort by number. 1 - by name
-void sortList(List* list, const bool code);
