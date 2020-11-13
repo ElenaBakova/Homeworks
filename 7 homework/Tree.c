@@ -14,42 +14,41 @@ char* getS(Node* root)
 	return root->string;
 }
 
-void initNode(Node **root, const int key, const char string[])
+Node* initNode(const int key, const char string[])
 {
 	Node* newNode = calloc(1, sizeof(Node));
 	if (newNode == NULL) {
-		return;
+		return NULL;
 	}
 	newNode->key = key;
 	strcpy(newNode->string, string);
-	(*root) = newNode;
-	free(newNode);
+	return newNode;
 }
 
 Node* add(Node* root, const int key, const char string[])
 {
 	if (root == NULL) 
 	{
-		initNode(&root, key, string);
-		return root;
+		return initNode(key, string);
 	}
 	if (key == root->key) {
 		strcpy(root->string, string);
 		return root;
 	}
-	Node* newNode = NULL;
-	initNode(&newNode, key, string);
+	Node* newNode = initNode(key, string);
 	if (key > root->key)
 	{
 		if (root->right != NULL) {
-			return add(root, key, string);
+			root->right = add(root->right, key, string);
+			return root;
 		}
 		root->right = newNode;
 	}
 	if (key < root->key)
 	{
 		if (root->left != NULL) {
-			return add(root, key, string);
+			root->left = add(root->left, key, string);
+			return root;
 		}
 		root->left = newNode;
 	}
