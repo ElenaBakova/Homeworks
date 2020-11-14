@@ -54,3 +54,30 @@ Node* add(Node* root, const int key, const char string[])
 	}
 	return root;
 }
+
+char* getValue(Node* root, const int key)
+{
+	if (root == NULL) {
+		return "Nothing was found\n";
+	}
+	if (root->key == key) {
+		return root->string;
+	}
+	if (key > root->key)
+	{
+		if (root->right != NULL)
+		{
+			return getValue(root->right, key);
+		}
+		return "Nothing was found\n";
+	}
+	if (key < root->key)
+	{
+		if (root->left != NULL)
+		{
+			return getValue(root->left, key);
+		}
+		return "Nothing was found\n";
+	}
+	return "Nothing was found\n";
+}

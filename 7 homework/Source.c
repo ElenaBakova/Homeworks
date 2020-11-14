@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main()
 {
@@ -9,12 +10,12 @@ int main()
 	printf("Commands:\n0 - quit\n1 - add value by key. If key already exists, its value will be replaced\n");
 	printf("2 - get value by key\n3 - check whether key is in dictionary\n4 - delete key and its value from dictionary\n");
 	
+	Node* root = NULL;
+	int key = 0;
+	char string[50];
 	while (true)
 	{
-		Node* root = NULL;
 		int code = 0;
-		int key = 0;
-		char* string;
 		printf("Please enter command code: ");
 		scanf("%i", &code);
 		switch (code)
@@ -24,21 +25,27 @@ int main()
 			free(root);
 			return 0;
 		case 1:
-			printf("Enter key and value: ");
-			scanf("%i %s", &key, &string);
-			add(root, key, string);
+			printf("Enter value: ");
+			scanf("%s", string);
+			printf("Enter key: ");
+			scanf("%i", &key);
+			root = add(root, key, string);
+			break;
 		case 2:
 			printf("Enter key: ");
 			scanf("%i", &key);
-			//printf("String: %s\n", getValue(root, key));
+			printf("String: %s\n", getValue(root, key));
+			break;
 		case 3:
 			printf("Enter key: ");
 			scanf("%i", &key);
 			//printf("%i%s", key, findKey(root, key) ? "is in the dictionary\n" : "nothing found\n");
+			break;
 		case 4:
 			printf("Enter key: ");
 			scanf("%i", &key);
 			//deleteNode(root, key);
+			break;
 		default:
 			break;
 		}
