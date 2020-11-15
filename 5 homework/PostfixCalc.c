@@ -8,15 +8,15 @@ bool getValues(int* a, int* b, StackElement** head)
 {
 	if (isEmpty(*head))
 	{
-		return true;
+		return false;
 	}
 	*a = pop(head);
 	if (isEmpty(*head))
 	{
-		return true;
+		return false;
 	}
 	*b = pop(head);
-	return false;
+	return true;
 }
 
 bool isOperator(char symbol)
@@ -36,7 +36,7 @@ bool getAnExpressionValue(char string[], int *result)
 			head = push(head, string[i] - '0');
 			continue;
 		}
-		if (isOperator(string[i]) && getValues(&a, &b, &head))
+		if (isOperator(string[i]) && !getValues(&a, &b, &head))
 		{
 			freeStack(&head);
 			return true;
