@@ -1,5 +1,6 @@
 #include "Tree.h"
 #include <stdio.h>
+#include <string.h>
 
 typedef struct Node {
 	char* key;
@@ -20,7 +21,7 @@ int getHeight(Node* node)
 int getBalanceFactor(Node* node)
 {
 	if (node == NULL) {
-		return -1000;
+		return NULL;
 	}
 	return node->right->height - node->left->height;
 }
@@ -69,4 +70,65 @@ Node* balanceTree(Node* node)
 		return rotateRight(node);
 	}
 	return node;
+}
+
+Node* initNode(const char* key, const char* value)
+{
+	Node* newNode = calloc(1, sizeof(Node));
+	if (newNode == NULL) {
+		return NULL;
+	}
+	newNode->key = key;
+	newNode->value = value;
+	return newNode;
+}
+
+Node* addNode(Node* root, const char* key, const char* value)
+{
+	if (root == NULL) {
+		return initNode(key, value);
+	}
+	int cmpRes = strcmp(root->key, key);
+	if (cmpRes == 0) {
+		strcpy(root->value, value);
+	}
+	else if (cmpRes > 0) {
+		root->left = addNode(root->left, key, value);
+	}
+	else {
+		root->right = addNode(root->right, key, value);
+	}
+	return balanceTree(root);
+}
+
+Node* findNode(Node* root, const char* key)
+{
+	if (root == NULL) {
+		return NULL;
+	}
+	int cmpRes = strcmp(root->key, key);
+	if (cmpRes == 0) {
+		return root;
+	}
+	else if (cmpRes > 0) {
+		return findNode(root->left, key);
+	}
+	else {
+		return findNode(root->right, key);
+	}
+	return NULL;
+}
+
+char* findValueByNode(Node* root, const char* key)
+{
+	Node* node = findNode(root, key);
+	if (node == NULL) {
+		return NULL;
+	}
+	return node->value;
+}
+
+Node* deleteNode(Node* root, const char* key)
+{
+
 }
