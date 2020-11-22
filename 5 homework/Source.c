@@ -10,39 +10,61 @@ bool isOperator(char operator)
 	return operator == '*' || operator == '-' || operator == '/' || operator == '+';
 }
 
-char* infixToPostfix(char string[])
+void addSymbol(char string[], int* index, const char symbol)
+{
+	string[(*index)] = symbol;
+	(*index)++;
+	string[*index] = ' ';
+	(*index)++;
+}
+
+bool infixToPostfix(char output[], char string[])
 {
 	StackElement* head = NULL;
-	char output[1000] = "";
 	int index = 0;
 	for (int i = 0; string[i] != '\0' && string[i] != '\n'; i++)
 	{
 		if (isdigit(string[i]))
 		{
-			output[index++] = string[i];
-			output[index++] = ' ';
+			addSymbol(output, &index, string[i]);
 		}
 		else if (string[i] == '(')
 		{
 			head = push(head, '(');
+			if (head == NULL)
+			{
+				free(head);
+				strcpy(output, "An error occured");
+				return true;
+			}
 		}
 		else if (string[i] == '*' || string[i] == '/')
 		{
 			while (head != NULL && (top(head) == '*' || top(head) == '/'))
 			{
-				output[index++] = pop(&head);
-				output[index++] = ' ';
+				addSymbol(output, &index, pop(&head));
 			}
 			head = push(head, string[i]);
+			if (head == NULL)
+			{
+				free(head);
+				strcpy(output, "An error occured");
+				return true;
+			}
 		}
 		else if (string[i] == '+' || string[i] == '-')
 		{
 			while (head != NULL && isOperator(top(head)))
 			{
-				output[index++] = pop(&head);
-				output[index++] = ' ';
+				addSymbol(output, &index, pop(&head));
 			}
 			head = push(head, string[i]);
+			if (head == NULL)
+			{
+				free(head);
+				strcpy(output, "An error occured");
+				return true;
+			}
 		}
 		else if (string[i] == ')')
 		{
@@ -52,10 +74,9 @@ char* infixToPostfix(char string[])
 				{
 					freeStack(&head);
 					strcpy(output, "Invalid expression");
-					return output;
+					return true;
 				}
-				output[index++] = pop(&head);
-				output[index++] = ' ';
+				addSymbol(output, &index, pop(&head));
 			}
 			pop(&head);
 		}
@@ -63,7 +84,7 @@ char* infixToPostfix(char string[])
 		{
 			freeStack(&head);
 			strcpy(output, "Invalid expression");
-			return output;
+			return true;
 		}
 	}
 	while (head != NULL)
@@ -73,13 +94,12 @@ char* infixToPostfix(char string[])
 		{
 			freeStack(&head);
 			strcpy(output, "Invalid expression");
-			return output;
+			return true;
 		}
-		output[index++] = token;
-		output[index++] = ' ';
+		addSymbol(output, &index, token);
 	}
 	freeStack(&head);
-	return output;
+	return false;
 }
 
 bool checkEquality(char string1[], char string2[])
@@ -123,7 +143,7 @@ bool test()
 		char answer[1000] = "";
 		fgets(answer, 1000, test);
 		char output[1000] = "";
-		strcpy(output, infixToPostfix(string));
+		infixToPostfix(output, string);
 		result &= checkEquality(output, answer);
 	}
 	fclose(test);
@@ -148,8 +168,8 @@ int main()
 	printf("Please enter an expression in infix notation\n");
 	char string[1000] = "";
 	gets(string);
-	char *output = infixToPostfix(string);
-	if (strcmp(output, "Invalid expression") == 0)
+	char output[1000] = "";
+	if (infixToPostfix(output, string))
 	{
 		printf("%s", output);
 		return 1;

@@ -11,8 +11,7 @@ StackElement* push(StackElement* head, int value)
 	}
 	newElement->value = value;
 	newElement->next = head;
-	head = newElement;
-	return head;
+	return newElement;
 }
 
 int pop(StackElement** head)
