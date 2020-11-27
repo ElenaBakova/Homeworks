@@ -21,19 +21,9 @@ void nextItem(List* list)
 	list->head = list->head->next;
 }
 
-List* initListItem(int value)
+List* makeList(void)
 {
-	ListElement *listItem = malloc(sizeof(ListElement));
-	if (listItem == NULL) {
-		return NULL;
-	}
-	listItem->value = value;
-	listItem->next = NULL;
 	List* list = malloc(sizeof(List));
-	if (list == NULL) {
-		return NULL;
-	}
-	list->head = listItem;
 	return list;
 }
 
@@ -41,8 +31,7 @@ void addItem(List* list, const int value)
 {
 	if (list == NULL)
 	{
-		list = initListItem(value);
-		return;
+		list = makeList();
 	}
 	ListElement* newElement = malloc(sizeof(ListElement));
 	if (newElement == NULL)

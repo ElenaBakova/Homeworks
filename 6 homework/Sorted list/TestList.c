@@ -5,7 +5,8 @@
 
 bool testAddItem(void)
 {
-	List *list = initListItem(0);
+	List *list = makeList();
+	addItem(list, 0);
 	for (int i = 1; i < 5; i++)
 	{
 		addItem(list, i);
@@ -24,7 +25,7 @@ bool testAddItem(void)
 
 bool testRemove(void)
 {
-	List* list = initListItem(0);
+	List* list = makeList(0);
 	addItem(list, 1);
 	addItem(list, -1);
 	addItem(list, 3);

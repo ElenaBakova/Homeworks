@@ -8,14 +8,14 @@ bool commandProcessing(const int code, List **list)
 	switch (code)
 	{
 	case 0:
-		freeList(*list);
+		freeList(list);
 		return true;
 	case 1:
 		printf("Please enter value ");
 		scanf("%i", &value);
 		if (*list == NULL)
 		{
-			*list = initListItem(value);
+			*list = makeList();
 		}
 		else
 		{
