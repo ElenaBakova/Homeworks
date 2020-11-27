@@ -39,6 +39,11 @@ List* initListItem(int value)
 
 void addItem(List* list, const int value)
 {
+	if (list == NULL)
+	{
+		list = initListItem(value);
+		return;
+	}
 	ListElement* newElement = malloc(sizeof(ListElement));
 	if (newElement == NULL)
 	{
@@ -51,7 +56,6 @@ void addItem(List* list, const int value)
 	}
 	if (pointer == list->head && pointer->value > value)
 	{
-		newElement->value = value;
 		newElement->next = list->head;
 		list->head = newElement;
 		return;
@@ -59,7 +63,6 @@ void addItem(List* list, const int value)
 	newElement->value = value;
 	newElement->next = pointer->next;
 	pointer->next = newElement;
-	return;
 }
 
 bool removeValue(List* list, const int value)
@@ -72,6 +75,7 @@ bool removeValue(List* list, const int value)
 	if (pointer->value == value)
 	{
 		list->head = list->head->next;
+		free(pointer);
 		return false;
 	}
 	while (pointer->next != NULL && pointer->next->value != value)
@@ -89,6 +93,7 @@ bool removeValue(List* list, const int value)
 	else {
 		pointer = NULL;
 	}
+	free(oldElement);
 	return false;
 }
 
@@ -103,21 +108,22 @@ void freeList(List** list)
 	{
 		removeValue(*list, (*list)->head->value);
 	}
+	free((*list)->head);
 	*list = NULL;
-	free(*list);
+	free(list);
 }
 
 void printList(List *list)
 {
-	List listCopy = *list;
-	if (isEmpty(&listCopy))
+	ListElement* pointer = list->head;
+	if (pointer != NULL)
 	{
 		printf("List is empty\n");
 		return;
 	}
-	while (!isEmpty(&listCopy))
+	while (!isEmpty(pointer != NULL))
 	{
-		printf("%i ", listCopy.head->value);
-		listCopy.head = listCopy.head->next;
+		printf("%i ", pointer->value);
+		pointer = pointer->next;
 	}
 }
