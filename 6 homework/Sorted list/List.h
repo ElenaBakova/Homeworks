@@ -10,7 +10,7 @@ int getTheValue(List *list);
 void nextItem(List* list);
 
 // Makes a new list
-//List* initListItem(int value);
+List* initListItem(int value);
 
 // Add new element into its position
 void addItem(List* list, const int value);

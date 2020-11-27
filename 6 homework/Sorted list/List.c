@@ -121,7 +121,7 @@ void printList(List *list)
 		printf("List is empty\n");
 		return;
 	}
-	while (!isEmpty(pointer != NULL))
+	while (pointer != NULL)
 	{
 		printf("%i ", pointer->value);
 		pointer = pointer->next;
