@@ -17,10 +17,7 @@ bool commandProcessing(const int code, List **list)
 		{
 			*list = makeList();
 		}
-		else
-		{
-			addItem(*list, value);
-		}
+		addItem(*list, value);
 		break;
 	case 2:
 		printf("Please enter value ");

@@ -23,7 +23,7 @@ void nextItem(List* list)
 
 List* makeList(void)
 {
-	List* list = malloc(sizeof(List));
+	List* list = calloc(1, sizeof(List));
 	return list;
 }
 
@@ -38,18 +38,25 @@ void addItem(List* list, const int value)
 	{
 		return;
 	}
+	if (list->head == NULL)
+	{
+		newElement->value = value;
+		newElement->next = NULL;
+		list->head = newElement;
+		return;
+	}
 	ListElement* pointer = list->head;
 	while (pointer->next != NULL && pointer->next->value < value)
 	{
 		pointer = pointer->next;
 	}
+	newElement->value = value;
 	if (pointer == list->head && pointer->value > value)
 	{
 		newElement->next = list->head;
 		list->head = newElement;
 		return;
 	}
-	newElement->value = value;
 	newElement->next = pointer->next;
 	pointer->next = newElement;
 }
@@ -82,7 +89,6 @@ bool removeValue(List* list, const int value)
 	else {
 		pointer = NULL;
 	}
-	free(oldElement);
 	return false;
 }
 
@@ -99,13 +105,13 @@ void freeList(List** list)
 	}
 	free((*list)->head);
 	*list = NULL;
-	free(list);
+	free((*list));
 }
 
 void printList(List *list)
 {
 	ListElement* pointer = list->head;
-	if (pointer != NULL)
+	if (pointer == NULL)
 	{
 		printf("List is empty\n");
 		return;
