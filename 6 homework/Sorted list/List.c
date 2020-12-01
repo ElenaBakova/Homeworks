@@ -94,7 +94,7 @@ bool removeValue(List* list, const int value)
 
 bool isEmpty(List* list)
 {
-	return list->head == NULL;
+	return (list == NULL || list->head == NULL);
 }
 
 void freeList(List** list)

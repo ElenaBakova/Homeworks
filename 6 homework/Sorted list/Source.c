@@ -39,12 +39,12 @@ bool commandProcessing(const int code, List **list)
 
 int main()
 {
-	if (!listTests())
+	/*if (!listTests())
 	{
 		printf("List tests failed");
 		return 1;
 	}
-	printf("List tests succeed\n");
+	printf("List tests succeed\n");*/
 	
 	printf("Commands:\n0 - exit\n1 - add new value to the list\n2 - remove value from the list\n3 - print the list\n");
 	List* list = NULL;
