@@ -2,8 +2,10 @@
 
 typedef struct Graph Graph;
 
-Graph* makeGraph(const char* filename, int* k, int* states);
+int getVertices(Graph* graph);
+
+Graph* readGraph(const char* filename, int* k, int* states);
 
 //void printGraph(const Graph* graph);
 
-//void deleteGraph(Graph** graph);
+void deleteGraph(Graph** graph);

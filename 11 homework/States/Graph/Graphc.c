@@ -9,7 +9,12 @@ typedef struct Graph
 	int vertices;
 } Graph;
 
-Graph* makeGraph(const char* filename, int* k, int* states)
+int getVertices(Graph *graph)
+{
+	return graph->vertices;
+}
+
+Graph* readGraph(const char* filename, int* k, int* states)
 {
 	FILE* input = fopen(filename, "r");
 	if (input == NULL) {
@@ -36,8 +41,8 @@ Graph* makeGraph(const char* filename, int* k, int* states)
 		int second = 0;
 		int length = 0;
 		fscanf(input, "%d %d %d", &first, &second, &length);
-		addItem(newGraph->list[first], second, length);
-		addItem(newGraph->list[second], first, length);
+		addItem(newGraph->list[first - 1], second - 1, length);
+		addItem(newGraph->list[second - 1], first - 1, length);
 	}
 	fscanf(input, "%d", &(*k));
 	for (int i = 0; i < (*k); i++)
@@ -63,14 +68,14 @@ Graph* makeGraph(const char* filename, int* k, int* states)
 //		printf("\n");
 //	}
 //}
-//
-//void deleteGraph(Graph** graph)
-//{
-//	for (int i = 0; i < (*graph)->vertices; i++)
-//	{
-//		free((*graph)->matrix[i]);
-//	}
-//	free((*graph)->matrix);
-//	free(*graph);
-//	*graph = NULL;
-//}
+
+void deleteGraph(Graph** graph)
+{
+	for (int i = 0; i < (*graph)->vertices; i++)
+	{
+		freeList((*graph)->list[i]);
+	}
+	free((*graph)->list);
+	free(*graph);
+	*graph = NULL;
+}
