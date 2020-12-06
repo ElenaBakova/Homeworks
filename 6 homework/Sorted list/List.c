@@ -82,9 +82,10 @@ bool removeValue(List* list, const int value)
 	{
 		return true;
 	}
-	ListElement* oldElement = pointer;
 	if (pointer->next != NULL) {
+		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
+		free(oldElement);
 	}
 	else {
 		pointer = NULL;
@@ -103,9 +104,8 @@ void freeList(List** list)
 	{
 		removeValue(*list, (*list)->head->value);
 	}
-	free((*list)->head);
+	free(*list);
 	*list = NULL;
-	free((*list));
 }
 
 void printList(List *list)
