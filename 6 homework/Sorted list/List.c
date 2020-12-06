@@ -63,7 +63,7 @@ void addItem(List* list, const int value)
 
 bool removeValue(List* list, const int value)
 {
-	if (list->head == NULL)
+	if (list == NULL || list->head == NULL)
 	{
 		return true;
 	}
@@ -110,12 +110,12 @@ void freeList(List** list)
 
 void printList(List *list)
 {
-	ListElement* pointer = list->head;
-	if (pointer == NULL)
+	if (list == NULL || list->head == NULL)
 	{
 		printf("List is empty\n");
 		return;
 	}
+	ListElement* pointer = list->head;
 	while (pointer != NULL)
 	{
 		printf("%i ", pointer->value);
