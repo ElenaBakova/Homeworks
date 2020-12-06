@@ -11,7 +11,7 @@ int main()
 	}
 	int k = 0;
 	int states[1000] = { 0 };
-	Graph *graph = makeGraph("input.txt", &k, &states);
+	Graph *graph = makeGraph("input.txt", &k, states);
 
 	return 0;
 }

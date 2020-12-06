@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include "List.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Graph
 {
@@ -8,7 +9,7 @@ typedef struct Graph
 	int vertices;
 } Graph;
 
-Graph* makeGraph(const char* filename, int* k, int states[])
+Graph* makeGraph(const char* filename, int* k, int* states)
 {
 	FILE* input = fopen(filename, "r");
 	if (input == NULL) {
@@ -44,7 +45,7 @@ Graph* makeGraph(const char* filename, int* k, int states[])
 		fscanf(input, "%d", &states[i]);
 	}
 	fclose(input);
-	//return newGraph;
+	return newGraph;
 }
 
 //void printGraph(const Graph* graph)
