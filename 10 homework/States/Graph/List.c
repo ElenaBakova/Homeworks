@@ -12,27 +12,35 @@ typedef struct List {
 	ListElement* head;
 } List;
 
+bool isEmpty(List* list)
+{
+	return (list == NULL || list->head == NULL);
+}
+
 int getTheValue(List *list)
 {
-	if (list->head == NULL)
+	if (isEmpty(list))
 	{
-		return 0;
+		return -1;
 	}
 	return list->head->value;
 }
 
 int getLength(List* list)
 {
-	if (list->head == NULL)
+	if (isEmpty(list))
 	{
-		return 0;
+		return INT_MAX;
 	}
 	return list->head->length;
 }
 
 void nextItem(List* list)
 {
-	list->head = list->head->next;
+	if (!isEmpty(list))
+	{
+		list->head = list->head->next;
+	}
 }
 
 List* makeList(void)
@@ -95,11 +103,6 @@ bool removeValue(List* list, const int value)
 		pointer = NULL;
 	}
 	return false;
-}
-
-bool isEmpty(List* list)
-{
-	return (list == NULL || list->head == NULL);
 }
 
 void freeList(List** list)

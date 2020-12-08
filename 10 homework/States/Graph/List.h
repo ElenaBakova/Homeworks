@@ -9,10 +9,10 @@ int getTheValue(List *list);
 // Returns length of the head item
 int getLength(List* list);
 
-// Changes pointer to the next item
+// Changes head pointer to the next item
 void nextItem(List* list);
 
-// Makes a new list
+// Makes a new empty list
 List* makeList(void);
 
 // Add new element into its position
@@ -24,5 +24,5 @@ bool removeValue(List* list, const int value);
 // Returns 'true' if list is emty
 bool isEmpty(List* list);
 
-// Removes all list
+// Deletes list
 void freeList(List** list);
