@@ -118,7 +118,7 @@
       <ConformanceMode>true</ConformanceMode>
       <CompileAs>CompileAsC</CompileAs>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <DisableSpecificWarnings>4996;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4996; 6031</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

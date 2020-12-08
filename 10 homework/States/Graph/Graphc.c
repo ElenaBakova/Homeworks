@@ -73,7 +73,7 @@ void deleteGraph(Graph** graph)
 {
 	for (int i = 0; i < (*graph)->vertices; i++)
 	{
-		freeList((*graph)->list[i]);
+		freeList(&(*graph)->list[i]);
 	}
 	free((*graph)->list);
 	free(*graph);
