@@ -12,7 +12,7 @@ bool commandProcessing(const int code, List **list)
 		return true;
 	case 1:
 		printf("Please enter value ");
-		scanf("%i", &value);
+		scanf("%d", &value);
 		if (*list == NULL)
 		{
 			*list = makeList();
@@ -21,7 +21,7 @@ bool commandProcessing(const int code, List **list)
 		break;
 	case 2:
 		printf("Please enter value ");
-		scanf("%i", &value);
+		scanf("%d", &value);
 		if (removeValue(*list, value))
 		{
 			printf("An error occured\n");
@@ -52,7 +52,7 @@ int main()
 	{
 		int code = 0;
 		printf("Enter command code: ");
-		scanf("%i", &code);
+		scanf("%d", &code);
 		if (commandProcessing(code, &list)) {
 			return 0;
 		}

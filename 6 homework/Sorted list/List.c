@@ -11,14 +11,26 @@ typedef struct List {
 	ListElement* head;
 } List;
 
+bool isEmpty(List* list)
+{
+	return (list == NULL || list->head == NULL);
+}
+
 int getTheValue(List *list)
 {
+	if (isEmpty(list))
+	{
+		return -INT_MAX;
+	}
 	return list->head->value;
 }
 
 void nextItem(List* list)
 {
-	list->head = list->head->next;
+	if (!isEmpty(list))
+	{
+		list->head = list->head->next;
+	}
 }
 
 List* makeList(void)
@@ -63,7 +75,7 @@ void addItem(List* list, const int value)
 
 bool removeValue(List* list, const int value)
 {
-	if (list == NULL || list->head == NULL)
+	if (isEmpty(list))
 	{
 		return true;
 	}
@@ -93,11 +105,6 @@ bool removeValue(List* list, const int value)
 	return false;
 }
 
-bool isEmpty(List* list)
-{
-	return (list == NULL || list->head == NULL);
-}
-
 void freeList(List** list)
 {
 	while (!isEmpty(*list))
@@ -110,7 +117,7 @@ void freeList(List** list)
 
 void printList(List *list)
 {
-	if (list == NULL || list->head == NULL)
+	if (isEmpty(list))
 	{
 		printf("List is empty\n");
 		return;
