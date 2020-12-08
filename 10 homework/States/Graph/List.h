@@ -15,6 +15,9 @@ void nextItem(List* list);
 // Makes a new empty list
 List* makeList(void);
 
+// merges two lists in one
+void mergeLists(List* destination, List* source, int destinationIndex, int sourceIndex);
+
 // Add new element into its position
 void addItem(List* list, const int value, const int length);
 
@@ -23,6 +26,9 @@ bool removeValue(List* list, const int value);
 
 // Returns 'true' if list is emty
 bool isEmpty(List* list);
+
+// Searches for value in the list. If it's found - returns length, otherwise -INT_MAX
+int findValue(List* list, int value);
 
 // Deletes list
 void freeList(List** list);

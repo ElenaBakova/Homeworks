@@ -6,12 +6,12 @@
 bool testAddItem(void)
 {
 	List* list = makeList();
-	for (int i = 1; i < 10; i += 2)
+	for (int i = 9; i > 0; i -= 2)
 	{
 		addItem(list, i, i + 1);
 	}
 	bool result = true;
-	for (int i = 9; i > 0; i -= 2)
+	for (int i = 1; i < 10; i += 2)
 	{
 		result &= getTheValue(list) == i && getLength(list) == i + 1;
 		removeValue(list, i);

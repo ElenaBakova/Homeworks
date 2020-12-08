@@ -14,6 +14,30 @@ int getVertices(Graph *graph)
 	return graph->vertices;
 }
 
+int getValue(Graph* graph, int i)
+{
+	if (graph == NULL || i > graph->vertices || isEmpty(graph->list[i]))
+	{
+		return INT_MAX;
+	}
+	return getTheValue(graph->list[i]);
+}
+
+void deleteEdge(Graph* graph, int index, int value)
+{
+	removeValue(graph->list[index], value);
+	removeValue(graph->list[value], index);
+}
+
+void mergeNodes(Graph* graph, int destination, int source)
+{
+	if (graph == NULL)
+	{
+		return;
+	}
+	mergeLists(graph->list[destination], graph->list[source], destination, source);
+}
+
 Graph* readGraph(const char* filename, int* k, int* states)
 {
 	FILE* input = fopen(filename, "r");
@@ -41,13 +65,17 @@ Graph* readGraph(const char* filename, int* k, int* states)
 		int second = 0;
 		int length = 0;
 		fscanf(input, "%d %d %d", &first, &second, &length);
-		addItem(newGraph->list[first - 1], second - 1, length);
-		addItem(newGraph->list[second - 1], first - 1, length);
+		first--;
+		second--;
+		addItem(newGraph->list[first], second, length);
+		addItem(newGraph->list[second], first, length);
 	}
 	fscanf(input, "%d", &(*k));
 	for (int i = 0; i < (*k); i++)
 	{
-		fscanf(input, "%d", &states[i]);
+		int temp = 0;
+		fscanf(input, "%d", &temp);
+		states[i] = temp - 1;
 	}
 	fclose(input);
 	return newGraph;

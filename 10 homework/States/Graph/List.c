@@ -43,6 +43,47 @@ void nextItem(List* list)
 	}
 }
 
+int findValue(List* list, int value)
+{
+	if (isEmpty(list))
+	{
+		return -INT_MAX;
+	}
+	ListElement* current = list->head;
+	while (current != NULL && current->value != value)
+	{
+		current = current->next;
+	}
+	if (current != NULL && current->value == value)
+	{
+		return current->length;
+	}
+	return -INT_MAX;
+}
+
+void mergeLists(List* destination, List* source, int destinationIndex, int sourceIndex)
+{
+	ListElement* current = source->head;
+	removeValue(destination, sourceIndex);
+	addItem(destination, sourceIndex, INT_MAX);
+	removeValue(source, destinationIndex);
+	while (!isEmpty(source))
+	{
+		int destinationLength = findValue(destination, current->value);
+		if (destinationLength == -INT_MAX)
+		{
+			addItem(destination, current->value, current->length);
+		}
+		else if (destinationLength > current->length)
+		{
+			removeValue(destination, current->value);
+			addItem(destination, current->value, current->length);
+		}
+		removeValue(source, current->value);
+		current = current->next;
+	}
+}
+
 List* makeList(void)
 {
 	List* list = calloc(1, sizeof(List));
@@ -60,17 +101,29 @@ void addItem(List* list, const int value, const int length)
 	{
 		return;
 	}
-	newElement->value = value;
-	newElement->length = length;
 	if (list->head == NULL)
 	{
+		newElement->value = value;
+		newElement->length = length;
 		newElement->next = NULL;
+		list->head = newElement;
+		return;
 	}
-	else
+	ListElement* pointer = list->head;
+	while (pointer->next != NULL && pointer->next->length < length)
+	{
+		pointer = pointer->next;
+	}
+	newElement->value = value;
+	newElement->length = length;
+	if (pointer == list->head && pointer->length > length)
 	{
 		newElement->next = list->head;
+		list->head = newElement;
+		return;
 	}
-	list->head = newElement;
+	newElement->next = pointer->next;
+	pointer->next = newElement;
 }
 
 bool removeValue(List* list, const int value)
