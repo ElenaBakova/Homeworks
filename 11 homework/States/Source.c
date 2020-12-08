@@ -3,12 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+void makeCountries()
 {
-	if (!tests())
-	{
-		return 1;
-	}
 	int k = 0;
 	int states[1000] = { 0 };
 	Graph* graph = readGraph("input.txt", &k, states);
@@ -19,5 +15,14 @@ int main()
 	}
 
 	deleteGraph(&graph);
+}
+
+int main()
+{
+	if (!tests())
+	{
+		return 1;
+	}
+	
 	return 0;
 }
