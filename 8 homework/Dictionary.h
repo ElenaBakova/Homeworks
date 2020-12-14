@@ -15,5 +15,8 @@ char* findValueByKey(Dictionary* dictionary, const char* key);
 // Returns 'true' id key is in dictionary, otherwise 'false'
 bool isContained(Dictionary* dictionary, const char* key);
 
-//// Delete record by key
-//Node* deleteRecord(Node* root, const char* key);
+// Delete record by key
+void removeRecord(Dictionary* dictionary, const char* key);
+
+// Removes whole dictionary 
+void freeDictionary(Dictionary* dictionary);

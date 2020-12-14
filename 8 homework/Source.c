@@ -10,7 +10,9 @@ int main(void)
 	addRecord(dictionary, "c", "dda");
 	addRecord(dictionary, "aba", "vaba");
 	addRecord(dictionary, "d", "sss");
-	//dictionary = deleteRecord(dictionary, "aba");
+	removeRecord(dictionary, "aba");
+	removeRecord(dictionary, "c");
 
+	freeDictionary(dictionary);
 	return 0;
 }

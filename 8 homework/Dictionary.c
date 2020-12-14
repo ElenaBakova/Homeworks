@@ -231,9 +231,10 @@ Node* deleteRecord(Node* root, const char* key)
 	{
 		Node* left = root->left;
 		Node* right = root->right;
+		free(root);
 		root->key = NULL;
 		root->value = NULL;
-		free(root);
+		root->height = 0;
 		if (right == NULL)
 		{
 			return left;
@@ -244,4 +245,38 @@ Node* deleteRecord(Node* root, const char* key)
 		return balanceTree(minimum);
 	}
 	return balanceTree(root);
+}
+
+void removeRecord(Dictionary* dictionary, const char* key)
+{ 
+	if (dictionary == NULL)
+	{
+		return;
+	}
+	dictionary->root = deleteRecord(dictionary->root, key);
+}
+
+void freeNode(Node* root)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+	if (root->left == NULL && root->right == NULL)
+	{
+		free(root);
+		root = NULL;
+		return;
+	}
+	freeNode(root->left);
+	freeNode(root->right);
+	free(root);
+	root = NULL;
+}
+
+void freeDictionary(Dictionary* dictionary)
+{
+	freeNode(dictionary->root);
+	free(dictionary);
+	dictionary = NULL;
 }
