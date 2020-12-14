@@ -1,15 +1,19 @@
 #pragma once
+#include <stdbool.h>
 
 typedef struct Dictionary Dictionary;
 
 // Create new empty dictionary
-Dictionary* initDictionary();
+Dictionary* createDictionary(void);
 
 // Recieve key and value. Add them to the dictionary. Can't change key or value after that
-Dictionary* addValue(Dictionary* root, char* key, char* value);
+void addRecord(Dictionary* dictionary, char* key, char* value);
 
-// Returns value that's belongs to the key or NULL if key wasn't found
-char* findValueByKey(Dictionary* root, const char* key);
+// Returns value that belongs to the key or NULL if key wasn't found
+char* findValueByKey(Dictionary* dictionary, const char* key);
 
-// Delete record by key
-Dictionary* deleteRecord(Dictionary* root, const char* key);
+// Returns 'true' id key is in dictionary, otherwise 'false'
+bool isContained(Dictionary* dictionary, const char* key);
+
+//// Delete record by key
+//Node* deleteRecord(Node* root, const char* key);

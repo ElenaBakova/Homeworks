@@ -4,15 +4,24 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-typedef struct Dictionary {
+typedef struct Node {
 	char* key;
 	char* value;
 	int height;
-	struct Dictionary* left;
-	struct Dictionary* right;
+	struct Node* left;
+	struct Node* right;
+} Node;
+
+typedef struct Dictionary {
+	Node* root;
 } Dictionary;
 
-int getHeight(Dictionary* node)
+Dictionary* createDictionary(void)
+{
+	return calloc(1, sizeof(Dictionary));
+}
+
+int getHeight(Node* node)
 {
 	if (node == NULL) {
 		return 0;
@@ -20,32 +29,55 @@ int getHeight(Dictionary* node)
 	return node->height;
 }
 
-int getBalanceFactor(Dictionary* node)
+int getBalanceFactor(Node* node)
 {
-	if (node == NULL || node->right == NULL || node->left == NULL)
+	if (node == NULL || node->right == NULL && node->left == NULL)
 	{
 		return 0;
+	}
+	if (node->right == NULL && node->left != NULL)
+	{
+		return -node->left->height;
+	}
+	if (node->right != NULL && node->left == NULL)
+	{
+		return node->right->height;
 	}
 	return node->right->height - node->left->height;
 }
 
-void recountHeight(Dictionary* node)
+void recountHeight(Node* node)
 {
-	if (node == NULL || node->right == NULL || node->left == NULL)
+	if (node == NULL)
 	{
 		return;
 	}
-	int maxSonHeight = (node->right->height > node->left->height ? node->right->height : node->left->height);
-	node->height = maxSonHeight + 1;
+	if (node->right == NULL && node->left == NULL)
+	{
+		node->height = 0;
+	}
+	else if (node->right == NULL && node->left != NULL)
+	{
+		node->height = node->left->height + 1;
+	}
+	else if (node->right != NULL && node->left == NULL)
+	{
+		node->height = node->right->height + 1;
+	}
+	else
+	{
+		int maxSonHeight = (node->right->height > node->left->height ? node->right->height : node->left->height);
+		node->height = maxSonHeight + 1;
+	}
 }
 
-Dictionary* rotateRight(Dictionary* node)
+Node* rotateRight(Node* node)
 {
-	if (node == NULL || node->right == NULL || node->left == NULL)
+	if (node == NULL || node->right == NULL && node->left == NULL)
 	{
 		return NULL;
 	}
-	Dictionary* newNode = node->left;
+	Node* newNode = node->left;
 	node->left = newNode->right;
 	newNode->right = node;
 	recountHeight(node);
@@ -53,13 +85,13 @@ Dictionary* rotateRight(Dictionary* node)
 	return newNode;
 }
 
-Dictionary* rotateLeft(Dictionary* node)
+Node* rotateLeft(Node* node)
 {
-	if (node == NULL || node->right == NULL || node->left == NULL)
+	if (node == NULL || node->right == NULL && node->left == NULL)
 	{
 		return NULL;
 	}
-	Dictionary* newNode = node->right;
+	Node* newNode = node->right;
 	node->right = newNode->left;
 	newNode->left = node;
 	recountHeight(node);
@@ -67,7 +99,7 @@ Dictionary* rotateLeft(Dictionary* node)
 	return newNode;
 }
 
-Dictionary* balanceTree(Dictionary* node)
+Node* balanceTree(Node* node)
 {
 	recountHeight(node);
 	if (getBalanceFactor(node) == 2)
@@ -89,20 +121,10 @@ Dictionary* balanceTree(Dictionary* node)
 	return node;
 }
 
-Dictionary* initDictionary()
-{
-	Dictionary* newNode = calloc(1, sizeof(Dictionary));
-	if (newNode == NULL)
-	{
-		return NULL;
-	}
-	return newNode;
-}
-
-Dictionary* addValue(Dictionary* root, char* key, char* value)
+Node* addValue(Node* root, char* key, char* value)
 {
 	if (root == NULL) {
-		root = initDictionary();
+		root = calloc(1, sizeof(Node));
 		root->value = value;
 		root->key = key;
 		return balanceTree(root);
@@ -126,7 +148,16 @@ Dictionary* addValue(Dictionary* root, char* key, char* value)
 	return balanceTree(root);
 }
 
-Dictionary* findNode(Dictionary* root, const char* key)
+void addRecord(Dictionary* dictionary, char* key, char* value)
+{
+	if (dictionary == NULL)
+	{
+		dictionary = createDictionary();
+	}
+	dictionary->root = addValue(dictionary->root, key, value);
+}
+
+Node* findNode(Node* root, const char* key)
 {
 	if (root == NULL) {
 		return NULL;
@@ -144,16 +175,21 @@ Dictionary* findNode(Dictionary* root, const char* key)
 	return NULL;
 }
 
-char* findValueByKey(Dictionary* root, const char* key)
+bool isContained(Dictionary* dictionary, const char* key)
 {
-	Dictionary* node = findNode(root, key);
+	return findNode(dictionary->root, key) == NULL ? false : true;
+}
+
+char* findValueByKey(Dictionary* dictionary, const char* key)
+{
+	Node* node = findNode(dictionary->root, key);
 	if (node == NULL) {
 		return NULL;
 	}
 	return node->value;
 }
 
-Dictionary* findMinimum(Dictionary* node)
+Node* findMinimum(Node* node)
 {
 	if (node == NULL)
 	{
@@ -162,7 +198,7 @@ Dictionary* findMinimum(Dictionary* node)
 	return node->left == NULL ? node : findMinimum(node->left);
 }
 
-Dictionary* removeMinimum(Dictionary* node)
+Node* removeMinimum(Node* node)
 {
 	if (node == NULL)
 	{
@@ -176,7 +212,7 @@ Dictionary* removeMinimum(Dictionary* node)
 	return balanceTree(node);
 }
 
-Dictionary* deleteRecord(Dictionary* root, const char* key)
+Node* deleteRecord(Node* root, const char* key)
 {
 	if (root == NULL)
 	{
@@ -193,8 +229,8 @@ Dictionary* deleteRecord(Dictionary* root, const char* key)
 	}
 	else
 	{
-		Dictionary* left = root->left;
-		Dictionary* right = root->right;
+		Node* left = root->left;
+		Node* right = root->right;
 		root->key = NULL;
 		root->value = NULL;
 		free(root);
@@ -202,7 +238,7 @@ Dictionary* deleteRecord(Dictionary* root, const char* key)
 		{
 			return left;
 		}
-		Dictionary* minimum = findMinimum(right);
+		Node* minimum = findMinimum(right);
 		minimum->right = removeMinimum(right);
 		minimum->left = left;
 		return balanceTree(minimum);
