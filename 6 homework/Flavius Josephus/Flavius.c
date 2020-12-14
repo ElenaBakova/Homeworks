@@ -1,10 +1,12 @@
 #include "List.h"
 #include "TestList.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int findLastWarrior(int warriors, int m)
 {
-	if (warriors < 1 || m < 1) {
+	if (warriors < 1 || m < 1) 
+	{
 		return -1;
 	}
 	List* list = initListItem(1);
@@ -16,7 +18,8 @@ int findLastWarrior(int warriors, int m)
 	Position* current = getHead(list);
 	while (warriors > 1)
 	{
-		if (count % m == 0) {
+		if (count % m == 0) 
+		{
 			removePosition(list, getThePosition(current));
 			count = 0;
 			warriors--;
@@ -27,6 +30,7 @@ int findLastWarrior(int warriors, int m)
 	int answer = getThePosition(current);
 	freeList(&list);
 	free(current);
+	current = NULL;
 	return answer;
 }
 
@@ -53,7 +57,8 @@ int main()
 	}
 	printf("Tests succeed\n");
 
-	int warriors, m;
+	int warriors = 0;
+	int m = 0;
 	printf("Please enter number of warriors and m: ");
 	scanf("%i %i", &warriors, &m);
 	if (m < 1 || warriors < 1) {

@@ -17,7 +17,7 @@ struct ListElement* nextItem(struct ListElement* list);
 bool isEmpty(List* list);
 
 // Makes a new list
-List* initListItem(int position);
+List* initListItem();
 
 // Add new element into its position
 void addItem(List* list, const int position);

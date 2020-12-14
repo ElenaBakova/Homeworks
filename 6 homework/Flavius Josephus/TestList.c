@@ -1,13 +1,14 @@
 #include "TestList.h"
 #include "List.h"
 #include <stdbool.h>
+#include <stdlib.h>
 #include <locale.h>
 
 bool testAddItem(void)
 {
-	List *list = initListItem(0);
+	List *list = initListItem();
 	const int count = 5;
-	for (int i = 1; i < count; i++)
+	for (int i = 0; i < count; i++)
 	{
 		addItem(list, i);
 	}
@@ -25,8 +26,8 @@ bool testAddItem(void)
 
 bool testRemove(void)
 {
-	List* list = initListItem(0);
-	for (int i = 1; i < 10; i++)
+	List* list = initListItem();
+	for (int i = 0; i < 10; i++)
 	{
 		addItem(list, i);
 	}
