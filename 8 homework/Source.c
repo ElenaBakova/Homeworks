@@ -4,14 +4,44 @@
 
 int main(void)
 {
+	printf("Commands\n0: quit\n1: add value by key. If key already in the dictionary, value will be replaced\n");
+	printf("2: get value by key\n3: check whether key is in the dictionary\n4: remove the key and its value\n");
 	Dictionary* dictionary = createDictionary();
-	addRecord(dictionary, "aba", "caba");
-	addRecord(dictionary, "b", "nba");
-	addRecord(dictionary, "c", "dda");
-	addRecord(dictionary, "aba", "vaba");
-	addRecord(dictionary, "d", "sss");
-	removeRecord(dictionary, "aba");
-	removeRecord(dictionary, "c");
+	while (true)
+	{
+		int code = 0;
+		char value[1000] = "";
+		char key[1000] = "";
+		printf("Please enter command code ");
+		scanf("%d", &code);
+		switch (code)
+		{
+		case 0:
+			freeDictionary(dictionary);
+			dictionary = NULL;
+			return 0;
+		case 1:
+			printf("Enter key ");
+			scanf("%s", &key);
+			printf("Enter value ");
+			scanf("%s", &value);
+			addRecord(dictionary, key, value);
+			break;
+		case 2:
+			printf("Enter key ");
+			scanf("%s", &key);
+			char* string = findValueByKey(dictionary, key);
+			if (string == NULL)
+			{
+				printf("Key not found\n");
+				break;
+			}
+			printf("Value: %s\n", string);
+			break;
+		default:
+			break;
+		}
+	}
 
 	freeDictionary(dictionary);
 	return 0;

@@ -121,23 +121,30 @@ Node* balanceTree(Node* node)
 	return node;
 }
 
+char* assign(char* string)
+{
+	char* newString = malloc(strlen(string) + 1);
+	strcpy(newString, string);
+	return newString;
+}
+
 Node* addValue(Node* root, char* key, char* value)
 {
 	if (root == NULL) {
 		root = calloc(1, sizeof(Node));
-		root->value = value;
-		root->key = key;
+		root->value = assign(value);
+		root->key = assign(key);
 		return balanceTree(root);
 	}
 	if (root->key == NULL)
 	{
-		root->value = value;
-		root->key = key;
+		root->value = assign(value);
+		root->key = assign(key);
 		return root;
 	}
 	int cmpRes = strcmp(root->key, key);
 	if (cmpRes == 0) {
-		root->value = value;
+		root->value = assign(value);
 	}
 	else if (cmpRes > 0) {
 		root->left = addValue(root->left, key, value);
@@ -232,9 +239,6 @@ Node* deleteRecord(Node* root, const char* key)
 		Node* left = root->left;
 		Node* right = root->right;
 		free(root);
-		root->key = NULL;
-		root->value = NULL;
-		root->height = 0;
 		if (right == NULL)
 		{
 			return left;
@@ -256,6 +260,14 @@ void removeRecord(Dictionary* dictionary, const char* key)
 	dictionary->root = deleteRecord(dictionary->root, key);
 }
 
+void freeRecord(Node* root)
+{
+	free(root->key);
+	free(root->value);
+	free(root);
+	root = NULL;
+}
+
 void freeNode(Node* root)
 {
 	if (root == NULL)
@@ -264,14 +276,12 @@ void freeNode(Node* root)
 	}
 	if (root->left == NULL && root->right == NULL)
 	{
-		free(root);
-		root = NULL;
+		freeRecord(root);
 		return;
 	}
 	freeNode(root->left);
 	freeNode(root->right);
-	free(root);
-	root = NULL;
+	freeRecord(root);
 }
 
 void freeDictionary(Dictionary* dictionary)
