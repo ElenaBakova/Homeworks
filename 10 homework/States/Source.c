@@ -21,11 +21,16 @@ void printAnswer(Graph* graph, int states[], int k)
 	{
 		printf("State: %i\nCities: ", states[i] + 1);
 		int current = getValue(graph, states[i]);
-		while (current != INT_MAX)
+		int currentLength = getTheLength(graph, states[i]);
+		while (currentLength != -INT_MAX)
 		{
-			printf("%i ", current + 1);
+			if (currentLength == INT_MAX)
+			{
+				printf("%i ", current + 1);
+			}
 			deleteEdge(graph, states[i], current);
 			current = getValue(graph, states[i]);
+			currentLength = getTheLength(graph, states[i]);
 		}
 		printf("\n");
 	}
@@ -34,13 +39,17 @@ void printAnswer(Graph* graph, int states[], int k)
 Graph* makeCountries(int *k, int states[])
 {
 	Graph* graph = readGraph("input.txt", k, states);
+	if ((*k) == 0)
+	{
+		return graph;
+	}
 	int vertices = getVertices(graph);
 	int index = 0;
 	int currentState = states[index];
 	while (vertices > (*k))
 	{
 		int minIndex = getValue(graph, currentState);
-		while (isState(states, minIndex, (*k)))
+		while (isState(states, minIndex, (*k)) || isUsed(graph, minIndex))
 		{
 			deleteEdge(graph, currentState, minIndex);
 			minIndex = getValue(graph, currentState);
@@ -53,7 +62,6 @@ Graph* makeCountries(int *k, int states[])
 		index = (index + 1) % (*k);
 		currentState = states[index];
 	}
-
 	return graph;
 }
 

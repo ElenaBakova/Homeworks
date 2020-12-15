@@ -14,6 +14,11 @@ int getVertices(Graph *graph)
 	return graph->vertices;
 }
 
+bool isUsed(Graph* graph, int index)
+{
+	return isEmpty(graph->list[index]);
+}
+
 int getValue(Graph* graph, int i)
 {
 	if (graph == NULL || i > graph->vertices || isEmpty(graph->list[i]))
@@ -21,6 +26,15 @@ int getValue(Graph* graph, int i)
 		return INT_MAX;
 	}
 	return getTheValue(graph->list[i]);
+}
+
+int getTheLength(Graph* graph, int i)
+{
+	if (graph == NULL || i > graph->vertices || isEmpty(graph->list[i]))
+	{
+		return -INT_MAX;
+	}
+	return getLength(graph->list[i]);
 }
 
 void deleteEdge(Graph* graph, int index, int value)
@@ -41,7 +55,8 @@ void mergeNodes(Graph* graph, int destination, int source)
 Graph* readGraph(const char* filename, int* k, int* states)
 {
 	FILE* input = fopen(filename, "r");
-	if (input == NULL) {
+	if (input == NULL) 
+	{
 		return NULL;
 	}
 	Graph* newGraph = calloc(1, sizeof(Graph));

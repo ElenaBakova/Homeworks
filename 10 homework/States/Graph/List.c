@@ -30,7 +30,7 @@ int getLength(List* list)
 {
 	if (isEmpty(list))
 	{
-		return INT_MAX;
+		return -INT_MAX;
 	}
 	return list->head->length;
 }
@@ -63,10 +63,10 @@ int findValue(List* list, int value)
 
 void mergeLists(List* destination, List* source, int destinationIndex, int sourceIndex)
 {
-	ListElement* current = source->head;
 	removeValue(destination, sourceIndex);
 	addItem(destination, sourceIndex, INT_MAX);
 	removeValue(source, destinationIndex);
+	ListElement* current = source->head;
 	while (!isEmpty(source))
 	{
 		int destinationLength = findValue(destination, current->value);
@@ -74,20 +74,19 @@ void mergeLists(List* destination, List* source, int destinationIndex, int sourc
 		{
 			addItem(destination, current->value, current->length);
 		}
-		else if (destinationLength > current->length)
+		else if (destinationLength > current->length && destinationLength != INT_MAX)
 		{
 			removeValue(destination, current->value);
 			addItem(destination, current->value, current->length);
 		}
 		removeValue(source, current->value);
-		current = current->next;
+		current = source->head;
 	}
 }
 
 List* makeList(void)
 {
-	List* list = calloc(1, sizeof(List));
-	return list;
+	return calloc(1, sizeof(List));
 }
 
 void addItem(List* list, const int value, const int length)
