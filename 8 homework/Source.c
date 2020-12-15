@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-int main(void)
+int main()
 {
 	printf("Commands\n0: quit\n1: add value by key. If key already in the dictionary, value will be replaced\n");
 	printf("2: get value by key\n3: check whether key is in the dictionary\n4: remove the key and its value\n");
