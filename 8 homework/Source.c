@@ -38,11 +38,26 @@ int main(void)
 			}
 			printf("Value: %s\n", string);
 			break;
+		case 3:
+			printf("Enter key ");
+			scanf("%s", &key);
+			if (isContained(dictionary, key))
+			{
+				printf("Key is in the dictionary\n");
+			}
+			else
+			{
+				printf("Key is not in the dictionary\n");
+			}
+			break;
+		case 4:
+			printf("Enter key ");
+			scanf("%s", &key);
+			removeRecord(dictionary, key);
 		default:
 			break;
 		}
 	}
 
-	freeDictionary(dictionary);
 	return 0;
 }

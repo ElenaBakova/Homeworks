@@ -124,6 +124,10 @@ Node* balanceTree(Node* node)
 char* assign(char* string)
 {
 	char* newString = malloc(strlen(string) + 1);
+	if (newString == NULL)
+	{
+		return NULL;
+	}
 	strcpy(newString, string);
 	return newString;
 }
