@@ -1,5 +1,4 @@
 #include "Graph/Graph.h"
-#include "Test.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -36,9 +35,9 @@ void printAnswer(Graph* graph, int states[], int k)
 	}
 }
 
-Graph* makeCountries(int *k, int states[])
+Graph* makeCountries(char* filename, int *k, int states[])
 {
-	Graph* graph = readGraph("input.txt", k, states);
+	Graph* graph = readGraph(filename, k, states);
 	if ((*k) == 0)
 	{
 		return graph;
@@ -65,15 +64,25 @@ Graph* makeCountries(int *k, int states[])
 	return graph;
 }
 
-int main()
+bool test()
 {
-	if (!tests())
-	{
-		return 1;
-	}
 	int k = 0;
 	int states[1000] = { 0 };
-	Graph* graph = makeCountries(&k, states);
+	Graph* graph = makeCountries("test.txt", &k, states);
+}
+
+int main()
+{
+	if (!listTests())
+	{
+		printf("List tests failed");
+		return 1;
+	}
+	printf("List tests succeed\n");
+
+	int k = 0;
+	int states[1000] = { 0 };
+	Graph* graph = makeCountries("input.txt", &k, states);
 	printAnswer(graph, states, k);
 
 	deleteGraph(&graph);

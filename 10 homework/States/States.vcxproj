@@ -146,16 +146,15 @@
     <ClCompile Include="Graph\List.c" />
     <ClCompile Include="Graph\TestList.c" />
     <ClCompile Include="Source.c" />
-    <ClCompile Include="Test.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph\Graph.h" />
     <ClInclude Include="Graph\List.h" />
     <ClInclude Include="Graph\TestList.h" />
-    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
