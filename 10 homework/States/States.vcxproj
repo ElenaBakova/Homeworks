@@ -153,6 +153,7 @@
     <ClInclude Include="Graph\TestList.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="answerTest.txt" />
     <Text Include="input.txt" />
     <Text Include="test.txt" />
   </ItemGroup>

@@ -16,6 +16,10 @@ int getVertices(Graph *graph)
 
 bool isUsed(Graph* graph, int index)
 {
+	if (graph == NULL || index > graph->vertices)
+	{
+		return true;
+	}
 	return isEmpty(graph->list[index]);
 }
 
@@ -95,22 +99,6 @@ Graph* readGraph(const char* filename, int* k, int* states)
 	fclose(input);
 	return newGraph;
 }
-
-//void printGraph(const Graph* graph)
-//{
-//	const int size = graph->vertices;
-//	for (int i = 0; i < size; i++)
-//	{
-//		for (int j = 0; j < size; j++)
-//		{
-//			/*if (graph->matrix[i][j] == 1) {
-//				printf("%i -- %i\n", i, j);
-//			}*/
-//			printf("%i ", graph->matrix[i][j]);
-//		}
-//		printf("\n");
-//	}
-//}
 
 void deleteGraph(Graph** graph)
 {

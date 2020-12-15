@@ -18,8 +18,7 @@ int getVertices(Graph* graph);
 // Reads graph and states from file
 Graph* readGraph(const char* filename, int* k, int* states);
 
-//void printGraph(const Graph* graph);
-
+// Merges source to destination
 void mergeNodes(Graph* graph, int destination, int source);
 
 // deletes edge between index and value 
