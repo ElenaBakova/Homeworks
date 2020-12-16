@@ -1,8 +1,5 @@
 language: c
 
-git: 
-  depth: 1
-
 branches: 
   only:
   - master
