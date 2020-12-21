@@ -41,15 +41,6 @@ bool isEmpty(List* list)
 	return (list == NULL || list->head == NULL);
 }
 
-int getTheValue(List *list)
-{
-	if (isEmpty(list))
-	{
-		return -INT_MAX;
-	}
-	return list->head->value;
-}
-
 List* makeList(void)
 {
 	List* list = calloc(1, sizeof(List));
