@@ -12,11 +12,9 @@ bool isRealNumber(char* string)
 		switch (state)
 		{
 		case 0:
-		case 2:
-		case 5:
 			if (isdigit(token))
 			{
-				state++;
+				state = 1;
 				break;
 			}
 			return false;
@@ -38,6 +36,13 @@ bool isRealNumber(char* string)
 			else if (token == '\0' || token == '\n')
 			{
 				return true;
+			}
+			return false;
+		case 2:
+			if (isdigit(token))
+			{
+				state = 3;
+				break;
 			}
 			return false;
 		case 3:
@@ -64,6 +69,13 @@ bool isRealNumber(char* string)
 			if (token == '-' || token == '+')
 			{
 				state = 5;
+				break;
+			}
+			return false;
+		case 5:
+			if (isdigit(token))
+			{
+				state = 6;
 				break;
 			}
 			return false;

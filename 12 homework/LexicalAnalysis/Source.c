@@ -43,8 +43,7 @@ int main()
 	printf("Please enter an expression: ");
 	char string[10000] = "";
 	gets_s(string, 10000);
-	bool result = isRealNumber(string);
-	if (result)
+	if (isRealNumber(string))
 	{
 		printf("It's a real number\n");
 		return 0;
