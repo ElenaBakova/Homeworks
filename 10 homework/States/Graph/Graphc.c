@@ -56,7 +56,7 @@ void mergeNodes(Graph* graph, int destination, int source)
 	mergeLists(graph->list[destination], graph->list[source], destination, source);
 }
 
-Graph* readGraph(const char* filename, int* k, int* states)
+Graph* readGraph(const char* filename, int* countStates, int* states)
 {
 	FILE* input = fopen(filename, "r");
 	if (input == NULL) 
@@ -89,8 +89,8 @@ Graph* readGraph(const char* filename, int* k, int* states)
 		addItem(newGraph->list[first], second, length);
 		addItem(newGraph->list[second], first, length);
 	}
-	fscanf(input, "%d", k);
-	for (int i = 0; i < (*k); i++)
+	fscanf(input, "%d", countStates);
+	for (int i = 0; i < (*countStates); i++)
 	{
 		int temp = 0;
 		fscanf(input, "%d", &temp);

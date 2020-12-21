@@ -62,20 +62,20 @@ void printAnswer(Graph* graph, int states[], int k)
 	}
 }
 
-Graph* makeCountries(char* filename, int *k, int states[])
+Graph* makeCountries(char* filename, int *countStates, int states[])
 {
-	Graph* graph = readGraph(filename, k, states);
-	if ((*k) == 0)
+	Graph* graph = readGraph(filename, countStates, states);
+	if ((*countStates) == 0)
 	{
 		return graph;
 	}
 	int vertices = getVertices(graph);
 	int index = 0;
 	int currentState = states[index];
-	while (vertices > (*k))
+	while (vertices > (*countStates))
 	{
 		int minIndex = getTheValue(graph, currentState);
-		while (isState(states, minIndex, (*k)) || isUsed(graph, minIndex))
+		while (isState(states, minIndex, (*countStates)) || isUsed(graph, minIndex))
 		{
 			deleteEdge(graph, currentState, minIndex);
 			minIndex = getTheValue(graph, currentState);
@@ -85,7 +85,7 @@ Graph* makeCountries(char* filename, int *k, int states[])
 			mergeNodes(graph, currentState, minIndex);
 			vertices--;
 		}
-		index = (index + 1) % (*k);
+		index = (index + 1) % (*countStates);
 		currentState = states[index];
 	}
 	return graph;
