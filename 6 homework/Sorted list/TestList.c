@@ -16,12 +16,11 @@ bool testAddItem(void)
 	int k = 0;
 	int previous = -1;
 	bool result = true;
-	while (!isEmpty(list))
+	for (Position position = getFirst(list); !isEnd(position); position = nextItem(position))
 	{
-		int current = getTheValue(list);
+		int current = getValue(position);
 		result &= (current == k && current > previous);
 		previous = current;
-		removeValue(list, current);
 		k++;
 	}
 

@@ -1,5 +1,6 @@
 #include "List.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 
 typedef struct ListElement {
@@ -10,6 +11,30 @@ typedef struct ListElement {
 typedef struct List {
 	ListElement* head;
 } List;
+
+Position getFirst(List* list)
+{
+	if (list == NULL)
+	{
+		return NULL;
+	}
+	return list->head;
+}
+
+Position nextItem(Position position)
+{
+	return position->next;
+}
+
+bool isEnd(Position position)
+{
+	return position == NULL;
+}
+
+int getValue(Position position)
+{
+	return position->value;
+}
 
 bool isEmpty(List* list)
 {
