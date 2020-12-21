@@ -2,35 +2,45 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+enum States {
+	start,
+	firstDigit,
+	point, 
+	secondDigit,
+	seenE,
+	sign, 
+	thirdDigit
+};
+
 bool isRealNumber(char* string)
 {
+	enum States state = start;
 	int current = 0;
-	int state = 0;
 	while (true)
 	{
 		char token = string[current];
 		switch (state)
 		{
-		case 0:
+		case start:
 			if (isdigit(token))
 			{
-				state = 1;
+				state = firstDigit;
 				break;
 			}
 			return false;
-		case 1:
+		case firstDigit:
 			if (isdigit(token))
 			{
 				break;
 			}
 			if (token == '.')
 			{
-				state = 2;
+				state = point;
 				break;
 			}
 			else if (token == 'E')
 			{
-				state = 4;
+				state = seenE;
 				break;
 			}
 			else if (token == '\0' || token == '\n')
@@ -38,14 +48,14 @@ bool isRealNumber(char* string)
 				return true;
 			}
 			return false;
-		case 2:
+		case point:
 			if (isdigit(token))
 			{
-				state = 3;
+				state = secondDigit;
 				break;
 			}
 			return false;
-		case 3:
+		case secondDigit:
 			if (isdigit(token))
 			{
 				break;
@@ -56,30 +66,30 @@ bool isRealNumber(char* string)
 			}
 			if (token == 'E')
 			{
-				state = 4;
+				state = seenE;
 				break;
 			}
 			return false;
-		case 4:
+		case seenE:
 			if (isdigit(token))
 			{
-				state = 6;
+				state = thirdDigit;
 				break;
 			}
 			if (token == '-' || token == '+')
 			{
-				state = 5;
+				state = sign;
 				break;
 			}
 			return false;
-		case 5:
+		case sign:
 			if (isdigit(token))
 			{
-				state = 6;
+				state = thirdDigit;
 				break;
 			}
 			return false;
-		case 6:
+		case thirdDigit:
 			if (isdigit(token))
 			{
 				break;
