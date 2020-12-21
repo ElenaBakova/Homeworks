@@ -1,4 +1,5 @@
 #include "Graph/Graph.h"
+#include "Graph/List.h"
 #include "Graph/TestList.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,12 +16,37 @@ bool isState(const int states[], const int index, const int k)
 	return false;
 }
 
+void mergeLists(List* destination, List* source, int destinationIndex, int sourceIndex)
+{
+	removeValue(destination, sourceIndex);
+	addItem(destination, sourceIndex, INT_MAX);
+	removeValue(source, destinationIndex);
+	Position* current = getFirst(source);
+	while (!isEmpty(source))
+	{
+		int value = getValue(current);
+		int length = getLength(current);
+		int destinationLength = findValue(destination, value);
+		if (destinationLength == -INT_MAX)
+		{
+			addItem(destination, value, length);
+		}
+		else if (destinationLength > length && destinationLength != INT_MAX)
+		{
+			removeValue(destination, value);
+			addItem(destination, value, length);
+		}
+		removeValue(source, value);
+		current = getFirst(source);
+	}
+}
+
 void printAnswer(Graph* graph, int states[], int k)
 {
 	for (int i = 0; i < k; i++)
 	{
 		printf("State: %i\nCities: ", states[i] + 1);
-		int current = getValue(graph, states[i]);
+		int current = getTheValue(graph, states[i]);
 		int currentLength = getTheLength(graph, states[i]);
 		while (currentLength != -INT_MAX)
 		{
@@ -29,7 +55,7 @@ void printAnswer(Graph* graph, int states[], int k)
 				printf("%i ", current + 1);
 			}
 			deleteEdge(graph, states[i], current);
-			current = getValue(graph, states[i]);
+			current = getTheValue(graph, states[i]);
 			currentLength = getTheLength(graph, states[i]);
 		}
 		printf("\n");
@@ -48,11 +74,11 @@ Graph* makeCountries(char* filename, int *k, int states[])
 	int currentState = states[index];
 	while (vertices > (*k))
 	{
-		int minIndex = getValue(graph, currentState);
+		int minIndex = getTheValue(graph, currentState);
 		while (isState(states, minIndex, (*k)) || isUsed(graph, minIndex))
 		{
 			deleteEdge(graph, currentState, minIndex);
-			minIndex = getValue(graph, currentState);
+			minIndex = getTheValue(graph, currentState);
 		}
 		if (minIndex != INT_MAX)
 		{
@@ -78,7 +104,7 @@ bool test()
 	bool result = true;
 	for (int i = 0; i < k; i++)
 	{
-		int current = getValue(graph, states[i]);
+		int current = getTheValue(graph, states[i]);
 		int currentLength = getTheLength(graph, states[i]);
 		int answer = 0;
 		while (currentLength != -INT_MAX)
@@ -89,7 +115,7 @@ bool test()
 				result &= (answer == current + 1);
 			}
 			deleteEdge(graph, states[i], current);
-			current = getValue(graph, states[i]);
+			current = getTheValue(graph, states[i]);
 			currentLength = getTheLength(graph, states[i]);
 		}
 	}

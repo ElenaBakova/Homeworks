@@ -33,38 +33,25 @@ bool isEnd(Position position)
 
 int getValue(Position position)
 {
+	if (position == NULL)
+	{
+		return -1;
+	}
 	return position->value;
+}
+
+int getLength(Position position)
+{
+	if (position == NULL)
+	{
+		return -INT_MAX;
+	}
+	return position->length;
 }
 
 bool isEmpty(List* list)
 {
 	return (list == NULL || list->head == NULL);
-}
-
-int getTheValue(List *list)
-{
-	if (isEmpty(list))
-	{
-		return -1;
-	}
-	return list->head->value;
-}
-
-int getLength(List* list)
-{
-	if (isEmpty(list))
-	{
-		return -INT_MAX;
-	}
-	return list->head->length;
-}
-
-void nextItem(List* list)
-{
-	if (!isEmpty(list))
-	{
-		list->head = list->head->next;
-	}
 }
 
 int findValue(List* list, int value)
@@ -85,29 +72,6 @@ int findValue(List* list, int value)
 	return -INT_MAX;
 }
 
-void mergeLists(List* destination, List* source, int destinationIndex, int sourceIndex)
-{
-	removeValue(destination, sourceIndex);
-	addItem(destination, sourceIndex, INT_MAX);
-	removeValue(source, destinationIndex);
-	ListElement* current = source->head;
-	while (!isEmpty(source))
-	{
-		int destinationLength = findValue(destination, current->value);
-		if (destinationLength == -INT_MAX)
-		{
-			addItem(destination, current->value, current->length);
-		}
-		else if (destinationLength > current->length && destinationLength != INT_MAX)
-		{
-			removeValue(destination, current->value);
-			addItem(destination, current->value, current->length);
-		}
-		removeValue(source, current->value);
-		current = source->head;
-	}
-}
-
 List* makeList(void)
 {
 	return calloc(1, sizeof(List));
@@ -117,7 +81,7 @@ void addItem(List* list, const int value, const int length)
 {
 	if (list == NULL)
 	{
-		list = makeList();
+		return;
 	}
 	ListElement* newElement = malloc(sizeof(ListElement));
 	if (newElement == NULL)
@@ -174,9 +138,6 @@ bool removeValue(List* list, const int value)
 		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
 		free(oldElement);
-	}
-	else {
-		pointer = NULL;
 	}
 	return false;
 }

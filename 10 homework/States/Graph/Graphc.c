@@ -23,13 +23,13 @@ bool isUsed(Graph* graph, int index)
 	return isEmpty(graph->list[index]);
 }
 
-int getValue(Graph* graph, int i)
+int getTheValue(Graph* graph, int i)
 {
 	if (graph == NULL || i > graph->vertices || isEmpty(graph->list[i]))
 	{
 		return INT_MAX;
 	}
-	return getTheValue(graph->list[i]);
+	return getValue(graph->list[i]);
 }
 
 int getTheLength(Graph* graph, int i)
@@ -41,10 +41,10 @@ int getTheLength(Graph* graph, int i)
 	return getLength(graph->list[i]);
 }
 
-void deleteEdge(Graph* graph, int index, int value)
+void deleteEdge(Graph* graph, int source, int destination)
 {
-	removeValue(graph->list[index], value);
-	removeValue(graph->list[value], index);
+	removeValue(graph->list[source], destination);
+	removeValue(graph->list[destination], source);
 }
 
 void mergeNodes(Graph* graph, int destination, int source)
@@ -89,7 +89,7 @@ Graph* readGraph(const char* filename, int* k, int* states)
 		addItem(newGraph->list[first], second, length);
 		addItem(newGraph->list[second], first, length);
 	}
-	fscanf(input, "%d", &(*k));
+	fscanf(input, "%d", k);
 	for (int i = 0; i < (*k); i++)
 	{
 		int temp = 0;

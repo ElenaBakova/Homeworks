@@ -7,7 +7,7 @@ typedef struct ListElement* Position;
 
 typedef struct List List;
 
-// Returns element int the head of the list
+// Returns element in the head of the list
 Position getFirst(List* list);
 
 // Changes pointer to the next element
@@ -19,17 +19,11 @@ bool isEnd(Position position);
 // Returns value by position
 int getValue(Position position);
 
-// Returns value of the head item
-int getTheValue(List *list);
-
-// Returns length of the head item
-int getLength(List* list);
+// Returns length by position
+int getLength(Position position);
 
 // Makes a new empty list
 List* makeList(void);
-
-// merges two lists in one
-void mergeLists(List* destination, List* source, int destinationIndex, int sourceIndex);
 
 // Add new element into its position
 void addItem(List* list, const int value, const int length);
