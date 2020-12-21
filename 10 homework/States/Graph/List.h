@@ -1,16 +1,29 @@
 #pragma once
 #include <stdbool.h>
 
+typedef struct ListElement ListElement;
+
+typedef struct ListElement* Position;
+
 typedef struct List List;
+
+// Returns element int the head of the list
+Position getFirst(List* list);
+
+// Changes pointer to the next element
+Position nextItem(Position position);
+
+// Returns true if pointer reached end of the list
+bool isEnd(Position position);
+
+// Returns value by position
+int getValue(Position position);
 
 // Returns value of the head item
 int getTheValue(List *list);
 
 // Returns length of the head item
 int getLength(List* list);
-
-// Changes head pointer to the next item
-void nextItem(List* list);
 
 // Makes a new empty list
 List* makeList(void);
