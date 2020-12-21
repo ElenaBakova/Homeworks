@@ -6,9 +6,6 @@ typedef struct List List;
 // Returns value of the item
 int getTheValue(List *list);
 
-// Changes pointer to the next item
-void nextItem(List* list);
-
 // Makes a new list
 List* makeList(void);
 

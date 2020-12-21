@@ -25,14 +25,6 @@ int getTheValue(List *list)
 	return list->head->value;
 }
 
-void nextItem(List* list)
-{
-	if (!isEmpty(list))
-	{
-		list->head = list->head->next;
-	}
-}
-
 List* makeList(void)
 {
 	List* list = calloc(1, sizeof(List));
@@ -43,16 +35,16 @@ void addItem(List* list, const int value)
 {
 	if (list == NULL)
 	{
-		list = makeList();
+		return;
 	}
 	ListElement* newElement = malloc(sizeof(ListElement));
 	if (newElement == NULL)
 	{
 		return;
 	}
+	newElement->value = value;
 	if (list->head == NULL)
 	{
-		newElement->value = value;
 		newElement->next = NULL;
 		list->head = newElement;
 		return;
@@ -62,7 +54,6 @@ void addItem(List* list, const int value)
 	{
 		pointer = pointer->next;
 	}
-	newElement->value = value;
 	if (pointer == list->head && pointer->value > value)
 	{
 		newElement->next = list->head;
@@ -94,13 +85,11 @@ bool removeValue(List* list, const int value)
 	{
 		return true;
 	}
-	if (pointer->next != NULL) {
+	if (pointer->next != NULL)
+	{
 		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
 		free(oldElement);
-	}
-	else {
-		pointer = NULL;
 	}
 	return false;
 }
