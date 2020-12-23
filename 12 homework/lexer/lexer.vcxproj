@@ -148,6 +148,7 @@
     <ClInclude Include="DFA.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="input.txt" />
     <Text Include="StatesTable.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -21,14 +21,13 @@ bool tests(int** statesTable)
 	bool result = true;
 	result &= check("//*a*//*b*///", "/*a*//*b*/", statesTable);
 	result &= check("//******/", "/******/", statesTable);
-	result &= check("/*////", "", statesTable);
+	result &= check("/*////", "/*////", statesTable);
 	result &= check("/*///*/", "/*///*/", statesTable);
-	result &= check("/////**", "", statesTable);
-	result &= check("/*/", "", statesTable);
+	result &= check("/////**", "/**", statesTable);
+	result &= check("/*/", "/*/", statesTable);
 	result &= check("/**/", "/**/", statesTable);
 	result &= check("*//////*aba/caba/daba*bb*/", "/*aba/caba/daba*bb*/", statesTable);
 	result &= check("/*gfjshgfjshfgs*/dbd/*dgfsjfdhg*/", "/*gfjshgfjshfgs*//*dgfsjfdhg*/", statesTable);
-
 	return result;
 }
 
@@ -77,20 +76,21 @@ int main()
 	}
 	printf("Tests succeed\n");
 
-	printf("Please enter string ");
-	char string[1000] = "";
-	gets_s(string, 1000);
-	char* answer = DFA(statesTable, string);
-	if (answer == NULL || strlen(answer) < 1)
+	FILE* input = fopen("input.txt", "r");
+	if (input == NULL)
 	{
-		printf("No comments found");
+		return 1;
 	}
-	else
+	while (!feof(input))
 	{
-		printf("Comments: %s", answer);
+		char string[1000] = "";
+		fgets(string, 1000, input);
+		char* answer = DFA(statesTable, string);
+		printf("%s\n", answer);
+		free(answer);
 	}
 
+	fclose(input);
 	clearTable(statesTable);
-	free(answer);
 	return 0;
 }
