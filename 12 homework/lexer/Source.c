@@ -2,37 +2,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 const int statesNumber = 5;
 const int symbolsNumber = 3;
 
-/*bool tests()
+bool tests(int** statesTable)
 {
-	FILE* test = fopen("Test.txt", "r");
-	if (test == NULL)
-	{
-		return false;
-	}
-	FILE* answers = fopen("answer.txt", "r");
-	if (answers == NULL)
-	{
-		fclose(test);
-		return false;
-	}
 	bool result = true;
-	while (!feof(test))
-	{
-		char string[1000] = "";
-		int answer = 0;
-		fgets(string, 1000, test);
-		fscanf(answers, "%i", &answer);
-		result &= isRealNumber(string) == answer;
-	}
+	result &= strcmp(DFA(statesTable, "//*a*//*b*///"), "/*a*//*b*/") == 0;
+	result &= strcmp(DFA(statesTable, "//******/"), "/******/") == 0;
+	result &= strcmp(DFA(statesTable, "/*////"), "") == 0;
+	result &= strcmp(DFA(statesTable, "/*///*/"), "/*///*/") == 0;
+	result &= strcmp(DFA(statesTable, "/////**"), "") == 0;
+	result &= strcmp(DFA(statesTable, "/*/"), "") == 0;
+	result &= strcmp(DFA(statesTable, "/**/"), "/**/") == 0;
+	result &= strcmp(DFA(statesTable, "*//////*aba/caba/daba*bb*/"), "/*aba/caba/daba*bb*/") == 0;
+	result &= strcmp(DFA(statesTable, "/*hsfgfjshgfjshfgs*/dbsghd/*jhdfgsjdgfsjfdhg*/"), "/*hsfgfjshgfjshfgs*//*jhdfgsjdgfsjfdhg*/") == 0;
 
-	fclose(test);
-	fclose(answers);
 	return result;
-}*/
+}
 
 int** readTable()
 {
@@ -57,25 +46,28 @@ int** readTable()
 	return statesTable;
 }
 
+void clearTable(int** statesTable)
+{
+	for (int i = 0; i < statesNumber; i++)
+	{
+		free(statesTable[i]);
+		statesTable[i] = NULL;
+	}
+	free(statesTable);
+	statesTable = NULL;
+}
+
 int main()
 {
-	/*if (!tests())
+	int** statesTable = readTable();
+	if (!tests(statesTable))
 	{
+		clearTable(statesTable);
 		printf("Tests failed");
 		return 1;
 	}
 	printf("Tests succeed\n");
 
-	printf("Please enter an expression: ");
-	char string[10000] = "";
-	gets_s(string, 10000);
-	if (isRealNumber(string))
-	{
-		printf("It's a real number\n");
-		return 0;
-	}
-	printf("It's not a real number\n");*/
-	int **statesTable = readTable();
 	printf("Please enter string ");
 	char string[1000] = "";
 	gets_s(string, 1000);
@@ -86,15 +78,9 @@ int main()
 	}
 	else
 	{
-		printf("%s", answer);
+		printf("Comments: %s", answer);
 	}
 
-	for (int i = 0; i < statesNumber; i++)
-	{
-		free(statesTable[i]);
-		statesTable[i] = NULL;
-	}
-	free(statesTable);
-	statesTable = NULL;
+	clearTable(statesTable);
 	return 0;
 }
