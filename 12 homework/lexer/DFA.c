@@ -37,7 +37,10 @@ char* DFA(int** statesTable, char* string)
 		}
 		if (state == 4 && start != -1)
 		{
-			strcat(answer, substr(string, start, current - 1));
+			char* substring = substr(string, start, current - 1);
+			strcat(answer, substring);
+			free(substring);
+			substring = NULL;
 			start = -1;
 		}
 		char token = string[current];

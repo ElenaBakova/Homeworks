@@ -7,18 +7,27 @@
 const int statesNumber = 5;
 const int symbolsNumber = 3;
 
+bool check(char* string, char* answer, int** statesTable)
+{
+	char* resultString = DFA(statesTable, string);
+	bool result = strcmp(resultString, answer) == 0;
+	free(resultString);
+	resultString = NULL;
+	return result;
+}
+
 bool tests(int** statesTable)
 {
 	bool result = true;
-	result &= strcmp(DFA(statesTable, "//*a*//*b*///"), "/*a*//*b*/") == 0;
-	result &= strcmp(DFA(statesTable, "//******/"), "/******/") == 0;
-	result &= strcmp(DFA(statesTable, "/*////"), "") == 0;
-	result &= strcmp(DFA(statesTable, "/*///*/"), "/*///*/") == 0;
-	result &= strcmp(DFA(statesTable, "/////**"), "") == 0;
-	result &= strcmp(DFA(statesTable, "/*/"), "") == 0;
-	result &= strcmp(DFA(statesTable, "/**/"), "/**/") == 0;
-	result &= strcmp(DFA(statesTable, "*//////*aba/caba/daba*bb*/"), "/*aba/caba/daba*bb*/") == 0;
-	result &= strcmp(DFA(statesTable, "/*hsfgfjshgfjshfgs*/dbsghd/*jhdfgsjdgfsjfdhg*/"), "/*hsfgfjshgfjshfgs*//*jhdfgsjdgfsjfdhg*/") == 0;
+	result &= check("//*a*//*b*///", "/*a*//*b*/", statesTable);
+	result &= check("//******/", "/******/", statesTable);
+	result &= check("/*////", "", statesTable);
+	result &= check("/*///*/", "/*///*/", statesTable);
+	result &= check("/////**", "", statesTable);
+	result &= check("/*/", "", statesTable);
+	result &= check("/**/", "/**/", statesTable);
+	result &= check("*//////*aba/caba/daba*bb*/", "/*aba/caba/daba*bb*/", statesTable);
+	result &= check("/*gfjshgfjshfgs*/dbd/*dgfsjfdhg*/", "/*gfjshgfjshfgs*//*dgfsjfdhg*/", statesTable);
 
 	return result;
 }
@@ -82,5 +91,6 @@ int main()
 	}
 
 	clearTable(statesTable);
+	free(answer);
 	return 0;
 }
