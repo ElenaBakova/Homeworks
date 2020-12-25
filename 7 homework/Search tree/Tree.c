@@ -46,6 +46,8 @@ Node* insertNode(Node* root, Node* node)
 	{
 		free(root->value);
 		root->value = copy(node->value);
+		free(node->value);
+		free(node);
 		return root;
 	}
 	if (node->key > root->key)
@@ -69,7 +71,7 @@ Node* insertNode(Node* root, Node* node)
 	return root;
 }
 
-void add(Dictionary* dictionary, int key, char* value)
+void addRecord(Dictionary* dictionary, int key, char* value)
 {
 	if (*dictionary == NULL) 
 	{
@@ -178,4 +180,28 @@ void deleteRecord(Dictionary dictionary, int key)
 		return;
 	}
 	dictionary->root = deleteNode(dictionary->root, key);
+}
+
+Node* freeRecords(Node* root)
+{
+	if (root == NULL)
+	{
+		return root;
+	}
+	root->left = freeRecords(root->left);
+	root->right = freeRecords(root->right);
+	free(root->value);
+	free(root);
+	root = NULL;
+	return root;
+}
+
+void freeDictionary(Dictionary dictionary)
+{
+	if (dictionary == NULL)
+	{
+		return;
+	}
+	dictionary->root = freeRecords(dictionary->root);
+	free(dictionary);
 }

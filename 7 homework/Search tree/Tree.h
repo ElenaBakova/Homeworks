@@ -9,7 +9,7 @@ typedef struct Tree* Dictionary;
 Tree* createDictionary(void);
 
 // Add new record to the dictionary
-void add(Dictionary* dictionary, int key, char* value);
+void addRecord(Dictionary* dictionary, int key, char* value);
 
 // Searches for key in the dictionary. Returns NULL if key wasn't found
 char* findInDictionary(Dictionary dictionary, const int key);
@@ -19,3 +19,6 @@ bool isContained(Dictionary dictionary, const int key);
 
 // Deletes record by key
 void deleteRecord(Dictionary dictionary, int key);
+
+// Deletes whole dictionary
+void freeDictionary(Dictionary dictionary);
