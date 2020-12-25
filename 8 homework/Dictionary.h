@@ -6,7 +6,7 @@ typedef struct Dictionary Dictionary;
 // Create new empty dictionary
 Dictionary* createDictionary(void);
 
-// Recieve key and value. Add them to the dictionary. Can't change key or value after that
+// Recieve key and value. Add them to the dictionary. If it's already exists, changes value
 void addRecord(Dictionary* dictionary, char* key, char* value);
 
 // Returns value that belongs to the key or NULL if key wasn't found

@@ -23,7 +23,8 @@ Dictionary* createDictionary(void)
 
 int getHeight(Node* node)
 {
-	if (node == NULL) {
+	if (node == NULL)
+	{
 		return 0;
 	}
 	return node->height;
@@ -31,19 +32,11 @@ int getHeight(Node* node)
 
 int getBalanceFactor(Node* node)
 {
-	if (node == NULL || node->right == NULL && node->left == NULL)
+	if (node == NULL)
 	{
 		return 0;
 	}
-	if (node->right == NULL && node->left != NULL)
-	{
-		return -node->left->height;
-	}
-	if (node->right != NULL && node->left == NULL)
-	{
-		return node->right->height;
-	}
-	return node->right->height - node->left->height;
+	return getHeight(node->right) - getHeight(node->left);
 }
 
 void recountHeight(Node* node)
@@ -52,23 +45,8 @@ void recountHeight(Node* node)
 	{
 		return;
 	}
-	if (node->right == NULL && node->left == NULL)
-	{
-		node->height = 0;
-	}
-	else if (node->right == NULL && node->left != NULL)
-	{
-		node->height = node->left->height + 1;
-	}
-	else if (node->right != NULL && node->left == NULL)
-	{
-		node->height = node->right->height + 1;
-	}
-	else
-	{
-		int maxSonHeight = (node->right->height > node->left->height ? node->right->height : node->left->height);
-		node->height = maxSonHeight + 1;
-	}
+	int maxSonHeight = (getHeight(node->right) > getHeight(node->left) ? getHeight(node->right) : getHeight(node->left));
+	node->height = maxSonHeight + 1;
 }
 
 Node* rotateRight(Node* node)
@@ -121,7 +99,7 @@ Node* balanceTree(Node* node)
 	return node;
 }
 
-char* assign(char* string)
+char* copy(char* string)
 {
 	char* newString = malloc(strlen(string) + 1);
 	if (newString == NULL)
@@ -134,26 +112,33 @@ char* assign(char* string)
 
 Node* addValue(Node* root, char* key, char* value)
 {
-	if (root == NULL) {
+	if (root == NULL)
+	{
 		root = calloc(1, sizeof(Node));
-		root->value = assign(value);
-		root->key = assign(key);
+		root->value = copy(value);
+		root->key = copy(key);
 		return balanceTree(root);
 	}
 	if (root->key == NULL)
 	{
-		root->value = assign(value);
-		root->key = assign(key);
+		free(root->value);
+		free(root->key);
+		root->value = copy(value);
+		root->key = copy(key);
 		return root;
 	}
-	int cmpRes = strcmp(root->key, key);
-	if (cmpRes == 0) {
-		root->value = assign(value);
+	int comparisonResult = strcmp(root->key, key);
+	if (comparisonResult == 0)
+	{
+		free(root->value);
+		root->value = copy(value);
 	}
-	else if (cmpRes > 0) {
+	else if (comparisonResult > 0)
+	{
 		root->left = addValue(root->left, key, value);
 	}
-	else {
+	else
+	{
 		root->right = addValue(root->right, key, value);
 	}
 	return balanceTree(root);
@@ -163,38 +148,42 @@ void addRecord(Dictionary* dictionary, char* key, char* value)
 {
 	if (dictionary == NULL)
 	{
-		dictionary = createDictionary();
+		return;
 	}
 	dictionary->root = addValue(dictionary->root, key, value);
 }
 
 Node* findNode(Node* root, const char* key)
 {
-	if (root == NULL) {
+	if (root == NULL)
+	{
 		return NULL;
 	}
-	int cmpRes = strcmp(root->key, key);
-	if (cmpRes == 0) {
+	int comparisonResult = strcmp(root->key, key);
+	if (comparisonResult == 0)
+	{
 		return root;
 	}
-	else if (cmpRes > 0) {
+	else if (comparisonResult > 0)
+	{
 		return findNode(root->left, key);
 	}
-	else {
+	else
+	{
 		return findNode(root->right, key);
 	}
-	return NULL;
 }
 
 bool isContained(Dictionary* dictionary, const char* key)
 {
-	return findNode(dictionary->root, key) == NULL ? false : true;
+	return findNode(dictionary->root, key) != NULL;
 }
 
 char* findValueByKey(Dictionary* dictionary, const char* key)
 {
 	Node* node = findNode(dictionary->root, key);
-	if (node == NULL) {
+	if (node == NULL)
+	{
 		return NULL;
 	}
 	return node->value;
@@ -269,18 +258,12 @@ void freeRecord(Node* root)
 	free(root->key);
 	free(root->value);
 	free(root);
-	root = NULL;
 }
 
 void freeNode(Node* root)
 {
 	if (root == NULL)
 	{
-		return;
-	}
-	if (root->left == NULL && root->right == NULL)
-	{
-		freeRecord(root);
 		return;
 	}
 	freeNode(root->left);
@@ -292,5 +275,4 @@ void freeDictionary(Dictionary* dictionary)
 {
 	freeNode(dictionary->root);
 	free(dictionary);
-	dictionary = NULL;
 }
