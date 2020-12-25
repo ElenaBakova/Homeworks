@@ -10,7 +10,7 @@ int main()
 	printf("Commands:\n0 - quit\n1 - add value by key. If key already exists, its value will be replaced\n");
 	printf("2 - get value by key\n3 - check whether key is in dictionary\n4 - delete key and its value from dictionary\n");
 	
-	Tree* root = createTree();
+	Dictionary dictionary = createDictionary();
 	int key = 0;
 	char string[1000];
 	while (true)
@@ -22,7 +22,7 @@ int main()
 		{
 		case 0:
 			printf("Bye");
-			free(root);
+			free(dictionary);
 			return 0;
 		case 1:
 			printf("Enter key: ");
@@ -30,23 +30,29 @@ int main()
 			printf("Enter value: ");
 			gets_s(string, 1000);
 			gets_s(string, 1000);
-			add(&root, key, string);
+			add(&dictionary, key, string);
 			break;
-		//case 2:
-		//	printf("Enter key: ");
-		//	scanf("%i", &key);
-		//	printf("String: %s\n", getValue(root, key));
-		//	break;
-		//case 3:
-		//	printf("Enter key: ");
-		//	scanf("%i", &key);
-		//	//printf("%i%s", key, findKey(root, key) ? "is in the dictionary\n" : "nothing found\n");
-		//	break;
-		//case 4:
-		//	printf("Enter key: ");
-		//	scanf("%i", &key);
-		//	//deleteNode(root, key);
-		//	break;
+		case 2:
+			printf("Enter key: ");
+			scanf("%i", &key);
+			char* foundString = findInDictionary(dictionary, key);
+			if (foundString == NULL)
+			{
+				printf("Nothing was found\n");
+				break;
+			}
+			printf("Value: %s\n", foundString);
+			break;
+		case 3:
+			printf("Enter key: ");
+			scanf("%i", &key);
+			printf("%i %s", key, isContained(dictionary, key) ? "is in the dictionary\n" : "not found\n");
+			break;
+		case 4:
+			printf("Enter key: ");
+			scanf("%i", &key);
+			deleteRecord(dictionary, key);
+			break;
 		default:
 			break;
 		}

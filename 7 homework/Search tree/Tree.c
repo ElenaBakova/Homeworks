@@ -1,5 +1,6 @@
 #include "Tree.h"
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 typedef struct Node {
@@ -13,7 +14,7 @@ typedef struct Tree {
 	struct Node* root;
 } Tree;
 
-Tree* createTree(void)
+Dictionary createDictionary(void)
 {
 	return calloc(1, sizeof(Tree));
 }
@@ -23,7 +24,7 @@ Node* createNode(void)
 	return calloc(1, sizeof(Node));
 }
 
-char* assign(char* string)
+char* copy(char* string)
 {
 	char* newString = malloc(strlen(string) + 1);
 	if (newString == NULL)
@@ -41,14 +42,16 @@ Node* insertNode(Node* root, Node* node)
 		root = node;
 		return root;
 	}
-	if (node->key == root->key) {
+	if (node->key == root->key) 
+	{
 		free(root->value);
-		root->value = assign(node->value);
+		root->value = copy(node->value);
 		return root;
 	}
 	if (node->key > root->key)
 	{
-		if (root->right != NULL) {
+		if (root->right != NULL)
+		{
 			root->right = insertNode(root->right, node);
 			return root;
 		}
@@ -56,7 +59,8 @@ Node* insertNode(Node* root, Node* node)
 	}
 	if (node->key < root->key)
 	{
-		if (root->left != NULL) {
+		if (root->left != NULL)
+		{
 			root->left = insertNode(root->left, node);
 			return root;
 		}
@@ -65,41 +69,113 @@ Node* insertNode(Node* root, Node* node)
 	return root;
 }
 
-void add(Tree** tree, int key, char* value)
+void add(Dictionary* dictionary, int key, char* value)
 {
-	if (*tree == NULL) 
+	if (*dictionary == NULL) 
 	{
 		return;
 	}
 	Node* newNode = createNode();
 	newNode->key = key;
-	newNode->value = assign(value);
-	(*tree)->root = insertNode((*tree)->root, newNode);
+	newNode->value = copy(value);
+	(*dictionary)->root = insertNode((*dictionary)->root, newNode);
 }
 
-//char* getValue(Node* root, const int key)
-//{
-//	if (root == NULL) {
-//		return "Nothing was found\n";
-//	}
-//	if (root->key == key) {
-//		return root->string;
-//	}
-//	if (key > root->key)
-//	{
-//		if (root->right != NULL)
-//		{
-//			return getValue(root->right, key);
-//		}
-//		return "Nothing was found\n";
-//	}
-//	if (key < root->key)
-//	{
-//		if (root->left != NULL)
-//		{
-//			return getValue(root->left, key);
-//		}
-//		return "Nothing was found\n";
-//	}
-//	return "Nothing was found\n";
-//}
+char* getValue(Node* root, const int key)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+	if (root->key == key)
+	{
+		return root->value;
+	}
+	if (key > root->key)
+	{
+		if (root->right != NULL)
+		{
+			return getValue(root->right, key);
+		}
+	}
+	else if (key < root->key)
+	{
+		if (root->left != NULL)
+		{
+			return getValue(root->left, key);
+		}
+	}
+	return NULL;
+}
+
+char* findInDictionary(Dictionary dictionary, const int key)
+{
+	return getValue(dictionary->root, key);
+}
+
+bool isContained(Dictionary dictionary, const int key)
+{
+	return getValue(dictionary->root, key) != NULL;
+}
+
+Node* findMinimum(Node* root)
+{
+	if (root->left == NULL)
+	{
+		return root;
+	}
+	return findMinimum(root->left);
+}
+
+Node* deleteNode(Node* root, int key)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+	if (root->key < key && root->right != NULL)
+	{
+		root->right = deleteNode(root->right, key);
+	}
+	else if (root->key > key && root->left != NULL)
+	{
+		root->left = deleteNode(root->left, key);
+	}
+	else if (root->key == key)
+	{
+		free(root->value);
+		if (root->left != NULL && root->right != NULL)
+		{
+			Node* minimum = findMinimum(root->right);
+			root->key = minimum->key;
+			root->value = copy(minimum->value);
+			root->right = deleteNode(root->right, root->key);
+			return root;
+		}
+		Node* left = root->left;
+		Node* right = root->right;
+		free(root);
+		if (left == NULL && right == NULL)
+		{
+			return NULL;
+		}
+		if (left != NULL && right == NULL)
+		{
+			return left;
+		}
+		if (left == NULL && right != NULL)
+		{
+			return right;
+		}
+	}
+	return root;
+}
+
+void deleteRecord(Dictionary dictionary, int key)
+{
+	if (dictionary == NULL)
+	{
+		return;
+	}
+	dictionary->root = deleteNode(dictionary->root, key);
+}
