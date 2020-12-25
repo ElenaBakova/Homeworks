@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-int* prefixFunction(char* string)
+int* prefixFunction(const char* string)
 {
 	int size = strlen(string);
 	int* prefix = calloc(size, sizeof(int));
