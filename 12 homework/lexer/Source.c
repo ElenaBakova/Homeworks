@@ -4,9 +4,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-const int statesNumber = 5;
-const int symbolsNumber = 3;
-
 bool check(char* string, char* answer, int** statesTable)
 {
 	char* resultString = DFA(statesTable, string);
@@ -31,35 +28,11 @@ bool tests(int** statesTable)
 	return result;
 }
 
-int** readTable()
-{
-	FILE* table = fopen("StatesTable.txt", "r");
-	if (table == NULL)
-	{
-		return NULL;
-	}
-	int** statesTable = calloc(statesNumber, sizeof(int*));
-	for (int i = 0; i < statesNumber; i++)
-	{
-		statesTable[i] = calloc(symbolsNumber, sizeof(int));
-	}
-	for (int i = 0; i < statesNumber; i++)
-	{
-		for (int j = 0; j < symbolsNumber; j++)
-		{
-			fscanf(table, "%i", &statesTable[i][j]);
-		}
-	}
-	fclose(table);
-	return statesTable;
-}
-
 void clearTable(int** statesTable)
 {
 	for (int i = 0; i < statesNumber; i++)
 	{
 		free(statesTable[i]);
-		statesTable[i] = NULL;
 	}
 	free(statesTable);
 	statesTable = NULL;

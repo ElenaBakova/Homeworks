@@ -4,6 +4,45 @@
 #include <string.h>
 #include <stdio.h>
 
+const int statesNumber = 5;
+const int symbolsNumber = 3;
+
+int getIndex(char token)
+{
+	if (token == '*')
+	{
+		return 0;
+	}
+	else if (token == '/')
+	{
+		return 1;
+	}
+	return 2;
+}
+
+int** readTable()
+{
+	FILE* table = fopen("StatesTable.txt", "r");
+	if (table == NULL)
+	{
+		return NULL;
+	}
+	int** statesTable = calloc(statesNumber, sizeof(int*));
+	for (int i = 0; i < statesNumber; i++)
+	{
+		statesTable[i] = calloc(symbolsNumber, sizeof(int));
+	}
+	for (int i = 0; i < statesNumber; i++)
+	{
+		for (int j = 0; j < symbolsNumber; j++)
+		{
+			fscanf(table, "%i", &statesTable[i][j]);
+		}
+	}
+	fclose(table);
+	return statesTable;
+}
+
 char* DFA(int** statesTable, char* string)
 {
 	char* answer = calloc(strlen(string) + 2, sizeof(char));
@@ -29,22 +68,11 @@ char* DFA(int** statesTable, char* string)
 			answer[strlen(answer)] = token;
 			answer[strlen(answer) + 1] = '\0';
 		}
-		if (token == '*')
-		{
-			state = statesTable[state][0];
-		}
-		else if (token == '/')
-		{
-			state = statesTable[state][1];
-		}
-		else if (token == '\0' || token == '\n')
+		if (token == '\0' || token == '\n')
 		{
 			return answer;
 		}
-		else
-		{
-			state = statesTable[state][2];
-		}
+		state = statesTable[state][getIndex(token)];
 		current++;
 	}
 }
