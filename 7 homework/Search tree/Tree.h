@@ -6,7 +6,7 @@ typedef struct Tree Tree;
 typedef struct Tree* Dictionary;
 
 // Creates new empty dictionary
-Tree* createDictionary(void);
+Dictionary createDictionary(void);
 
 // Add new record to the dictionary
 void addRecord(Dictionary* dictionary, int key, char* value);

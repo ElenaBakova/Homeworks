@@ -36,11 +36,15 @@ int main()
 		printf("Tests failed");
 		return 1;
 	}
-	printf("Tests succeed");
+	printf("Tests succeed\n");
 
 	printf("This is dictionary: key - integer, value - string\n");
-	printf("Commands:\n0 - quit\n1 - add value by key. If key already exists, its value will be replaced\n");
-	printf("2 - get value by key\n3 - check whether key is in dictionary\n4 - delete key and its value from dictionary\n");
+	printf("Commands:\n");
+	printf("0 - quit\n");
+	printf("1 - add value by key.If key already exists, its value will be replaced\n");
+	printf("2 - get value by key\n");
+	printf("3 - check whether key is in dictionary\n");
+	printf("4 - delete key and its value from dictionary\n");
 	
 	Dictionary dictionary = createDictionary();
 	int key = 0;
@@ -60,7 +64,7 @@ int main()
 			printf("Enter key: ");
 			scanf("%i", &key);
 			printf("Enter value: ");
-			gets_s(string, 1000);
+			scanf("%*s");
 			gets_s(string, 1000);
 			addRecord(&dictionary, key, string);
 			break;

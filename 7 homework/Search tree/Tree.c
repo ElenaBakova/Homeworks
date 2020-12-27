@@ -39,8 +39,7 @@ Node* insertNode(Node* root, Node* node)
 {
 	if (root == NULL)
 	{
-		root = node;
-		return root;
+		return node;
 	}
 	if (node->key == root->key) 
 	{
