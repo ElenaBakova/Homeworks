@@ -32,14 +32,9 @@ bool isEmpty(List* list)
 	return list->tail == NULL && list->head == NULL;
 }
 
-List* initListItem()
+List* makeList()
 {
-	List* list = calloc(1, sizeof(List));
-	if (list == NULL) 
-	{
-		return NULL;
-	}
-	return list;
+	return calloc(1, sizeof(List));
 }
 
 void addItem(List* list, const int position)
