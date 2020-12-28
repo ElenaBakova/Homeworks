@@ -11,8 +11,15 @@ typedef struct ListElement {
 } ListElement;
 
 typedef struct List {
+	int listSize;
 	ListElement* head;
+	ListElement* tail;
 } List;
+
+int getListSize(List* list)
+{
+	return (list == NULL ? 0 : list->listSize);
+}
 
 Position getFirst(List* list)
 {
@@ -33,16 +40,20 @@ bool isEnd(Position position)
 	return position == NULL;
 }
 
-char* getValue(Position position)
+char* getName(Position position)
 {
 	return position->name;
+}
+
+char* getNumber(Position position)
+{
+	return position->number;
 }
 
 bool isEmpty(List* list)
 {
 	return (list == NULL || list->head == NULL);
 }
-
 
 List* makeList(void)
 {
@@ -66,7 +77,8 @@ void addItem(List* list, char* name, char* number)
 	{
 		return;
 	}
-	ListElement* newElement = malloc(sizeof(ListElement));
+	list->listSize++;
+	ListElement* newElement = calloc(1, sizeof(ListElement));
 	if (newElement == NULL)
 	{
 		return;
@@ -77,10 +89,11 @@ void addItem(List* list, char* name, char* number)
 	{
 		newElement->next = NULL;
 		list->head = newElement;
+		list->tail = newElement;
 		return;
 	}
-	newElement->next = list->head;
-	list->head = newElement;
+	list->tail->next = newElement;
+	list->tail = newElement;
 }
 
 bool removeValue(List* list, const char* name)
@@ -92,10 +105,15 @@ bool removeValue(List* list, const char* name)
 	ListElement* pointer = list->head;
 	if (strcmp(pointer->name, name) == 0)
 	{
+		if (list->head == list->tail)
+		{
+			list->tail = NULL;
+		}
 		list->head = list->head->next;
 		free(pointer->name);
 		free(pointer->number);
 		free(pointer);
+		list->listSize--;
 		return false;
 	}
 	while (pointer->next != NULL && strcmp(pointer->next->name, name) != 0)
@@ -110,10 +128,15 @@ bool removeValue(List* list, const char* name)
 	{
 		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
+		if (pointer->next == NULL)
+		{
+			list->tail = pointer;
+		}
 		free(oldElement->name);
 		free(oldElement->number);
 		free(oldElement);
 	}
+	list->listSize--;
 	return false;
 }
 
@@ -137,7 +160,7 @@ void printList(List *list)
 	ListElement* pointer = list->head;
 	while (pointer != NULL)
 	{
-		printf("%s - %s", pointer->name, pointer->number);
+		printf("%s - %s\n", pointer->name, pointer->number);
 		pointer = pointer->next;
 	}
 }

@@ -7,6 +7,9 @@ typedef struct ListElement* Position;
 
 typedef struct List List;
 
+// Returns list size
+int getListSize(List* list);
+
 // Returns head of the list
 Position getFirst(List* list);
 
@@ -17,7 +20,10 @@ Position nextItem(Position position);
 bool isEnd(Position position);
 
 // Returns name in the position
-char* getValue(Position position);
+char* getName(Position position);
+
+// Returns number in the position
+char* getNumber(Position position);
 
 // Makes a new list
 List* makeList(void);

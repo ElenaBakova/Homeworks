@@ -118,6 +118,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;6031</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,14 +143,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="input.txt" />
+    <Text Include="test.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="List.c" />
+    <ClCompile Include="MergeSort.c" />
     <ClCompile Include="Source.c" />
     <ClCompile Include="TestList.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="TestList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
