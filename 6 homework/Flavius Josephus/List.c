@@ -12,19 +12,23 @@ typedef struct List {
 	ListElement* tail;
 } List;
 
-ListElement* getHead(List* list)
+Position getFirst(List* list)
 {
+	if (list == NULL)
+	{
+		return NULL;
+	}
 	return list->head;
 }
 
-int getThePosition(ListElement *list)
+Position nextItem(Position position)
 {
-	return list->position;
+	return position->next;
 }
 
-ListElement* nextItem(ListElement* list)
+int getPosition(Position position)
 {
-	return list->next;
+	return position->position;
 }
 
 bool isEmpty(List* list)
@@ -45,9 +49,16 @@ void addItem(List* list, const int position)
 		return;
 	}
 	newElement->position = position;
-	newElement->next = list->head;
+	if (isEmpty(list))
+	{
+		list->head = newElement;
+		list->head->next = newElement;
+		list->tail = list->head;
+		return;
+	}
 	list->tail->next = newElement;
 	list->tail = newElement;
+	list->tail->next = list->head;
 }
 
 bool removePosition(List* list, const int position)
@@ -58,6 +69,7 @@ bool removePosition(List* list, const int position)
 	}
 	if (list->head == list->tail)
 	{
+		free(list->head);
 		list->head = NULL;
 		list->tail = NULL;
 		return true;
@@ -65,8 +77,8 @@ bool removePosition(List* list, const int position)
 	ListElement* pointer = list->head;
 	if (pointer->position == position)
 	{
+		list->tail->next = list->head->next;
 		list->head = list->head->next;
-		list->tail->next = list->head;
 		free(pointer);
 		return true;
 	}
@@ -78,9 +90,13 @@ bool removePosition(List* list, const int position)
 	{
 		return false;
 	}
+	ListElement* tail = list->tail;
 	if (pointer->next->next == list->head)
 	{
+		free(tail);
 		list->tail = pointer;
+		list->tail->next = list->head;
+		return true;
 	}
 	ListElement* oldElement = pointer->next;
 	pointer->next = pointer->next->next;

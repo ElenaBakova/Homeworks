@@ -9,28 +9,28 @@ int findLastWarrior(int warriors, int m)
 	{
 		return -1;
 	}
-	List* list = initListItem(1);
-	for (int i = 2; i <= warriors; i++) {
+	List* list = makeList();
+	for (int i = 1; i <= warriors; i++) 
+	{
 		addItem(list, i);
 	}
 
 	int count = 1;
-	Position* current = getHead(list);
+	Position current = getFirst(list);
 	while (warriors > 1)
 	{
+		int position = getPosition(current);
+		current = nextItem(current);
 		if (count % m == 0) 
 		{
-			removePosition(list, getThePosition(current));
+			removePosition(list, position);
 			count = 0;
 			warriors--;
 		}
-		current = nextItem(current);
 		count++;
 	}
-	int answer = getThePosition(current);
+	int answer = getPosition(current);
 	freeList(&list);
-	free(current);
-	current = NULL;
 	return answer;
 }
 
@@ -61,7 +61,8 @@ int main()
 	int m = 0;
 	printf("Please enter number of warriors and m: ");
 	scanf("%i %i", &warriors, &m);
-	if (m < 1 || warriors < 1) {
+	if (m < 1 || warriors < 1)
+	{
 		printf("Invalid input data");
 		return 1;
 	}
