@@ -13,7 +13,7 @@ bool testAddItem(void)
 	bool result = true;
 	for (int i = 1; i < 10; i += 2)
 	{
-		result &= getTheValue(list) == i && getLength(list) == i + 1;
+		result &= getValue(getFirst(list)) == i && getLength(getFirst(list)) == i + 1;
 		removeValue(list, i);
 	}
 	

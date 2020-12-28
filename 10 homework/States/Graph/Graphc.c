@@ -29,7 +29,7 @@ int getTheValue(Graph* graph, int i)
 	{
 		return INT_MAX;
 	}
-	return getValue(graph->list[i]);
+	return getValue(getFirst(graph->list[i]));
 }
 
 int getTheLength(Graph* graph, int i)
@@ -38,7 +38,7 @@ int getTheLength(Graph* graph, int i)
 	{
 		return -INT_MAX;
 	}
-	return getLength(graph->list[i]);
+	return getLength(getFirst(graph->list[i]));
 }
 
 void deleteEdge(Graph* graph, int source, int destination)

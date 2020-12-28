@@ -21,7 +21,7 @@ void mergeLists(List* destination, List* source, int destinationIndex, int sourc
 	removeValue(destination, sourceIndex);
 	addItem(destination, sourceIndex, INT_MAX);
 	removeValue(source, destinationIndex);
-	Position* current = getFirst(source);
+	Position current = getFirst(source);
 	while (!isEmpty(source))
 	{
 		int value = getValue(current);

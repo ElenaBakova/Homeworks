@@ -83,16 +83,15 @@ void addItem(List* list, const int value, const int length)
 	{
 		return;
 	}
-	ListElement* newElement = malloc(sizeof(ListElement));
+	ListElement* newElement = calloc(1, sizeof(ListElement));
 	if (newElement == NULL)
 	{
 		return;
 	}
+	newElement->value = value;
+	newElement->length = length;
 	if (list->head == NULL)
 	{
-		newElement->value = value;
-		newElement->length = length;
-		newElement->next = NULL;
 		list->head = newElement;
 		return;
 	}
@@ -101,8 +100,6 @@ void addItem(List* list, const int value, const int length)
 	{
 		pointer = pointer->next;
 	}
-	newElement->value = value;
-	newElement->length = length;
 	if (pointer == list->head && pointer->length > length)
 	{
 		newElement->next = list->head;
