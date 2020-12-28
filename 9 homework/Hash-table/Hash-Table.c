@@ -35,7 +35,7 @@ int getAverageListLength(HashTable* table)
 	{
 		totalLength += getListLength(table->list[i]);
 	}
-	return totalLength / table->numberOfEntries;
+	return totalLength / table->numberOfBuckets;
 }
 
 void makeListTable(HashTable* table)
@@ -64,7 +64,11 @@ void printHashTable(HashTable* table)
 			continue;
 		}
 		Position pointer = getFirst(table->list[i]);
-		printf("%s - %i\n", getValue(pointer), getFrequency(pointer));
+		while (!isEnd(pointer))
+		{
+			printf("%s - %i\n", getValue(pointer), getFrequency(pointer));
+			pointer = nextItem(pointer);
+		}
 	}
 }
 
@@ -87,12 +91,15 @@ int countHashFunction(char* string, int size)
 	{
 		hashFunction = (hashFunction + string[i]) % size;
 	}
-	return hashFunction;
+	return abs(hashFunction);
 }
 
 void addToTheTable(HashTable* table, char* string)
 {
-	table->numberOfEntries += addItem(table->list[countHashFunction(string, table->numberOfBuckets)], string) ? 1 : 0;
+	if (addItem(table->list[countHashFunction(string, table->numberOfBuckets)], string))
+	{
+		table->numberOfEntries++;
+	}
 }
 
 void deleteHashTable(HashTable** table)
