@@ -10,16 +10,13 @@ int getTheValue(Graph* graph, int i);
 int getTheLength(Graph* graph, int i);
 
 // Returns 'true' if vertex is taken
-bool isUsed(Graph* graph, int index);
+bool isVertexEmpty(Graph* graph, int index);
 
 // Returns number of graph vertices
 int getVertices(Graph* graph);
 
 // Reads graph and states from file
 Graph* readGraph(const char* filename, int* k, int* states);
-
-// Merges source to destination
-void mergeNodes(Graph* graph, int destination, int source);
 
 // Deletes edge between index and value 
 void deleteEdge(Graph* graph, int source, int destination);

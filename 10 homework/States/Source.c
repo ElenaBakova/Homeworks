@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool isState(const int states[], const int index, const int k)
+bool isState(const int states[], const int index, const int countStates)
 {
-	for (int i = 0; i < k; i++)
+	for (int i = 0; i < countStates; i++)
 	{
 		if (states[i] == index)
 		{
@@ -41,9 +41,18 @@ void mergeLists(List* destination, List* source, int destinationIndex, int sourc
 	}
 }
 
-void printAnswer(Graph* graph, int states[], int k)
+void mergeNodes(Graph* graph, int destination, int source)
 {
-	for (int i = 0; i < k; i++)
+	if (graph == NULL)
+	{
+		return;
+	}
+	//mergeLists(graph->list[destination], graph->list[source], destination, source);
+}
+
+void printAnswer(Graph* graph, int states[], int countStates)
+{
+	for (int i = 0; i < countStates; i++)
 	{
 		printf("State: %i\nCities: ", states[i] + 1);
 		int current = getTheValue(graph, states[i]);
@@ -75,7 +84,7 @@ Graph* makeCountries(char* filename, int *countStates, int states[])
 	while (vertices > (*countStates))
 	{
 		int minIndex = getTheValue(graph, currentState);
-		while (isState(states, minIndex, (*countStates)) || isUsed(graph, minIndex))
+		while (isState(states, minIndex, (*countStates)) || isVertexEmpty(graph, minIndex))
 		{
 			deleteEdge(graph, currentState, minIndex);
 			minIndex = getTheValue(graph, currentState);
@@ -98,11 +107,11 @@ bool test()
 	{
 		return false;
 	}
-	int k = 0;
+	int countStates = 0;
 	int states[1000] = { 0 };
-	Graph* graph = makeCountries("test.txt", &k, states);
+	Graph* graph = makeCountries("test.txt", &countStates, states);
 	bool result = true;
-	for (int i = 0; i < k; i++)
+	for (int i = 0; i < countStates; i++)
 	{
 		int current = getTheValue(graph, states[i]);
 		int currentLength = getTheLength(graph, states[i]);

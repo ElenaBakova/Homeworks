@@ -5,8 +5,8 @@
 
 typedef struct Graph
 {
-	List** list;
 	int vertices;
+	List** list;
 } Graph;
 
 int getVertices(Graph *graph)
@@ -14,7 +14,7 @@ int getVertices(Graph *graph)
 	return graph->vertices;
 }
 
-bool isUsed(Graph* graph, int index)
+bool isVertexEmpty(Graph* graph, int index)
 {
 	if (graph == NULL || index > graph->vertices)
 	{
@@ -47,15 +47,6 @@ void deleteEdge(Graph* graph, int source, int destination)
 	removeValue(graph->list[destination], source);
 }
 
-void mergeNodes(Graph* graph, int destination, int source)
-{
-	if (graph == NULL)
-	{
-		return;
-	}
-	mergeLists(graph->list[destination], graph->list[source], destination, source);
-}
-
 Graph* readGraph(const char* filename, int* countStates, int* states)
 {
 	FILE* input = fopen(filename, "r");
@@ -72,7 +63,7 @@ Graph* readGraph(const char* filename, int* countStates, int* states)
 	int nodes = 0;
 	int edges = 0;
 	fscanf(input, "%d %d", &nodes, &edges);
-	newGraph->list = malloc(nodes * sizeof(List*));
+	newGraph->list = calloc(nodes, sizeof(List*));
 	newGraph->vertices = nodes;
 	for (int i = 0; i < nodes; i++)
 	{
@@ -104,7 +95,7 @@ void deleteGraph(Graph** graph)
 {
 	for (int i = 0; i < (*graph)->vertices; i++)
 	{
-		freeList(&(*graph)->list[i]);
+		freeList(&((*graph)->list[i]));
 	}
 	free((*graph)->list);
 	free(*graph);
