@@ -10,6 +10,7 @@ typedef struct ListElement {
 } ListElement;
 
 typedef struct List {
+	int listLength;
 	ListElement* head;
 } List;
 
@@ -32,9 +33,14 @@ bool isEnd(Position position)
 	return position == NULL;
 }
 
-int getValue(Position position)
+char* getValue(Position position)
 {
 	return position->value;
+}
+
+int getFrequency(Position position)
+{
+	return position->frequency;
 }
 
 bool isEmpty(List* list)
@@ -42,9 +48,24 @@ bool isEmpty(List* list)
 	return (list == NULL || list->head == NULL);
 }
 
+int getListLength(List* list)
+{
+	return isEmpty(list) ? 0 : list->listLength;
+}
+
 List* makeList(void)
 {
 	return calloc(1, sizeof(List));
+}
+
+Position findPosition(List* list, char* value)
+{
+	Position pointer = getFirst(list);
+	while (!isEnd(pointer) && strcmp(pointer->value, value) != 0)
+	{
+		pointer = nextItem(pointer);
+	}
+	return pointer;
 }
 
 char* copy(char* string)
@@ -58,27 +79,34 @@ char* copy(char* string)
 	return newString;
 }
 
-void addItem(List* list, const char * value, const int frequency)
+bool addItem(List* list, char * value)
 {
 	if (list == NULL)
 	{
-		return;
+		return false;
 	}
+	Position position = findPosition(list, value);
+	if (position != NULL)
+	{
+		position->frequency++;
+		return false;
+	}
+	list->listLength++;
 	ListElement* newElement = calloc(1, sizeof(ListElement));
 	if (newElement == NULL)
 	{
-		return;
+		return false;
 	}
 	newElement->value = copy(value);
-	newElement->frequency = frequency;
+	newElement->frequency = 1;
 	if (list->head == NULL)
 	{
 		list->head = newElement;
-		return;
+		return true;
 	}
 	newElement->next = list->head->next;
 	list->head->next = newElement;
-	return;
+	return true;
 }
 
 bool removeValue(List* list, char* value)
@@ -91,6 +119,7 @@ bool removeValue(List* list, char* value)
 	if (strcmp(pointer->value, value) == 0)
 	{
 		list->head = list->head->next;
+		free(pointer->value);
 		free(pointer);
 		return false;
 	}
@@ -106,6 +135,7 @@ bool removeValue(List* list, char* value)
 	{
 		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
+		free(oldElement->value);
 		free(oldElement);
 	}
 	return false;

@@ -17,16 +17,25 @@ Position nextItem(Position position);
 bool isEnd(Position position);
 
 // Returns value by position
-int getValue(Position position);
+char* getValue(Position position);
 
-// Makes a new list
+// Returns frequency by position
+int getFrequency(Position position);
+
+// Returns 0 if list is empty, list length otherwise
+int getListLength(List* list);
+
+// Makes a new empty list
 List* makeList(void);
 
-// Add new element into its position
-void addItem(List* list, const char* value, const int frequency);
+// Add new element into its position or increases frequency. Returns 'true' if new item was added in the list
+bool addItem(List* list, char* value);
 
 // Removes elment from the list. Recieves value of the element
 bool removeValue(List* list, char* value);
+
+// Returns 'true' if list is empty
+bool isEmpty(List* list);
 
 // Removes whole list
 void freeList(List** list);

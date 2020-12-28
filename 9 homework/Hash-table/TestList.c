@@ -5,11 +5,13 @@
 bool listTests()
 {
 	List* list = makeList();
-	addItem(list, "4", 4);
-	addItem(list, "10", 10);
-	addItem(list, "3", 3);
-	addItem(list, "1", 1);
-	addItem(list, "13", 13);
+	addItem(list, "4");
+	addItem(list, "4");
+	addItem(list, "4");
+	addItem(list, "10");
+	addItem(list, "3");
+	addItem(list, "1");
+	addItem(list, "13");
 	bool result = !removeValue(list, "4");
 	result &= !removeValue(list, "1");
 	result &= !removeValue(list, "13");
