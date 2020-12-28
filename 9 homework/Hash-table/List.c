@@ -13,59 +13,85 @@ typedef struct List {
 	ListElement* head;
 } List;
 
-int getTheValue(List *list)
+Position getFirst(List* list)
 {
-	return list->head->value;
-}
-
-void nextItem(List* list)
-{
-	list->head = list->head->next;
-}
-
-List* initListItem(char* value)
-{
-	ListElement *listItem = malloc(sizeof(ListElement));
-	if (listItem == NULL)
-	{
-		return NULL;
-	}
-	listItem->value = value;
-	listItem->frequency = 1;
-	listItem->next = NULL;
-	List* list = malloc(sizeof(List));
 	if (list == NULL)
 	{
 		return NULL;
 	}
-	list->head = listItem;
-	return list;
+	return list->head;
+}
+
+Position nextItem(Position position)
+{
+	return position->next;
+}
+
+bool isEnd(Position position)
+{
+	return position == NULL;
+}
+
+int getValue(Position position)
+{
+	return position->value;
+}
+
+bool isEmpty(List* list)
+{
+	return (list == NULL || list->head == NULL);
+}
+
+List* makeList(void)
+{
+	return calloc(1, sizeof(List));
+}
+
+char* copy(char* string)
+{
+	char* newString = malloc(strlen(string) + 1);
+	if (newString == NULL)
+	{
+		return NULL;
+	}
+	strcpy(newString, string);
+	return newString;
 }
 
 void addItem(List* list, const char * value, const int frequency)
 {
-	ListElement* newElement = malloc(sizeof(ListElement));
+	if (list == NULL)
+	{
+		return;
+	}
+	ListElement* newElement = calloc(1, sizeof(ListElement));
 	if (newElement == NULL)
 	{
 		return;
 	}
-	newElement->value = value;
+	newElement->value = copy(value);
 	newElement->frequency = frequency;
+	if (list->head == NULL)
+	{
+		list->head = newElement;
+		return;
+	}
 	newElement->next = list->head->next;
 	list->head->next = newElement;
 	return;
 }
 
-bool removeValue(List* list, const char* value)
+bool removeValue(List* list, char* value)
 {
-	if (list->head == NULL)
+	if (isEmpty(list))
 	{
 		return true;
 	}
 	ListElement* pointer = list->head;
-	if (pointer->value == value)
+	if (strcmp(pointer->value, value) == 0)
 	{
 		list->head = list->head->next;
+		free(pointer);
 		return false;
 	}
 	while (pointer->next != NULL && strcmp(pointer->next->value, value) != 0)
@@ -76,21 +102,13 @@ bool removeValue(List* list, const char* value)
 	{
 		return true;
 	}
-	ListElement* oldElement = pointer;
 	if (pointer->next != NULL)
 	{
+		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
-	}
-	else
-	{
-		pointer = NULL;
+		free(oldElement);
 	}
 	return false;
-}
-
-bool isEmpty(List* list)
-{
-	return list->head == NULL;
 }
 
 void freeList(List** list)
@@ -99,21 +117,6 @@ void freeList(List** list)
 	{
 		removeValue(*list, (*list)->head->value);
 	}
-	*list = NULL;
 	free(*list);
-}
-
-void printList(List *list)
-{
-	List listCopy = *list;
-	if (isEmpty(&listCopy))
-	{
-		printf("List is empty\n");
-		return;
-	}
-	while (!isEmpty(&listCopy))
-	{
-		printf("%i ", listCopy.head->value);
-		listCopy.head = listCopy.head->next;
-	}
+	*list = NULL;
 }

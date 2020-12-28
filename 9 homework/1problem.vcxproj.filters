@@ -24,12 +24,18 @@
     <ClCompile Include="Hash-table\Hash-Table.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Hash-table\TestList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hash-table\List.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Hash-table\Hash-Table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash-table\TestList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

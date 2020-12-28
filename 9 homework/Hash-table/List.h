@@ -1,28 +1,32 @@
 #pragma once
 #include <stdbool.h>
 
+typedef struct ListElement ListElement;
+
+typedef struct ListElement* Position;
+
 typedef struct List List;
 
-// Returns value of the item
-int getTheValue(List *list);
+// Returns element in the head of the list
+Position getFirst(List* list);
 
-// changes pointer to the next item
-void nextItem(List* list);
+// Changes pointer to the next element
+Position nextItem(Position position);
+
+// Returns true if pointer reached end of the list
+bool isEnd(Position position);
+
+// Returns value by position
+int getValue(Position position);
 
 // Makes a new list
-List* initListItem(int value);
+List* makeList(void);
 
 // Add new element into its position
-void addItem(List* list, const int value);
+void addItem(List* list, const char* value, const int frequency);
 
 // Removes elment from the list. Recieves value of the element
-bool removeValue(List* list, const int value);
+bool removeValue(List* list, char* value);
 
-// Returns 'true' if stack is emty
-bool isEmpty(List* list);
-
-// Removes all stack
+// Removes whole list
 void freeList(List** list);
-
-// Prints all list
-void printList(List* list);

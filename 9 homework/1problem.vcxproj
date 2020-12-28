@@ -142,11 +142,13 @@
   <ItemGroup>
     <ClCompile Include="Hash-table\Hash-Table.c" />
     <ClCompile Include="Hash-table\List.c" />
+    <ClCompile Include="Hash-table\TestList.c" />
     <ClCompile Include="Source.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hash-table\Hash-Table.h" />
     <ClInclude Include="Hash-table\List.h" />
+    <ClInclude Include="Hash-table\TestList.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />
