@@ -218,12 +218,12 @@ Node* deleteRecord(Node* root, const char* key)
 	{
 		return NULL;
 	}
-	int cmpRes = strcmp(root->key, key);
-	if (cmpRes == 1)
+	int compareResult = strcmp(root->key, key);
+	if (compareResult == 1)
 	{
 		root->left = deleteRecord(root->left, key);
 	}
-	else if (cmpRes == -1)
+	else if (compareResult == -1)
 	{
 		root->right = deleteRecord(root->right, key);
 	}

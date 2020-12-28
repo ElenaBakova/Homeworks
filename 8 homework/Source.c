@@ -36,9 +36,12 @@ int main()
 	}
 	printf("Tests succeed\n");
 
-
-	printf("Commands\n0: quit\n1: add value by key. If key already in the dictionary, value will be replaced\n");
-	printf("2: get value by key\n3: check whether key is in the dictionary\n4: remove the key and its value\n");
+	printf("Commands\n");
+	printf("0: quit\n");
+	printf("1: add value by key.If key already in the dictionary, value will be replaced\n");
+	printf("2: get value by key\n");
+	printf("3: check whether key is in the dictionary\n");
+	printf("4: remove the key and its value\n");
 	Dictionary* dictionary = createDictionary();
 	while (true)
 	{
