@@ -15,6 +15,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD:6 homework/Merge sort/Merge sort.vcxproj.filters
+    <Text Include="input.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+=======
+>>>>>>> master:1 term/6 homework/Sorted list/Sorted list.vcxproj.filters
     <ClCompile Include="List.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -24,12 +35,18 @@
     <ClCompile Include="TestList.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MergeSort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MergeSort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

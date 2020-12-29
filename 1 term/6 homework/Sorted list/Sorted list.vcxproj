@@ -118,7 +118,11 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <CompileAs>CompileAsC</CompileAs>
+<<<<<<< HEAD:6 homework/Merge sort/Merge sort.vcxproj
+      <DisableSpecificWarnings>4996;6031</DisableSpecificWarnings>
+=======
       <DisableSpecificWarnings>6031; 4996</DisableSpecificWarnings>
+>>>>>>> master:1 term/6 homework/Sorted list/Sorted list.vcxproj
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,12 +146,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD:6 homework/Merge sort/Merge sort.vcxproj
+    <Text Include="input.txt" />
+    <Text Include="test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+=======
+>>>>>>> master:1 term/6 homework/Sorted list/Sorted list.vcxproj
     <ClCompile Include="List.c" />
+    <ClCompile Include="MergeSort.c" />
     <ClCompile Include="Source.c" />
     <ClCompile Include="TestList.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="TestList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -9,8 +9,15 @@ typedef struct ListElement {
 } ListElement;
 
 typedef struct List {
+	int listSize;
 	ListElement* head;
+	ListElement* tail;
 } List;
+
+int getListSize(List* list)
+{
+	return (list == NULL ? 0 : list->listSize);
+}
 
 Position getFirst(List* list)
 {
@@ -31,9 +38,18 @@ bool isEnd(Position position)
 	return position == NULL;
 }
 
+<<<<<<< HEAD:6 homework/Merge sort/List.c
+char* getName(Position position)
+=======
 int getValue(Position position)
+>>>>>>> master:1 term/6 homework/Sorted list/List.c
 {
 	return position->value;
+}
+
+char* getNumber(Position position)
+{
+	return position->number;
 }
 
 bool isEmpty(List* list)
@@ -53,7 +69,8 @@ void addItem(List* list, const int value)
 	{
 		return;
 	}
-	ListElement* newElement = malloc(sizeof(ListElement));
+	list->listSize++;
+	ListElement* newElement = calloc(1, sizeof(ListElement));
 	if (newElement == NULL)
 	{
 		return;
@@ -63,8 +80,13 @@ void addItem(List* list, const int value)
 	{
 		newElement->next = NULL;
 		list->head = newElement;
+		list->tail = newElement;
 		return;
 	}
+<<<<<<< HEAD:6 homework/Merge sort/List.c
+	list->tail->next = newElement;
+	list->tail = newElement;
+=======
 	ListElement* pointer = list->head;
 	while (pointer->next != NULL && pointer->next->value < value)
 	{
@@ -78,6 +100,7 @@ void addItem(List* list, const int value)
 	}
 	newElement->next = pointer->next;
 	pointer->next = newElement;
+>>>>>>> master:1 term/6 homework/Sorted list/List.c
 }
 
 bool removeValue(List* list, const int value)
@@ -89,8 +112,13 @@ bool removeValue(List* list, const int value)
 	ListElement* pointer = list->head;
 	if (pointer->value == value)
 	{
+		if (list->head == list->tail)
+		{
+			list->tail = NULL;
+		}
 		list->head = list->head->next;
 		free(pointer);
+		list->listSize--;
 		return false;
 	}
 	while (pointer->next != NULL && pointer->next->value != value)
@@ -105,8 +133,18 @@ bool removeValue(List* list, const int value)
 	{
 		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
+<<<<<<< HEAD:6 homework/Merge sort/List.c
+		if (pointer->next == NULL)
+		{
+			list->tail = pointer;
+		}
+		free(oldElement->name);
+		free(oldElement->number);
+=======
+>>>>>>> master:1 term/6 homework/Sorted list/List.c
 		free(oldElement);
 	}
+	list->listSize--;
 	return false;
 }
 
@@ -130,7 +168,11 @@ void printList(List *list)
 	ListElement* pointer = list->head;
 	while (pointer != NULL)
 	{
+<<<<<<< HEAD:6 homework/Merge sort/List.c
+		printf("%s - %s\n", pointer->name, pointer->number);
+=======
 		printf("%i ", pointer->value);
+>>>>>>> master:1 term/6 homework/Sorted list/List.c
 		pointer = pointer->next;
 	}
 }
