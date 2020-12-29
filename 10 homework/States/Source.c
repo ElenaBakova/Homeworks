@@ -47,7 +47,7 @@ void mergeNodes(Graph* graph, int destination, int source)
 	{
 		return;
 	}
-	//mergeLists(graph->list[destination], graph->list[source], destination, source);
+	mergeLists(getVertex(graph, destination), getVertex(graph, source), destination, source);
 }
 
 void printAnswer(Graph* graph, int states[], int countStates)
@@ -84,7 +84,7 @@ Graph* makeCountries(char* filename, int *countStates, int states[])
 	while (vertices > (*countStates))
 	{
 		int minIndex = getTheValue(graph, currentState);
-		while (isState(states, minIndex, (*countStates)) || isVertexEmpty(graph, minIndex))
+		while (minIndex != INT_MAX && (isState(states, minIndex, (*countStates)) || isVertexEmpty(graph, minIndex)))
 		{
 			deleteEdge(graph, currentState, minIndex);
 			minIndex = getTheValue(graph, currentState);

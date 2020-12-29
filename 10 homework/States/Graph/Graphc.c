@@ -23,6 +23,15 @@ bool isVertexEmpty(Graph* graph, int index)
 	return isEmpty(graph->list[index]);
 }
 
+List* getVertex(Graph* graph, int index)
+{
+	if (graph == NULL || index > graph->vertices)
+	{
+		return NULL;
+	}
+	return graph->list[index];
+}
+
 int getTheValue(Graph* graph, int i)
 {
 	if (graph == NULL || i > graph->vertices || isEmpty(graph->list[i]))
@@ -43,6 +52,7 @@ int getTheLength(Graph* graph, int i)
 
 void deleteEdge(Graph* graph, int source, int destination)
 {
+	if (source)
 	removeValue(graph->list[source], destination);
 	removeValue(graph->list[destination], source);
 }

@@ -1,10 +1,14 @@
 #pragma once
+#include "List.h"
 #include <stdbool.h>
 
 typedef struct Graph Graph;
 
 // Returns head value of i-th list
 int getTheValue(Graph* graph, int i);
+
+// Returns vertex by index
+List* getVertex(Graph* graph, int index);
 
 // Returns head length of i-th list
 int getTheLength(Graph* graph, int i);
