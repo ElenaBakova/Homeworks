@@ -52,9 +52,14 @@ int getTheLength(Graph* graph, int i)
 
 void deleteEdge(Graph* graph, int source, int destination)
 {
-	if (source)
-	removeValue(graph->list[source], destination);
-	removeValue(graph->list[destination], source);
+	if (source < graph->vertices)
+	{
+		removeValue(graph->list[source], destination);
+	}
+	if (destination < graph->vertices)
+	{
+		removeValue(graph->list[destination], source);
+	}
 }
 
 Graph* readGraph(const char* filename, int* countStates, int* states)

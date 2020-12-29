@@ -13,7 +13,7 @@ List* getVertex(Graph* graph, int index);
 // Returns head length of i-th list
 int getTheLength(Graph* graph, int i);
 
-// Returns 'true' if vertex is taken
+// Returns 'true' if vertex has no neighbours
 bool isVertexEmpty(Graph* graph, int index);
 
 // Returns number of graph vertices
