@@ -1,25 +1,18 @@
 #include "List.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
 typedef struct ListElement {
-	char* name;
-	char* number;
+	char* value;
+	int frequency;
 	struct ListElement* next;
 } ListElement;
 
 typedef struct List {
-	int listSize;
+	int listLength;
 	ListElement* head;
-	ListElement* tail;
 } List;
-
-int getListSize(List* list)
-{
-	return (list == NULL ? 0 : list->listSize);
-}
 
 Position getFirst(List* list)
 {
@@ -40,14 +33,14 @@ bool isEnd(Position position)
 	return position == NULL;
 }
 
-char* getName(Position position)
+char* getValue(Position position)
 {
-	return position->name;
+	return position->value;
 }
 
-char* getNumber(Position position)
+int getFrequency(Position position)
 {
-	return position->number;
+	return position->frequency;
 }
 
 bool isEmpty(List* list)
@@ -55,9 +48,24 @@ bool isEmpty(List* list)
 	return (list == NULL || list->head == NULL);
 }
 
+int getListLength(List* list)
+{
+	return isEmpty(list) ? 0 : list->listLength;
+}
+
 List* makeList(void)
 {
 	return calloc(1, sizeof(List));
+}
+
+Position findPosition(List* list, char* value)
+{
+	Position pointer = getFirst(list);
+	while (!isEnd(pointer) && strcmp(pointer->value, value) != 0)
+	{
+		pointer = nextItem(pointer);
+	}
+	return pointer;
 }
 
 char* copy(char* string)
@@ -71,56 +79,55 @@ char* copy(char* string)
 	return newString;
 }
 
-void addItem(List* list, char* name, char* number)
+bool addItem(List* list, char * value)
 {
 	if (list == NULL)
 	{
-		return;
+		return false;
 	}
-	list->listSize++;
+	Position position = findPosition(list, value);
+	if (position != NULL)
+	{
+		position->frequency++;
+		return false;
+	}
+	list->listLength++;
 	ListElement* newElement = calloc(1, sizeof(ListElement));
 	if (newElement == NULL)
 	{
-		return;
+		return false;
 	}
-	newElement->name = copy(name);
-	newElement->number = copy(number);
+	newElement->value = copy(value);
+	newElement->frequency = 1;
 	if (list->head == NULL)
 	{
-		newElement->next = NULL;
 		list->head = newElement;
-		list->tail = newElement;
-		return;
+		return true;
 	}
-	list->tail->next = newElement;
-	list->tail = newElement;
+	newElement->next = list->head->next;
+	list->head->next = newElement;
+	return true;
 }
 
-bool removeValue(List* list, const char* name)
+bool removeValue(List* list, char* value)
 {
 	if (isEmpty(list))
 	{
 		return true;
 	}
 	ListElement* pointer = list->head;
-	if (strcmp(pointer->name, name) == 0)
+	if (strcmp(pointer->value, value) == 0)
 	{
-		if (list->head == list->tail)
-		{
-			list->tail = NULL;
-		}
 		list->head = list->head->next;
-		free(pointer->name);
-		free(pointer->number);
+		free(pointer->value);
 		free(pointer);
-		list->listSize--;
 		return false;
 	}
-	while (pointer->next != NULL && strcmp(pointer->next->name, name) != 0)
+	while (pointer->next != NULL && strcmp(pointer->next->value, value) != 0)
 	{
 		pointer = pointer->next;
 	}
-	if (pointer->next == NULL && strcmp(pointer->name, name) != 0)
+	if (pointer->next == NULL && strcmp(pointer->value, value) != 0)
 	{
 		return true;
 	}
@@ -128,15 +135,9 @@ bool removeValue(List* list, const char* name)
 	{
 		ListElement* oldElement = pointer->next;
 		pointer->next = pointer->next->next;
-		if (pointer->next == NULL)
-		{
-			list->tail = pointer;
-		}
-		free(oldElement->name);
-		free(oldElement->number);
+		free(oldElement->value);
 		free(oldElement);
 	}
-	list->listSize--;
 	return false;
 }
 
@@ -144,23 +145,8 @@ void freeList(List** list)
 {
 	while (!isEmpty(*list))
 	{
-		removeValue(*list, (*list)->head->name);
+		removeValue(*list, (*list)->head->value);
 	}
 	free(*list);
 	*list = NULL;
-}
-
-void printList(List *list)
-{
-	if (isEmpty(list))
-	{
-		printf("List is empty\n");
-		return;
-	}
-	ListElement* pointer = list->head;
-	while (pointer != NULL)
-	{
-		printf("%s - %s\n", pointer->name, pointer->number);
-		pointer = pointer->next;
-	}
 }
