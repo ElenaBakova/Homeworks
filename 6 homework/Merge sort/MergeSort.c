@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef enum SortingCode {
+	byName, 
+	byNumber
+} SortingCode;
+
 void moveItems(List* source, List* destination,  int length)
 {
 	for (int i = 0; i < length; i++)
@@ -12,23 +17,23 @@ void moveItems(List* source, List* destination,  int length)
 	}
 }
 
-int getCompareResult(Position first, Position second, int code)
+int getCompareResult(Position first, Position second, SortingCode code)
 {
-	if (code == 0)
+	if (code == byName)
 	{
 		return strcmp(getName(first), getName(second));
 	}
 	return strcmp(getNumber(first), getNumber(second));
 }
 
-List* mergeLists(List* leftList, List* rightList, int code)
+List* mergeLists(List* leftList, List* rightList, SortingCode code)
 {
 	List* newList = makeList();
 	Position left = getFirst(leftList);
 	Position right = getFirst(rightList);
 	while (!isEnd(left) && !isEnd(right))
 	{
-		int compareResult = getCompareResult(left, right, code);
+		const int compareResult = getCompareResult(left, right, code);
 		if (compareResult >= 0)
 		{
 			right = nextItem(right);
@@ -47,7 +52,7 @@ List* mergeLists(List* leftList, List* rightList, int code)
 	return newList;
 }
 
-List* sorting(List* list, int code)
+List* sorting(List* list, SortingCode code)
 {
 	int size = getListSize(list);
 	if (size <= 1)

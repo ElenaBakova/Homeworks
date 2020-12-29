@@ -1,4 +1,6 @@
 #pragma once
 
-// Sorts list code: 0 - by name, 1 - by number
-List* sorting(List* list, int code);
+typedef enum SortingCode SortingCode;
+
+// Sorts list 
+List* sorting(List* list, SortingCode code);

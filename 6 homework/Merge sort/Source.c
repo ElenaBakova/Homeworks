@@ -43,7 +43,9 @@ bool tests()
 	list = sorting(list, 0);
 	bool result = checkList(list, 0);
 	list = sorting(list, 1);
-	return result && checkList(list, 1);
+	result &= checkList(list, 1);
+	freeList(&list);
+	return result;
 }
 
 int main()
