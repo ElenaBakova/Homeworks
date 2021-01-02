@@ -78,13 +78,13 @@ Graph* makeCountries(char* filename, int *countStates, int states[])
 	{
 		return graph;
 	}
-	int vertices = getVertices(graph);
+	int vertices = getVerticesCount(graph);
 	int index = 0;
 	int currentState = states[index];
 	while (vertices > (*countStates))
 	{
 		int minIndex = getTheValue(graph, currentState);
-		while (minIndex != INT_MAX && (isState(states, minIndex, (*countStates)) || isVertexEmpty(graph, minIndex)))
+		while (minIndex != INT_MAX && (isState(states, minIndex, (*countStates)) || isVertexIsolated(graph, minIndex)))
 		{
 			deleteEdge(graph, currentState, minIndex);
 			minIndex = getTheValue(graph, currentState);

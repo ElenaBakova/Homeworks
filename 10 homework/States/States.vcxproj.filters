@@ -24,7 +24,7 @@
     <ClCompile Include="Graph\TestList.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graph\Graphc.c">
+    <ClCompile Include="Graph\Graph.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

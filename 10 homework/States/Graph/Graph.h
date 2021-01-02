@@ -7,17 +7,17 @@ typedef struct Graph Graph;
 // Returns head value of i-th list
 int getTheValue(Graph* graph, int i);
 
-// Returns vertex by index
+// Returns vertex list by index
 List* getVertex(Graph* graph, int index);
 
 // Returns head length of i-th list
 int getTheLength(Graph* graph, int i);
 
 // Returns 'true' if vertex has no neighbours
-bool isVertexEmpty(Graph* graph, int index);
+bool isVertexIsolated(Graph* graph, int index);
 
 // Returns number of graph vertices
-int getVertices(Graph* graph);
+int getVerticesCount(Graph* graph);
 
 // Reads graph and states from file
 Graph* readGraph(const char* filename, int* k, int* states);
