@@ -6,25 +6,30 @@ namespace Sorting
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Please enter size of array");
-            int size = int.Parse(Console.ReadLine());
+            if (!Tests.Test())
+            {
+                Console.WriteLine("Tests failed");
+                Environment.Exit(1);
+            }
+            Console.WriteLine("Tests succeed");
+
             Console.WriteLine("Enter array");
             string read = Console.ReadLine();
             string[] numbers = read.Split(' ');
-            int[] array = new int[size];
-            for (int i = 0; i < size; i++)
+            int[] array = new int[numbers.Length];
+            for (int i = 0; i < numbers.Length; i++)
             {
                 array[i] = int.Parse(numbers[i]);
             }
             Sort(array);
             Console.Write("Sorted array: ");
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 Console.Write($"{array[i]} ");
             }
         }
 
-        private static void Sort(int[] array)
+        public static void Sort(int[] array)
         {
             for (int i = 0; i < array.Length - 1; i++)
             {
