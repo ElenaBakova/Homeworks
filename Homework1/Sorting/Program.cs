@@ -16,7 +16,7 @@ namespace Sorting
             Console.WriteLine("Enter array");
             string read = Console.ReadLine();
             string[] numbers = read.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            int[] array = new int[numbers.Length];
+            var array = new int[numbers.Length];
             for (int i = 0; i < numbers.Length; i++)
             {
                 array[i] = int.Parse(numbers[i]);
