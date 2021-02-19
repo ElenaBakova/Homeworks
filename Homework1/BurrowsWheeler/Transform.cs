@@ -54,31 +54,31 @@ namespace BurrowsWheeler
 
         private static SortedDictionary<char, int> GetAlphabet(string inputString)
         {
-            var alphabet = new SortedDictionary<char, int>();
+            var accessory = new SortedDictionary<char, int>();
             for (int i = 0; inputString.Length > 0; )
             {
                 int count = inputString.Where(x => x == inputString[i]).Count();
                 char symbol = inputString[i];
                 inputString = inputString.Replace(inputString[i].ToString(), null);
-                alphabet.Add(symbol, count);
-                
+                accessory.Add(symbol, count);
             }
+            var alphabet = accessory.Keys.ToArray();
             int index = 0;
             int carryover = 0;
-            foreach (char symbol in alphabet.Keys)
+            foreach (char symbol in alphabet)
             {
                 if (index == 0)
                 {
-                    carryover = alphabet[symbol];
-                    alphabet[symbol] = 0;
+                    carryover = accessory[symbol];
+                    accessory[symbol] = 0;
                     index++;
                     continue;
                 }
-                int temp = alphabet[symbol];
-                alphabet[symbol] = carryover;
-                carryover = temp + alphabet[symbol];
+                int temp = accessory[symbol];
+                accessory[symbol] = carryover;
+                carryover = temp + accessory[symbol];
             }
-            return alphabet;
+            return accessory;
         }
 
         private static int[] MakeArray(string inputString)
