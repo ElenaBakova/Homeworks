@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BurrowsWheeler
 {
@@ -49,5 +51,51 @@ namespace BurrowsWheeler
             Tuple<string, int>[] array = SortBySuffix(inputString);
             return GetResultString(array);
         }
-}
+
+        private static SortedDictionary<char, int> GetAlphabet(string inputString)
+        {
+            var alphabet = new SortedDictionary<char, int>();
+            for (int i = 0; inputString.Length > 0; )
+            {
+                int count = inputString.Where(x => x == inputString[i]).Count();
+                char symbol = inputString[i];
+                inputString = inputString.Replace(inputString[i].ToString(), null);
+                alphabet.Add(symbol, count);
+                
+            }
+            int index = 0;
+            int carryover = 0;
+            foreach (char symbol in alphabet.Keys)
+            {
+                if (index == 0)
+                {
+                    carryover = alphabet[symbol];
+                    alphabet[symbol] = 0;
+                    index++;
+                    continue;
+                }
+                int temp = alphabet[symbol];
+                alphabet[symbol] = carryover;
+                carryover = temp + alphabet[symbol];
+            }
+            return alphabet;
+        }
+
+        private static int[] MakeArray(string inputString)
+        {
+            var alphabet = GetAlphabet(inputString);
+            var transitionArray = new int[inputString.Length];
+            for (int i = 0; i < inputString.Length; i++)
+            {
+                transitionArray[i] = alphabet[inputString[i]];
+                alphabet[inputString[i]]++;
+            }
+            return transitionArray;
+        }
+
+        public static void BWTReverseMethod(string inputString, int index)
+        {
+            int[] tansitionArray = MakeArray(inputString);
+        }
+    }
 }
