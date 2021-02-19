@@ -9,7 +9,8 @@ namespace BurrowsWheeler
         {
             Console.WriteLine("Please enter string");
             string inputString = Console.ReadLine();
-            Transform.BWTMethod(inputString);
+            Tuple<string, int> bwtResult = Transform.BWTMethod(inputString);
+            Console.WriteLine("Burrows-Wheeler transformation result: {0}", bwtResult.Item1);
         }
     }
 }
