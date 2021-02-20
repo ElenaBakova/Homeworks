@@ -63,15 +63,15 @@ namespace BurrowsWheeler
                 accessory.Add(symbol, count);
             }
             var alphabet = accessory.Keys.ToArray();
-            int index = 0;
+            bool isFirst = true;
             int carryover = 0;
             foreach (char symbol in alphabet)
             {
-                if (index == 0)
+                if (isFirst)
                 {
                     carryover = accessory[symbol];
                     accessory[symbol] = 0;
-                    index++;
+                    isFirst = false;
                     continue;
                 }
                 int temp = accessory[symbol];
@@ -93,9 +93,16 @@ namespace BurrowsWheeler
             return transitionArray;
         }
 
-        public static void BWTReverseMethod(string inputString, int index)
+        public static string BWTReverseMethod(string inputString, int index)
         {
             int[] tansitionArray = MakeArray(inputString);
+            string reverseBWTString = "";
+            for (int i = 0; i < inputString.Length; i++)
+            {
+                reverseBWTString += inputString[index];
+                index = tansitionArray[index];
+            }
+            return reverseBWTString;
         }
     }
 }
