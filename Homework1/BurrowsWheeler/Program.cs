@@ -6,6 +6,13 @@ namespace BurrowsWheeler
     {
         static void Main(string[] args)
         {
+            if (!Tests.Test())
+            {
+                Console.WriteLine("Tests failed");
+                Environment.Exit(1);
+            }
+            Console.WriteLine("Tests succeed");
+
             Console.WriteLine("Please enter string");
             string inputString = Console.ReadLine();
             var bwtResult = Transform.BWTMethod(inputString);

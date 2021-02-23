@@ -13,8 +13,8 @@ namespace BurrowsWheeler
             {
                 var x = (Tuple<string, int>)first;
                 var y = (Tuple<string, int>)second;
-                string stringFirst = x.Item1.Substring(x.Item1.Length - x.Item2) + x.Item1.Substring(0, x.Item1.Length - x.Item2);
-                string stringSecond = y.Item1.Substring(y.Item1.Length - y.Item2) + y.Item1.Substring(0, y.Item1.Length - y.Item2);
+                string stringFirst = x.Item1.Substring(x.Item2) + x.Item1.Substring(0, x.Item2);
+                string stringSecond = y.Item1.Substring(y.Item2) + y.Item1.Substring(0, y.Item2);
                 return String.Compare(stringFirst, stringSecond);
             }
         }
@@ -40,8 +40,9 @@ namespace BurrowsWheeler
                 if (current == 0)
                 {
                     index = i;
+                    current = array.Length;
                 }
-                resultString += array[i].Item1[current];
+                resultString += array[i].Item1[current - 1];
             }
             return new Tuple<string, int>(resultString, index);
         }
@@ -99,7 +100,7 @@ namespace BurrowsWheeler
             string reverseBWTString = "";
             for (int i = 0; i < inputString.Length; i++)
             {
-                reverseBWTString += inputString[index];
+                reverseBWTString = inputString[index] + reverseBWTString;
                 index = tansitionArray[index];
             }
             return reverseBWTString;
