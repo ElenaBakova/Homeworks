@@ -1,10 +1,15 @@
-﻿interface IStack
+﻿using System;
+
+namespace Calculator
 {
-    void Push(int value);
+    interface IStack
+    {
+        void Push(double value);
 
-    void Pop();
+        double Pop();
 
-    bool IsEmpty();
+        bool IsEmpty();
 
-    void DeleteStack();
+        void DeleteStack();
+    }
 }

@@ -1,26 +1,33 @@
-﻿class StackList : IStack
+﻿namespace Calculator
 {
-    private class StackElement
+    class StackList : IStack
     {
-        public int value;
-        public StackElement next;
-    }
-
-    private StackElement head;
-
-    public void Push(int value)
-        => head = new StackElement() 
+        private class StackElement
         {
-            value = value,
-            next = head 
-        };
+            public double value;
+            public StackElement next;
+        }
 
-    public void Pop()
-        => head = head.next;
+        private StackElement head;
 
-    public bool IsEmpty()
-        => head == null;
+        public void Push(double value)
+            => head = new StackElement()
+            {
+                value = value,
+                next = head
+            };
 
-    public void DeleteStack()
-        => head = null;
+        public double Pop()
+        {
+            double topValue = head.value;
+            head = head.next;
+            return topValue;
+        }
+
+        public bool IsEmpty()
+            => head == null;
+
+        public void DeleteStack()
+            => head = null;
+    }
 }
