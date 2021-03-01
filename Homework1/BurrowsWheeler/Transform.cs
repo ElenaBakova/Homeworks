@@ -5,17 +5,35 @@ using System.Linq;
 
 namespace BurrowsWheeler
 {
-    class Transform
+    static class Transform
     {
         private class MyComparer : IComparer
         {
+            int CompareParts(Tuple<string, int> x, Tuple<string, int> y)
+            {
+                int i = x.Item2;
+                int j = y.Item2;
+                for(int count = 0; count < x.Item1.Length; count++)
+                {
+                    if (x.Item1[i] < y.Item1[j])
+                    {
+                        return -1;
+                    }
+                    if (x.Item1[i] > y.Item1[j])
+                    {
+                        return 1;
+                    }
+                    i = (i + 1 == x.Item1.Length ? 0 : i + 1);
+                    j = (j + 1 == y.Item1.Length ? 0 : j + 1);
+                }
+                return 0;
+            }
+
             int IComparer.Compare(Object first, Object second)
             {
                 var x = (Tuple<string, int>)first;
                 var y = (Tuple<string, int>)second;
-                string stringFirst = x.Item1.Substring(x.Item2) + x.Item1.Substring(0, x.Item2);
-                string stringSecond = y.Item1.Substring(y.Item2) + y.Item1.Substring(0, y.Item2);
-                return String.Compare(stringFirst, stringSecond);
+                return CompareParts(x, y);
             }
         }
 
@@ -56,12 +74,14 @@ namespace BurrowsWheeler
         private static SortedDictionary<char, int> GetAlphabet(string inputString)
         {
             var accessory = new SortedDictionary<char, int>();
-            for (int i = 0; inputString.Length > 0; )
+            for (int i = 0; i < inputString.Length; i++)
             {
                 int count = inputString.Where(x => x == inputString[i]).Count();
                 char symbol = inputString[i];
-                inputString = inputString.Replace(inputString[i].ToString(), null);
-                accessory.Add(symbol, count);
+                if (!accessory.ContainsKey(symbol))
+                {
+                    accessory.Add(symbol, count);
+                }
             }
             var alphabet = accessory.Keys.ToArray();
             bool isFirst = true;
