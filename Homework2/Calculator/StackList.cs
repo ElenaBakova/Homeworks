@@ -1,6 +1,9 @@
 ﻿namespace Calculator
 {
-    class StackList : IStack
+    /// <summary>
+    /// First-in-first-out container based on list
+    /// </summary>
+    public class StackList : IStack
     {
         private class StackElement
         {

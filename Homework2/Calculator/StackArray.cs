@@ -1,6 +1,9 @@
 ﻿namespace Calculator
 {
-    class StackArray : IStack
+    /// <summary>
+    /// First-in-first-out container based on array
+    /// </summary>
+    public class StackArray : IStack
     {
         private double[] stack;
         private int top = -1;
@@ -12,8 +15,8 @@
 
         public void Push(double value)
         {
-            stack[top] = value;
             top++;
+            stack[top] = value;
         }
 
         public double Pop()
@@ -27,6 +30,9 @@
             => top < 0;
 
         public void DeleteStack()
-            => stack = null;
+        {
+            stack = null;
+            top = -1;
+        }
     }
 }
