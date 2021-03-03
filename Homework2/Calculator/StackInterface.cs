@@ -19,10 +19,7 @@ namespace Calculator
         /// <returns>Top value from stack</returns>
         double Pop();
 
-        /// <summary>
-        /// Returns true if stack is empty.
-        /// </summary>
-        bool Empty { get; set; }
+        bool Empty { get; }
 
         /// <summary>
         /// Deletes whole stack

@@ -17,7 +17,7 @@ namespace Calculator.Tests
 
         [TestMethod]
         public void EmptySatckIsEmptyShouldBeTrue()
-            => Assert.IsTrue(StackTest.EmptySatckIsEmptyShouldBeTrue(stack));
+            => Assert.IsTrue(StackTest.EmptyStackIsEmptyShouldBeTrue(stack));
 
         [TestMethod]
         public void PopAfterPushWillReturnLastPushedValue()

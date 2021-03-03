@@ -27,8 +27,8 @@
             return topValue;
         }
 
-        public bool IsEmpty()
-            => head == null;
+        public bool Empty =>
+            head == null;
 
         public void ClearStack()
             => head = null;

@@ -6,28 +6,9 @@ namespace Calculator
 {
     public class Calculator
     {
-        public enum StackVariation
-        {
-            ArrayStack,
-            ListStack
-        }
-
-        public static (double, bool) CountAnExpression(string expression, StackVariation variation)
+        public static (double, bool) CountAnExpression(string expression, IStack stack)
         {
             string[] numbers = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            IStack stack;
-            switch (variation)
-            {
-                case StackVariation.ArrayStack:
-                    stack = new StackArray();
-                    break;
-                case StackVariation.ListStack:
-                    stack = new StackList();
-                    break;
-                default:
-                    return (0, false);
-            }
-
             for (int i = 0; i < numbers.Length; i++)
             {
                 bool isNumber = int.TryParse(numbers[i], out int number);
@@ -37,15 +18,14 @@ namespace Calculator
                 }
                 else
                 {
-                    if (stack.IsEmpty())
+                    if (stack.Empty)
                     {
-                        continue;
+                        return (0, false);
                     }
                     double second = stack.Pop();
-                    if (stack.IsEmpty())
+                    if (stack.Empty)
                     {
-                        stack.Push(second);
-                        continue;
+                        return (0, false);
                     }
                     double first = stack.Pop();
                     switch (numbers[i])
@@ -74,7 +54,7 @@ namespace Calculator
                 }
             }
             double result = stack.Pop();
-            return stack.IsEmpty() ? (result, true) : (0, false);
+            return stack.Empty ? (result, true) : (0, false);
         }
     }
 }
