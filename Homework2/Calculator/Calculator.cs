@@ -75,7 +75,7 @@ namespace Calculator
                 }
             }
             double result = stack.Pop();
-            return stack.IsEmpty() ? (stack.Pop(), true) : (0, false);
+            return stack.IsEmpty() ? (result, true) : (0, false);
         }
     }
 }

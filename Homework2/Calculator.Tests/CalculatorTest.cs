@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Calculator.Tests
@@ -6,21 +6,24 @@ namespace Calculator.Tests
     [TestClass]
     public class CalculatorTest
     {
-        [TestMethod]
-        public void CheckTestsFromFile()
+        private bool Check(string expression, double answer)
         {
-            using (var stream = new StreamReader("Test.txt"))
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    string expression = stream.ReadLine();
-                    string answerString = stream.ReadLine();
-                    double answer = double.Parse(answerString);
-                    var result = Calculator.CountAnExpression(expression, 0);
-                    Assert.AreEqual(result.Item1, answer);
-                    Assert.IsTrue(result.Item2);
-                }
-            }
+            var temp = Calculator.CountAnExpression(expression, 0);
+            bool result = temp.Item2;
+            result &= Math.Abs(temp.Item1 - answer) < 1e-5;
+            return result;
         }
+
+        [TestMethod]
+        public void FirstTest()
+            => Assert.IsTrue(Check("5 3 - 6 * 9 -", 3));
+        
+        [TestMethod]
+        public void SecondTest()
+            => Assert.IsFalse(Check("55 0 /", 0));
+        
+        [TestMethod]
+        public void ThirdTest()
+            => Assert.IsTrue(Check("10 1 + 4 7 - * 5 /", -6.6));
     }
 }
