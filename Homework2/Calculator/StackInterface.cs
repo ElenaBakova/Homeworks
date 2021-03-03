@@ -22,11 +22,11 @@ namespace Calculator
         /// <summary>
         /// Returns true if stack is empty.
         /// </summary>
-        bool IsEmpty();
+        bool Empty { get; set; }
 
         /// <summary>
         /// Deletes whole stack
         /// </summary>
-        void DeleteStack();
+        void ClearStack();
     }
 }

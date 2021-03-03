@@ -17,11 +17,11 @@ namespace Calculator.Tests
         [TestMethod]
         public void FirstTest()
             => Assert.IsTrue(Check("5 3 - 6 * 9 -", 3));
-        
+
         [TestMethod]
         public void SecondTest()
             => Assert.IsFalse(Check("55 0 /", 0));
-        
+
         [TestMethod]
         public void ThirdTest()
             => Assert.IsTrue(Check("10 1 + 4 7 - * 5 /", -6.6));

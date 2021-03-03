@@ -30,7 +30,7 @@
         public bool IsEmpty()
             => head == null;
 
-        public void DeleteStack()
+        public void ClearStack()
             => head = null;
     }
 }

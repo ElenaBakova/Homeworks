@@ -30,8 +30,7 @@ namespace Calculator
 
             for (int i = 0; i < numbers.Length; i++)
             {
-                int number;
-                bool isNumber = int.TryParse(numbers[i], out number);
+                bool isNumber = int.TryParse(numbers[i], out int number);
                 if (isNumber)
                 {
                     stack.Push(number);
@@ -63,13 +62,13 @@ namespace Calculator
                         case "/":
                             if (Math.Abs(second - 0) < 1e-6)
                             {
-                                stack.DeleteStack();
+                                stack.ClearStack();
                                 return (0, false);
                             }
                             stack.Push(first / second);
                             break;
                         default:
-                            stack.DeleteStack();
+                            stack.ClearStack();
                             return (0, false);
                     };
                 }

@@ -1,4 +1,6 @@
-﻿namespace Calculator
+﻿using System;
+
+namespace Calculator
 {
     /// <summary>
     /// First-in-first-out container based on array
@@ -9,9 +11,7 @@
         private int top = -1;
 
         public StackArray()
-        {
-            stack = new double[100];
-        }
+           => stack = new double[100];
 
         public void Push(double value)
         {
@@ -26,12 +26,12 @@
             return topValue;
         }
 
-        public bool IsEmpty()
+        public bool Empty
             => top < 0;
 
-        public void DeleteStack()
+        public void ClearStack()
         {
-            stack = null;
+            Array.Clear(stack, 0, top + 1);
             top = -1;
         }
     }

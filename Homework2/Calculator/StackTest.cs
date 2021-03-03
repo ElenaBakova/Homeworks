@@ -5,12 +5,12 @@ namespace Calculator
         public static bool PushTest(IStack stack)
         {
             stack.Push(1);
-            return !stack.IsEmpty();
+            return !stack.Empty;
         }
 
-        public static bool EmptySatckIsEmptyShouldBeTrue(IStack stack)
+        public static bool EmptyStackIsEmptyShouldBeTrue(IStack stack)
         {
-            return stack.IsEmpty();
+            return stack.Empty;
         }
 
         public static bool PopAfterPushWillReturnLastPushedValue(IStack stack)
