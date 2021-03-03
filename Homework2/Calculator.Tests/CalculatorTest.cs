@@ -8,7 +8,7 @@ namespace Calculator.Tests
     {
         private bool Check(string expression, double answer)
         {
-            var temp = Calculator.CountAnExpression(expression, IStack stack = new StackArray());
+            var temp = Calculator.CountAnExpression(expression, new StackArray());
             bool result = temp.Item2;
             result &= Math.Abs(temp.Item1 - answer) < 1e-5;
             return result;

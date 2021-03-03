@@ -14,9 +14,9 @@ namespace Calculator
         {
             Console.WriteLine("Please enter an expression");
             string read = Console.ReadLine();
-            Console.WriteLine("Please enter a number 1 or 2");
+            Console.WriteLine("Please enter number 0 or 1:\n0 - Array-based stack\n1 - List-based stack");
             var variation = (StackVariation)(Console.Read() % 2);
-            IStack stack = variation == StackVariation.ArrayStack ? new StackArray() : new StackList();
+            IStack stack = variation == StackVariation.ArrayStack ? new StackArray() as IStack : new StackList() as IStack;
             var result = Calculator.CountAnExpression(read, stack);
             if (!result.Item2)
             {

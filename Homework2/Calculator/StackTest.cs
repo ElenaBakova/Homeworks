@@ -1,3 +1,5 @@
+using System;
+
 namespace Calculator
 {
     public class StackTest
@@ -17,7 +19,7 @@ namespace Calculator
         {
             stack.Push(55);
             stack.Push(-1.23);
-            return -1.23 == stack.Pop();
+            return Math.Abs(-1.23 - stack.Pop()) < 1e-5;
         }
 
         public static bool DeletedValueShouldBeRplacedByNew(IStack stack)
@@ -25,7 +27,7 @@ namespace Calculator
             stack.Push(5.2);
             stack.Pop();
             stack.Push(9.633);
-            return 9.633 == stack.Pop();
+            return Math.Abs(9.633 - stack.Pop()) < 1e-5;
         }
     }
 }
