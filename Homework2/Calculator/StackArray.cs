@@ -16,6 +16,10 @@ namespace Calculator
         public void Push(double value)
         {
             top++;
+            if (top == stack.Length)
+            {
+                Array.Resize(ref stack, stack.Length * 2);
+            }
             stack[top] = value;
         }
 

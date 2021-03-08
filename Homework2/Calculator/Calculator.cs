@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Calculator
 {
+    /// <summary>
+    /// Calculator that evaluates expression in postfix notation
+    /// </summary>
     public class Calculator
     {
         public static (double, bool) CountAnExpression(string expression, IStack stack)

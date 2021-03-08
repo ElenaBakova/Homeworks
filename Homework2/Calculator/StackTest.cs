@@ -2,7 +2,7 @@ using System;
 
 namespace Calculator
 {
-    public class StackTest
+    public static class StackTest
     {
         public static bool PushTest(IStack stack)
         {
