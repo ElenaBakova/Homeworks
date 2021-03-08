@@ -25,6 +25,10 @@ namespace Calculator
 
         public double Pop()
         {
+            if (top < 0)
+            {
+                throw new InvalidOperationException();
+            }
             double topValue = stack[top];
             top--;
             return topValue;

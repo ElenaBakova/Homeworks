@@ -1,4 +1,6 @@
-﻿namespace Calculator
+﻿using System;
+
+namespace Calculator
 {
     /// <summary>
     /// First-in-first-out container based on list
@@ -22,6 +24,10 @@
 
         public double Pop()
         {
+            if (head == null)
+            {
+                throw new InvalidOperationException();
+            }
             double topValue = head.value;
             head = head.next;
             return topValue;
