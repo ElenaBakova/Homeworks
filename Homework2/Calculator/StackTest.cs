@@ -2,6 +2,9 @@ using System;
 
 namespace Calculator
 {
+    /// <summary>
+    /// Tests for stack
+    /// </summary>
     public static class StackTest
     {
         public static bool PushTest(IStack stack)

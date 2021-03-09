@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Calculator
 {
@@ -9,6 +7,12 @@ namespace Calculator
     /// </summary>
     public class Calculator
     {
+        /// <summary>
+        /// Counts an expression
+        /// </summary>
+        /// <param name="expression">Expression</param>
+        /// <param name="stack">Stack which is used to count an expression</param>
+        /// <returns>Pair of expression value and boolean. False if there was an error</returns>
         public static (double, bool) CountAnExpression(string expression, IStack stack)
         {
             string[] numbers = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
