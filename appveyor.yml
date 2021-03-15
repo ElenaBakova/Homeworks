@@ -1,7 +1,7 @@
 image: Visual Studio 2019
 
 before_build:
-    -nuget restore Homework2/Calculator/Calculator.sln
+    - nuget restore Homework2/Calculator/Calculator.sln
 
 build:
     project: Homework2/Calculator/Calculator.sln
