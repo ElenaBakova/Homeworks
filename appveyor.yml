@@ -7,4 +7,4 @@ build:
     project: Homework5\Calculator\Calculator.csproj
 
 test_script: 
-    - dotnet test Homework5\Calculator\Calculator.csproj
+    - dotnet test Homework5\Calculator.Tests\Calculator.Tests.csproj
