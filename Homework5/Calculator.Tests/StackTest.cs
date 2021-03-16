@@ -29,7 +29,7 @@ namespace Calculator.Tests
         }
 
         [TestCaseSource(nameof(Stacks))]
-        public void DeletedValueShouldBeRplacedByNew(IStack stack)
+        public void DeletedValueShouldBeReplacedByNew(IStack stack)
         {
             stack.Push(5.2);
             stack.Pop();
@@ -38,10 +38,10 @@ namespace Calculator.Tests
         }
 
         private static IEnumerable<TestCaseData> Stacks
-        => new TestCaseData[]
-        {
-        new TestCaseData(new StackArray()),
-        new TestCaseData(new StackList()),
-        };
+            => new TestCaseData[]
+            {
+                new TestCaseData(new StackArray()),
+                new TestCaseData(new StackList()),
+            };
     }
 }
