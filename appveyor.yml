@@ -1,10 +1,5 @@
 image: Visual Studio 2019
 
-before_build:
-    - nuget restore Homework5\Calculator\Calculator.csproj
-
-build:
-    project: Homework5\Calculator\Calculator.csproj
-
-test_script: 
-    - dotnet test Homework5\Calculator.Tests\Calculator.Tests.csproj
+build_script:
+    - cd Semester2
+    - For /R %%I in (*.sln) do dotnet test %%I
