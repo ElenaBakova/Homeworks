@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BTree
 {
@@ -57,7 +53,7 @@ namespace BTree
             int i = 0;
             for (; i < root.countNodes; i++)
             {
-                int comparingResult = String.Compare(key, root.keys[i]);
+                int comparingResult = string.Compare(key, root.keys[i]);
                 if (comparingResult == -1)
                 {
                     break;
@@ -67,11 +63,7 @@ namespace BTree
                     return root;
                 }
             }
-            if (root.isLeaf)
-            {
-                return null;
-            }
-            return FindValueByKey(root.child[i], key);
+            return root.isLeaf ? null : FindValueByKey(root.child[i], key);
         }
 
         private void SplitNodes(Node first, Node second, int position)
@@ -91,10 +83,35 @@ namespace BTree
                 }
             }
             second.countNodes = treeOrder - 1;
-            for (int i = root.countNodes; i >= position + 1; i--)
+            for (int i = first.countNodes; i >= position + 1; i--)
             {
+                first.child[i + 1] = first.child[i];
+            }
+            first.child[position + 1] = temp;
+            for (int i = first.countNodes - 1; i >= position; i--)
+            {
+                first.keys[i + 1] = first.keys[i];
+            }
+            first.keys[position] = second.keys[treeOrder - 1];
+            first.countNodes++;
+        }
 
+        public void Insert(string key)
+        {
+            Node r = root;
+            if (r.countNodes == 2 * treeOrder - 1)
+            {
+                Node s = new Node(treeOrder);
+                root = s;
+                s.isLeaf = false;
+                s.countNodes = 0;
+                s.child[0] = r;
+                SplitNodes(s, r, 0);
+                insertValue(s, key);
+            }
+            else
+            {
+                insertValue(r, key);
             }
         }
-    }
 }
