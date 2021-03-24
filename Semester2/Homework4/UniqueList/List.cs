@@ -36,7 +36,6 @@
             if (position > listSize || position < 0)
             {
                 return;
-                // throw exeption "OutOfRange smth"
             }
             listSize++;
             if (position == 0)
@@ -60,8 +59,7 @@
         {
             if (position > listSize - 1 || (position < 0 && !Empty))
             {
-                return;
-                // throw exeption "OutOfRange smth"
+                throw new DeletingNonPresentElementException();
             }
             listSize--;
             if (position == 0)
@@ -87,7 +85,6 @@
             if (position > listSize - 1 || position < 0)
             {
                 return;
-                // throw exeption "OutOfRange smth"
             }
             ListElement current = head;
             for (int i = 0; i != position; i++)

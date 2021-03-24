@@ -9,8 +9,7 @@
         {
             if (IsContain(value))
             {
-                return;
-                // throw "This value already exist"
+                throw new AddingExistingValueException("Error: that value already exists");
             }
             base.Add(value, position);
         }
@@ -22,9 +21,9 @@
         {
             if (IsContain(newValue))
             {
-                return;
-                // throw "This value already exist"
+                throw new AddingExistingValueException("Error: that value already exists");
             }
             base.ChangeElement(newValue, position);
         }
+    }
 }
