@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains integer values
     /// </summary>
-    class List
+    public class List
     {
         private class ListElement
         {
@@ -26,6 +26,12 @@
         /// </summary>
         public bool Empty
             => listSize == 0;
+        
+        /// <summary>
+        /// Returns list size
+        /// </summary>
+        public int Size
+            => listSize;
 
         /// <summary>
         /// Adds value into list
@@ -80,7 +86,7 @@
         /// </summary>
         /// <param name="position">position of element</param>
         /// <param name="newValue">new value of the element</param>
-        public virtual void ChangeElement(int position, int newValue)
+        public virtual void ChangeElement(int newValue, int position)
         {
             if (position > listSize - 1 || position < 0)
             {

@@ -1,6 +1,6 @@
 ﻿namespace UniqueList
 {
-    class UniqueList : List
+    public class UniqueList : List
     {
         /// <summary>
         /// Adds value into list
@@ -17,7 +17,7 @@
         /// <summary>
         /// Changes element in position
         /// </summary>
-        public override void ChangeElement(int position, int newValue)
+        public override void ChangeElement(int newValue, int position)
         {
             if (IsContain(newValue))
             {
