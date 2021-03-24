@@ -7,7 +7,7 @@ namespace BTree
     /// </summary>
     class BTree
     {
-        int treeOrder;
+        readonly int treeOrder;
         private Node root;
 
         class Node
@@ -25,7 +25,7 @@ namespace BTree
                 countNodes = 0;
             }
 
-            public int Find(string key)
+            public int FindInNode(string key)
             {
                 for (int i = 0; i < countNodes; i++)
                 {
@@ -98,20 +98,54 @@ namespace BTree
 
         public void Insert(string key)
         {
-            Node r = root;
-            if (r.countNodes == 2 * treeOrder - 1)
+            Node tempRoot = root;
+            if (tempRoot.countNodes == 2 * treeOrder - 1)
             {
-                Node s = new Node(treeOrder);
-                root = s;
-                s.isLeaf = false;
-                s.countNodes = 0;
-                s.child[0] = r;
-                SplitNodes(s, r, 0);
-                insertValue(s, key);
+                Node newNode = new Node(treeOrder);
+                root = newNode;
+                newNode.isLeaf = false;
+                newNode.countNodes = 0;
+                newNode.child[0] = tempRoot;
+                SplitNodes(newNode, tempRoot, 0);
+                insertValue(newNode, key);
             }
             else
             {
-                insertValue(r, key);
+                insertValue(tempRoot, key);
             }
         }
+
+        private void insertValue(Node x, string k)
+        {
+            if (x.isLeaf)
+            {
+                int i = 0;
+                for (i = x.countNodes - 1; i >= 0 && k < x.keys[i]; i--)
+                {
+                    x.keys[i + 1] = x.keys[i];
+                }
+                x.keys[i + 1] = k;
+                x.countNodes = x.countNodes + 1;
+            }
+            else
+            {
+                int i = 0;
+                for (i = x.countNodes - 1; i >= 0 && k < x.keys[i]; i--)
+                {
+                }
+                i++;
+                Node tmp = x.child[i];
+                if (tmp.countNodes == 2 * treeOrder - 1)
+                {
+                    SplitNodes(x, tmp, i);
+                    if (k > x.keys[i])
+                    {
+                        i++;
+                    }
+                }
+                insertValue(x.child[i], k);
+            }
+
+        }
+    }
 }
