@@ -23,15 +23,11 @@ namespace UniqueList
             }
             catch (AddingExistingValueException ex)
             {
-                Console.WriteLine($"{ex.Message}---\n");
+                Console.WriteLine($"{ex.Message}");
             }
             catch (DeletingNonPresentElementException ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Wow");
             }
         }
     }
