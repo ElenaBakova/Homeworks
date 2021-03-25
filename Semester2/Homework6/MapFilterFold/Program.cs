@@ -6,7 +6,7 @@ namespace MapFilterFold
 {
     class Program
     {
-        public List<int> MapFilterFold(List<int> list, [Optional] int value, Func<int, T> function)
+        public List<int> MapFilterFold(List<int> list, [Optional] int value, Func<int, object> function)
         {
             var answerList = new List<int>();
             foreach (var element in list)
@@ -14,9 +14,9 @@ namespace MapFilterFold
                 var functionResult = function(element);
                 if (functionResult is int)
                 {
-                    answerList.Add(functionResult);
+                    answerList.Add((int)functionResult);
                 }
-                if (functionResult is bool && functionResult)
+                if (functionResult is bool && (bool)functionResult)
                 {
                     answerList.Add(element);
                 }
