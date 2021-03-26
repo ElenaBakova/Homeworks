@@ -47,5 +47,12 @@ namespace MapFilterFold.Tests
             var answerList = new List<string>() { "Queue", "List" };
             Assert.IsTrue(CheckEquality(list, answerList));
         }
+        
+        [TestMethod]
+        public void FoldTest()
+        {
+            int answer = MapFilterFold.Fold(new List<int>() { 1, 3, 8, 21, 55 }, 1, (x, y) => x + y);
+            Assert.AreEqual(89, answer);
+        }
     }
 }
