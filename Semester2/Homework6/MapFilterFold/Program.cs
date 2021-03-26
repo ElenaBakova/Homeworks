@@ -1,31 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace MapFilterFold
 {
     class Program
     {
-        public List<int> MapFilterFold(List<int> list, [Optional] int value, Func<int, object> function)
-        {
-            var answerList = new List<int>();
-            foreach (var element in list)
-            {
-                var functionResult = function(element);
-                if (functionResult is int)
-                {
-                    answerList.Add((int)functionResult);
-                }
-                if (functionResult is bool && (bool)functionResult)
-                {
-                    answerList.Add(element);
-                }
-            }
-            return answerList;
-        }
-
         static void Main(string[] args)
         {
+            //var list = MapFilterFold.Map(new List<int>() { 1, 2, 3 }, x => x * 2);
             Console.WriteLine("Hello World!");
         }
     }
