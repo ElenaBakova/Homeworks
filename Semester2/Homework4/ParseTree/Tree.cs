@@ -42,7 +42,7 @@ namespace ParseTree
                 newNode.RightChild = CreateTree(expression, ref current);
                 return newNode;
             }
-            else if (isNumber)
+            if (isNumber)
             {
                 current++;
                 return new Number(value);
