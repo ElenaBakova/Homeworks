@@ -4,9 +4,7 @@ namespace ParseTree
 {
     class Addition : Operation
     {
-        char Operator { get; set; }
-        public Addition()
-            => Operator = '+';
+        public char Operator { get; init; }
 
         public override double Count()
             => LeftChild.Count() + RightChild.Count();

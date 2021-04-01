@@ -4,9 +4,7 @@ namespace ParseTree
 {
     class Subtraction : Operation
     {
-        char Operator { get; set; }
-        public Subtraction()
-            => Operator = '-';
+        public char Operator { get; init; }
 
         public override double Count()
             => LeftChild.Count() - RightChild.Count();

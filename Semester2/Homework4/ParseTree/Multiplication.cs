@@ -4,9 +4,7 @@ namespace ParseTree
 {
     class Multiplication : Operation
     {
-        char Operator { get; set; }
-        public Multiplication()
-            => Operator = '*';
+        public char Operator { get; init; }
 
         public override double Count()
             => LeftChild.Count() * RightChild.Count();

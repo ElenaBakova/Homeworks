@@ -4,9 +4,7 @@ namespace ParseTree
 {
     class Division : Operation
     {
-        char Operator { get; set; }
-        public Division()
-            => Operator = '/';
+        public char Operator { get; init; }
 
         public override double Count()
             => RightChild.Count() == 0 ? throw new DivideByZeroException() : LeftChild.Count() / RightChild.Count();

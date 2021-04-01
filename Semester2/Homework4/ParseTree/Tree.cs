@@ -18,10 +18,10 @@ namespace ParseTree
         private Operation OperatorSwitch(string symbol) =>
             symbol switch
             {
-                "+" => new Addition(),
-                "-" => new Subtraction(),
-                "/" => new Division(),
-                "*" => new Multiplication(),
+                "+" => new Addition() { Operator = '+' },
+                "-" => new Subtraction() { Operator = '-' },
+                "/" => new Division() { Operator = '/' },
+                "*" => new Multiplication() { Operator = '*' },
                 _=> throw new ArgumentException("Invalid expression"),
             };
 
