@@ -2,7 +2,7 @@
 
 namespace ParseTree
 {
-    class Tree : INode
+    public class Tree : INode
     {
         INode root;
 
