@@ -2,9 +2,12 @@
 
 namespace ParseTree
 {
+    /// <summary>
+    /// Class for an operand
+    /// </summary>
     public class Number : INode
     {
-        double value;
+        private double value;
 
         public Number(double newValue)
             => value = newValue;

@@ -2,10 +2,16 @@
 
 namespace ParseTree
 {
+    /// <summary>
+    /// Parse tree for an expression
+    /// </summary>
     public class Tree : INode
     {
-        INode root;
+        private INode root;
 
+        /// <summary>
+        /// Makes parse tree based on given expression
+        /// </summary>
         public void BuildTree(string[] expression)
         {
             int position = 0;
@@ -46,7 +52,7 @@ namespace ParseTree
                 current++;
                 return new Number(value);
             }
-            return null;
+            throw new ArgumentException("Invalid expression");
         }
 
         public void Print()

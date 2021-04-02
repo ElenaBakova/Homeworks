@@ -11,7 +11,7 @@
         void Print();
 
         /// <summary>
-        /// Counts expression
+        /// Counts expression in the current subtree
         /// </summary>
         /// <returns>Counted value</returns>
         double Count();
