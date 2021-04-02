@@ -2,7 +2,7 @@
 
 namespace ParseTree
 {
-    class Tree
+    class Tree : INode
     {
         INode root;
 
@@ -18,10 +18,10 @@ namespace ParseTree
         private Operation OperatorSwitch(string symbol) =>
             symbol switch
             {
-                "+" => new Addition() { Operator = '+' },
-                "-" => new Subtraction() { Operator = '-' },
-                "/" => new Division() { Operator = '/' },
-                "*" => new Multiplication() { Operator = '*' },
+                "+" => new Addition(),
+                "-" => new Subtraction(),
+                "/" => new Division(),
+                "*" => new Multiplication(),
                 _=> throw new ArgumentException("Invalid expression"),
             };
 
@@ -32,8 +32,7 @@ namespace ParseTree
                 return null;
             }
 
-            int value;
-            bool isNumber = int.TryParse(expression[current], out value);
+            bool isNumber = int.TryParse(expression[current], out int value);
             if (!isNumber && IsOperator(expression[current][0]))
             {
                 var newNode = OperatorSwitch(expression[current]);
@@ -49,5 +48,11 @@ namespace ParseTree
             }
             return null;
         }
+
+        public void Print()
+            => root.Print();
+
+        public double Count()
+            => root.Count();
     }
 }

@@ -6,11 +6,11 @@ namespace ParseTree
     {
         double value;
 
-        public Number (double newValue)
+        public Number(double newValue)
             => value = newValue;
-        
+
         public void Print()
-            => Console.WriteLine(value);
+            => Console.Write($"{value} ");
 
         public double Count()
             => value;

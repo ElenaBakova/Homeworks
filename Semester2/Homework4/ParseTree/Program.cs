@@ -6,12 +6,13 @@ namespace ParseTree
     {
         static void Main(string[] args)
         {
-            string readString = "* 2 ( - 0 (- 5 (+ 6 11) ) ) ";
-            char[] separators = new char[] { ' ', '(', ')' };
-            string[] elements = readString.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            var readString = Console.ReadLine();
+            var elements = readString.Split(new char[] { ' ', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
 
-            Tree tree = new Tree();
+            var tree = new Tree();
             tree.BuildTree(elements);
+            tree.Print();
+            Console.Write($"= {tree.Count()}");
         }
     }
 }
