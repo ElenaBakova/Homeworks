@@ -4,14 +4,11 @@ namespace GameTask
 {
     public class Game
     {
-        public void OnLeft()
-        {
-            Console.WriteLine("Going left");
-        }
+        public void OnLeft() 
+            => Console.WriteLine("Going left");
+
         public void OnRight()
-        {
-            Console.WriteLine("Going right");
-        }
+            => Console.WriteLine("Going right");
     }
 
 }
