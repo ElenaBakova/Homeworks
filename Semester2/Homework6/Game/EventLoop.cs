@@ -4,8 +4,10 @@ namespace GameTask
 {
     public class EventLoop
     {
-        public event Action LeftHandler;
-        public event Action RightHandler;
+        public EventHandler<EventArgs> LeftHandler = (sender, args) => { };
+        public EventHandler<EventArgs> RightHandler = (sender, args) => { };
+        public EventHandler<EventArgs> UpHandler = (sender, args) => { };
+        public EventHandler<EventArgs> DownHandler = (sender, args) => { };
         
         public void Run()
         {
@@ -15,12 +17,16 @@ namespace GameTask
                 switch (key.Key)
                 {
                     case ConsoleKey.LeftArrow:
-                        if (LeftHandler != null)
-                            LeftHandler();
+                        LeftHandler(this, EventArgs.Empty);
                         break;
                     case ConsoleKey.RightArrow:
-                        if (RightHandler != null)
-                            RightHandler();
+                        RightHandler(this, EventArgs.Empty);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        UpHandler(this, EventArgs.Empty);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        DownHandler(this, EventArgs.Empty);
                         break;
                 }
             }

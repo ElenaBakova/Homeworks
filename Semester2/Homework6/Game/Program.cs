@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
-using GameTask;
+﻿namespace GameTask
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var eventLoop = new EventLoop();
+            var game = new Game();
 
-var eventLoop = new EventLoop();
-var game = new Game();
-var log = new List<string>();
+            eventLoop.LeftHandler += game.MoveLeft;
+            eventLoop.RightHandler += game.MoveRight;
+            eventLoop.UpHandler += game.MoveUp;
+            eventLoop.DownHandler += game.MoveDown;
 
-eventLoop.LeftHandler += game.OnLeft;
-eventLoop.RightHandler += game.OnRight;
-eventLoop.LeftHandler += () => log.Add("left");
-
-eventLoop.RightHandler += () => log.Add("right");
-
-eventLoop.Run();
-
-eventLoop.LeftHandler -= game.OnLeft;
-eventLoop.RightHandler -= game.OnRight;
+            eventLoop.Run();
+        }
+    }
+}
