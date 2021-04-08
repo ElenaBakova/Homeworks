@@ -27,17 +27,7 @@ namespace MapFilterFold
         /// <param name="function">Recieves element, returns true or false</param>
         /// <returns>New list</returns>
         public static List<T> Filter<T>(List<T> list, Func<T, bool> function)
-        {
-            var answerList = new List<T>();
-            foreach (var element in list)
-            {
-                if (function(element))
-                {
-                    answerList.Add(element);
-                }
-            }
-            return answerList;
-        }
+            => list.FindAll(i => function(i));
         
         /// <summary>
         /// Accumulates result for each element from list
