@@ -20,13 +20,7 @@ namespace Routers
         }
 
         public int FindSet(int vertex)
-        {
-            if (vertex == parent[vertex])
-            {
-                return vertex;
-            }
-            return parent[vertex] = FindSet(parent[vertex]);
-        }
+            => (vertex == parent[vertex]) ? vertex : (parent[vertex] = FindSet(parent[vertex]));
 
         private void Swap(ref int first, ref int second)
         {
