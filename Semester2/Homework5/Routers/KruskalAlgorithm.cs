@@ -6,7 +6,7 @@ namespace Routers
     /// <summary>
     /// Alghorithm which creates minimum spanning tree
     /// </summary>
-    class KruskalAlgorithm
+    public class KruskalAlgorithm
     {
         /// <summary>
         /// Makes minimum spanning tree
@@ -14,8 +14,13 @@ namespace Routers
         /// <param name="edges">List of graph edges</param>
         /// <param name="nodes">List of graph nodes</param>
         /// <returns>Minimum spanning tree</returns>
-        public List<Edge> GetMinimumSpanningTree(IEnumerable<Edge> edges, List<int> nodes)
+        public static List<Edge> GetMinimumSpanningTree(List<Edge> edges, HashSet<int> nodes)
         {
+            if (!Precalculations.CheckConnectivity(nodes.Count, edges))
+            {
+                throw new UnconnectedGraphException();
+            }
+
             var resultList = new List<Edge>();
             var dsu = new DSU();
 
@@ -24,7 +29,8 @@ namespace Routers
                 dsu.MakeSet(node);
             }
 
-            edges = edges.OrderBy(x => x.Weight);
+            edges = edges.OrderBy(x => x.Weight).ToList();
+            // Тут еще точно работает, дальше тёмный лес
             foreach (var currentEdge in edges)
             {
                 int first = currentEdge.Start;
@@ -37,6 +43,7 @@ namespace Routers
                     dsu.UnionSet(first, second);
                 }
             }
+
             return resultList;
         }
     }

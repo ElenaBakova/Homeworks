@@ -10,7 +10,7 @@ namespace Routers
         private Dictionary<int, int> parent;
         private Dictionary<int, int> rank;
 
-        public void Dsu()
+        public DSU()
         {
             parent = new();
             rank = new();
