@@ -30,7 +30,6 @@ namespace Routers
             }
 
             edges = edges.OrderBy(x => x.Weight).ToList();
-            // Тут еще точно работает, дальше тёмный лес
             foreach (var currentEdge in edges)
             {
                 int first = currentEdge.Start;
