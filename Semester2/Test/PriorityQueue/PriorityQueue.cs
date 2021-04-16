@@ -33,6 +33,9 @@
         public bool Empty
             => size == 0;
 
+        /// <summary>
+        /// Returns size of the queue
+        /// </summary>
         public int Size
             => size;
 

@@ -2,9 +2,6 @@ using NUnit.Framework;
 
 namespace PriorityQueue.Tests
 {
-    /// <summary>
-    /// Prior
-    /// </summary>
     public class Tests
     {
         private PriorityQueue<int> queue;
@@ -20,7 +17,7 @@ namespace PriorityQueue.Tests
         {
             Assert.Throws<EmptyQueueException>(() => queue.Dequeue());
         }
-        
+
         [Test]
         public void EnqueueTest()
         {
@@ -43,7 +40,7 @@ namespace PriorityQueue.Tests
             queue.Enqueue(3, 1);
             Assert.AreEqual(1, queue.Size);
         }
-        
+
         [Test]
         public void AfterDequeueSizeShoulBeDecreased()
         {
@@ -52,7 +49,25 @@ namespace PriorityQueue.Tests
             queue.Enqueue(2, 4);
             int oldSize = queue.Size;
             queue.Dequeue();
-            Assert.AreEqual(1, queue.Size - oldSize);
+            Assert.AreEqual(1, oldSize - queue.Size);
+        }
+        
+        [Test]
+        public void ValueTypeStringTest()
+        {
+            PriorityQueue<string> queueTest = new();
+            queueTest.Enqueue("c", 1);
+            queueTest.Enqueue("e", 0);
+            queueTest.Enqueue("b", 4);
+            queueTest.Enqueue("d", 1);
+            queueTest.Enqueue("a", 5);
+            var result = true;
+            string stringAnswer = "abcde";
+            for (int i = 0; i < 5; i++)
+            {
+                result &= Equals(queueTest.Dequeue(), stringAnswer[i].ToString());
+            }
+            Assert.IsTrue(result);
         }
     }
 }
