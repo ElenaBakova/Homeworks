@@ -55,11 +55,11 @@ namespace GameTask
         }
 
         /// <returns>Current left coordinate of character</returns>
-        public int GetLeftCoordinate()
+        public int LeftCoordinate
             => x;
         
         /// <returns>Current top coordinate of character</returns>
-        public int GetTopCoordinate()
+        public int TopCoordinate
             => y;
 
         /// <summary>

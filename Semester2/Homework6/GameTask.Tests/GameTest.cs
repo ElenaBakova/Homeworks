@@ -16,42 +16,42 @@ namespace GameTask.Tests
         [Test]
         public void AfterGoingLeftCoordinateShouldDecrease()
         {
-            var oldLeftCoordinate = game.GetLeftCoordinate();
+            var oldLeftCoordinate = game.LeftCoordinate;
             game.MoveLeft(this, EventArgs.Empty);
-            Assert.AreEqual(1, oldLeftCoordinate - game.GetLeftCoordinate());
+            Assert.AreEqual(1, oldLeftCoordinate - game.LeftCoordinate);
         }
 
         [Test]
         public void AfterGoingRightCoordinateShouldIncrease()
         {
-            var oldLeftCoordinate = game.GetLeftCoordinate();
+            var oldLeftCoordinate = game.LeftCoordinate;
             game.MoveRight(this, EventArgs.Empty);
-            Assert.AreEqual(-1, oldLeftCoordinate - game.GetLeftCoordinate());
+            Assert.AreEqual(-1, oldLeftCoordinate - game.LeftCoordinate);
         }
 
         [Test]
         public void AfterGoingUpCoordinateShouldIncrease()
         {
-            var oldTopCoordinate = game.GetTopCoordinate();
+            var oldTopCoordinate = game.TopCoordinate;
             game.MoveUp(this, EventArgs.Empty);
-            Assert.AreEqual(1, oldTopCoordinate - game.GetTopCoordinate());
+            Assert.AreEqual(1, oldTopCoordinate - game.TopCoordinate);
         }
 
         [Test]
         public void AfterGoingDownCoordinateShouldIncrease()
         {
-            var oldTopCoordinate = game.GetTopCoordinate();
+            var oldTopCoordinate = game.TopCoordinate;
             game.MoveDown(this, EventArgs.Empty);
-            Assert.AreEqual(-1, oldTopCoordinate - game.GetTopCoordinate());
+            Assert.AreEqual(-1, oldTopCoordinate - game.TopCoordinate);
         }
         
         [Test]
         public void GoingToWallCoordinateNotChange()
         {
             game.MoveLeft(this, EventArgs.Empty);
-            var oldLeftCoordinate = game.GetLeftCoordinate();
+            var oldLeftCoordinate = game.LeftCoordinate;
             game.MoveLeft(this, EventArgs.Empty);
-            Assert.AreEqual(oldLeftCoordinate, game.GetLeftCoordinate());
+            Assert.AreEqual(oldLeftCoordinate, game.LeftCoordinate);
         }
     }
 }
