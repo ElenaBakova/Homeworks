@@ -11,7 +11,7 @@ namespace Routers.Tests
         }
 
         [Test]
-        public void Test1()
+        public void UnconnectedGraphTest()
         {
             var edges = new List<Edge>();
             edges.Add(new Edge(1, 2, 10));
