@@ -50,6 +50,14 @@ namespace GameTask
             }
         }
 
+        /// <returns>Current left coordinate of character</returns>
+        public int GetLeftCoordinate()
+            => x;
+        
+        /// <returns>Current top coordinate of character</returns>
+        public int GetTopCoordinate()
+            => y;
+
         /// <summary>
         /// Moves character to the left
         /// </summary>

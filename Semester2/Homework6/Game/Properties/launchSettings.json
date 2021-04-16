@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GameTask": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\..\\Map.txt"
+    }
+  }
+}
