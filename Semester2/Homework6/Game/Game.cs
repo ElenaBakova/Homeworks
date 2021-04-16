@@ -4,6 +4,11 @@ namespace GameTask
 {
     public class Game
     {
+        private int x;
+        private int y;
+
+
+
         public void MoveLeft(object sender, EventArgs args) 
             => Console.WriteLine("Going left");
 

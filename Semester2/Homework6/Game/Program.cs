@@ -1,4 +1,6 @@
-﻿namespace GameTask
+﻿using System;
+
+namespace GameTask
 {
     class Program
     {
