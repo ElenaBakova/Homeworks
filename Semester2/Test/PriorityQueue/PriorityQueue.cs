@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PriorityQueue
+﻿namespace PriorityQueue
 {
     /// <summary>
     /// Priority queue class
@@ -47,7 +41,7 @@ namespace PriorityQueue
         public void Enqueue(TValue value, int priority)
         {
             size++;
-            if (Empty || head.Priority < priority)
+            if (size == 1 || head.Priority < priority)
             {
                 head = new QueueElement<TValue>(value, priority, head);
                 return;
@@ -62,9 +56,20 @@ namespace PriorityQueue
             currentElement.Next = newElement;
         }
 
+        /// <summary>
+        /// Deletes element with highest priority
+        /// </summary>
+        /// <returns>Value of deleted element</returns>
         public TValue Dequeue()
         {
-
+            if (Empty)
+            {
+                throw new EmptyQueueException();
+            }
+            size--;
+            var result = head.Value;
+            head = head.Next;
+            return result;
         }
     }
 }

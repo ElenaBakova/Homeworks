@@ -6,7 +6,13 @@ namespace PriorityQueue
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            PriorityQueue<int> queue = new();
+            queue.Enqueue(5, 1);
+            queue.Enqueue(6, 0);
+            queue.Enqueue(7, 4);
+            queue.Enqueue(1, 1);
+            queue.Enqueue(7, 5);
+            Console.WriteLine(queue.Dequeue());
         }
     }
 }
