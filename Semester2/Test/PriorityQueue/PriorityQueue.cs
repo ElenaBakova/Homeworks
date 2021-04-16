@@ -33,6 +33,9 @@
         public bool Empty
             => size == 0;
 
+        public int Size
+            => size;
+
         /// <summary>
         /// Adds new element to the queue
         /// </summary>
