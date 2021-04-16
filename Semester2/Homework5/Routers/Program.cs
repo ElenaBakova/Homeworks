@@ -12,10 +12,20 @@ namespace Routers
             try
             {
                 var answer = KruskalAlgorithm.GetMinimumSpanningTree(result.Item1, result.Item2);
-                using (FileStream fs = File.Open(args[1], FileMode.Open, FileAccess.Write))
+                using (var writer = new StreamWriter(args[1], false))
                 {
                     answer = answer.OrderBy(x => x.Start).ToList();
-
+                    int start = -1;
+                    foreach (var current in answer)
+                    {
+                        if (start == current.Start)
+                        {
+                            writer.Write($"{current.Finish} ({-current.Weight}) ");
+                            continue;
+                        }
+                        start = current.Start;
+                        writer.Write($"\n{start}: {current.Finish} ({-current.Weight}) ");
+                    }
                 }
             }
             catch (UnconnectedGraphException exception)
