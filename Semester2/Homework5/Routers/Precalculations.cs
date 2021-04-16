@@ -15,6 +15,7 @@ namespace Routers
             {
                 return;
             }
+
             used[vertex] = true;
             for (int i = 0; i < used.Length; i++)
             {
