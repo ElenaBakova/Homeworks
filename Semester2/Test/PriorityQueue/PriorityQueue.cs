@@ -15,20 +15,56 @@ namespace PriorityQueue
         /// <summary>
         /// Priority queue element class 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        private class QueueElement<T>
+        /// <typeparam name="TValue"></typeparam>
+        private class QueueElement<TValue>
         {
-            public QueueElement(T value, int priority, QueueElement<T> next)
+            public QueueElement(TValue value, int priority, QueueElement<TValue> next)
             {
                 Value = value;
                 Priority = priority;
                 Next = next;
             }
 
-            public T Value { get; set; }
+            public TValue Value { get; set; }
             public int Priority { get; set; }
-            public QueueElement<T> Next { get; set; }
+            public QueueElement<TValue> Next { get; set; }
         }
 
+        private int size = 0;
+        private QueueElement<TValue> head;
+
+        /// <summary>
+        /// Returns true is queue is empty 
+        /// </summary>
+        public bool Empty
+            => size == 0;
+
+        /// <summary>
+        /// Adds new element to the queue
+        /// </summary>
+        /// <param name="value">New element value</param>
+        /// <param name="priority">Priority of new element</param>
+        public void Enqueue(TValue value, int priority)
+        {
+            size++;
+            if (Empty || head.Priority < priority)
+            {
+                head = new QueueElement<TValue>(value, priority, head);
+                return;
+            }
+
+            var currentElement = head;
+            while (currentElement.Next != null && currentElement.Next.Priority >= priority)
+            {
+                currentElement = currentElement.Next;
+            }
+            var newElement= new QueueElement<TValue>(value, priority, currentElement.Next);
+            currentElement.Next = newElement;
+        }
+
+        public TValue Dequeue()
+        {
+
+        }
     }
 }
