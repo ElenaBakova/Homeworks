@@ -8,13 +8,17 @@ namespace GameTask
     /// </summary>
     public class Game
     {
-        public Game(string path)
+        public Game(string path, Action<int, int> SetCursor, Action<string> Print)
         {
+            this.SetCursor = SetCursor;
+            this.Print = Print;
             ReadMap(path);
         }
 
         private int x;
         private int y;
+        private Action<int, int> SetCursor;
+        private Action<string> Print;
         private char[,] map;
         private int mapHeight;
 
@@ -31,20 +35,20 @@ namespace GameTask
                     if (gameMap[i][j] == '#')
                     {
                         map[j, i] = '#';
-                        Console.SetCursorPosition(j, i);
-                        Console.Write('#');
+                        SetCursor(j, i);
+                        Print("#");
                     }
                     else if (gameMap[i][j] == '@')
                     {
                         x = j;
                         y = i;
-                        Console.SetCursorPosition(j, i);
-                        Console.Write('@');
+                        SetCursor(j, i);
+                        Print("@");
                     }
                     else
                     {
-                        Console.SetCursorPosition(j, i);
-                        Console.Write(' ');
+                        SetCursor(j, i);
+                        Print(" ");
                     }
                 }
             }
@@ -65,11 +69,11 @@ namespace GameTask
         {
             if (map[x - 1, y] != '#')
             {
-                Console.SetCursorPosition(x, y);
-                Console.Write(' ');
+                SetCursor(x, y);
+                Print(" ");
                 x--;
-                Console.SetCursorPosition(x, y);
-                Console.Write('@');
+                SetCursor(x, y);
+                Print("@");
             }
         }
 
@@ -80,11 +84,11 @@ namespace GameTask
         {
             if (map[x + 1, y] != '#')
             {
-                Console.SetCursorPosition(x, y);
-                Console.Write(' ');
+                SetCursor(x, y);
+                Print(" ");
                 x++;
-                Console.SetCursorPosition(x, y);
-                Console.Write('@');
+                SetCursor(x, y);
+                Print("@");
             }
         }
 
@@ -95,11 +99,11 @@ namespace GameTask
         {
             if (map[x, y - 1] != '#')
             {
-                Console.SetCursorPosition(x, y);
-                Console.Write(' ');
+                SetCursor(x, y);
+                Print(" ");
                 y--;
-                Console.SetCursorPosition(x, y);
-                Console.Write('@');
+                SetCursor(x, y);
+                Print("@");
             }
         }
 
@@ -110,11 +114,11 @@ namespace GameTask
         {
             if (map[x, y + 1] != '#')
             {
-                Console.SetCursorPosition(x, y);
-                Console.Write(' ');
+                SetCursor(x, y);
+                Print(" ");
                 y++;
-                Console.SetCursorPosition(x, y);
-                Console.Write('@');
+                SetCursor(x, y);
+                Print("@");
             }
         }
 
@@ -123,8 +127,8 @@ namespace GameTask
         /// </summary>
         public void EscapeKey(object sender, EventArgs args)
         {
-            Console.SetCursorPosition(0, mapHeight + 1);
-            Console.Write("Bye");
+            SetCursor(0, mapHeight + 1);
+            Print("Bye");
             Environment.Exit(0);
         }
     }
