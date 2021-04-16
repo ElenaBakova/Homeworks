@@ -4,7 +4,7 @@
     /// Priority queue class
     /// </summary>
     /// <typeparam name="TValue">Type of the value</typeparam>
-    class PriorityQueue<TValue>
+    public class PriorityQueue<TValue>
     {
         /// <summary>
         /// Priority queue element class 
