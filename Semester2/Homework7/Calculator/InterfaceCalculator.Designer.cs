@@ -1,7 +1,10 @@
 ﻿
 namespace Calculator
 {
-    partial class Calculator
+    /// <summary>
+    /// Win forms calculator
+    /// </summary>
+    partial class InterfaceCalculator
     {
         /// <summary>
         ///  Required designer variable.
@@ -45,6 +48,8 @@ namespace Calculator
             this.number1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.equalButton = new System.Windows.Forms.Button();
+            this.ClearEntryButton = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +74,7 @@ namespace Calculator
             this.number0.TabIndex = 12;
             this.number0.Text = "0";
             this.number0.UseVisualStyleBackColor = true;
+            this.number0.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // subtractionButton
             // 
@@ -91,6 +97,7 @@ namespace Calculator
             this.number9.TabIndex = 10;
             this.number9.Text = "9";
             this.number9.UseVisualStyleBackColor = true;
+            this.number9.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // number8
             // 
@@ -102,7 +109,7 @@ namespace Calculator
             this.number8.TabIndex = 9;
             this.number8.Text = "8";
             this.number8.UseVisualStyleBackColor = true;
-            this.number8.Click += new System.EventHandler(this.button10_Click);
+            this.number8.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // number7
             // 
@@ -114,6 +121,7 @@ namespace Calculator
             this.number7.TabIndex = 8;
             this.number7.Text = "7";
             this.number7.UseVisualStyleBackColor = true;
+            this.number7.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // multiplicationButton
             // 
@@ -125,6 +133,7 @@ namespace Calculator
             this.multiplicationButton.TabIndex = 7;
             this.multiplicationButton.Text = "*";
             this.multiplicationButton.UseVisualStyleBackColor = true;
+            this.multiplicationButton.Click += new System.EventHandler(this.OperationButtonClick);
             // 
             // number6
             // 
@@ -136,6 +145,7 @@ namespace Calculator
             this.number6.TabIndex = 6;
             this.number6.Text = "6";
             this.number6.UseVisualStyleBackColor = true;
+            this.number6.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // number5
             // 
@@ -147,6 +157,7 @@ namespace Calculator
             this.number5.TabIndex = 5;
             this.number5.Text = "5";
             this.number5.UseVisualStyleBackColor = true;
+            this.number5.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // number4
             // 
@@ -158,6 +169,7 @@ namespace Calculator
             this.number4.TabIndex = 4;
             this.number4.Text = "4";
             this.number4.UseVisualStyleBackColor = true;
+            this.number4.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // divisionButton
             // 
@@ -180,6 +192,7 @@ namespace Calculator
             this.number3.TabIndex = 2;
             this.number3.Text = "3";
             this.number3.UseVisualStyleBackColor = true;
+            this.number3.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // number2
             // 
@@ -191,7 +204,7 @@ namespace Calculator
             this.number2.TabIndex = 1;
             this.number2.Text = "2";
             this.number2.UseVisualStyleBackColor = true;
-            this.number2.Click += new System.EventHandler(this.button2_Click);
+            this.number2.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // number1
             // 
@@ -203,7 +216,7 @@ namespace Calculator
             this.number1.TabIndex = 0;
             this.number1.Text = "1";
             this.number1.UseVisualStyleBackColor = true;
-            this.number1.Click += new System.EventHandler(this.button1_Click);
+            this.number1.Click += new System.EventHandler(this.NumberButtonClick);
             // 
             // tableLayoutPanel1
             // 
@@ -229,6 +242,8 @@ namespace Calculator
             this.tableLayoutPanel1.Controls.Add(this.number0, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.additionButton, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.equalButton, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.ClearEntryButton, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.richTextBox1, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -241,17 +256,41 @@ namespace Calculator
             this.tableLayoutPanel1.Size = new System.Drawing.Size(606, 597);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // button3
+            // equalButton
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.equalButton, 2);
             this.equalButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.equalButton.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.equalButton.Location = new System.Drawing.Point(142, 489);
-            this.equalButton.Name = "button3";
+            this.equalButton.Name = "equalButton";
             this.equalButton.Size = new System.Drawing.Size(272, 105);
             this.equalButton.TabIndex = 16;
             this.equalButton.Text = "=";
             this.equalButton.UseVisualStyleBackColor = true;
+            this.equalButton.Click += new System.EventHandler(this.EqualButtonClick);
+            // 
+            // ClearEntryButton
+            // 
+            this.ClearEntryButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ClearEntryButton.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ClearEntryButton.Location = new System.Drawing.Point(420, 99);
+            this.ClearEntryButton.Name = "ClearEntryButton";
+            this.ClearEntryButton.Size = new System.Drawing.Size(183, 60);
+            this.ClearEntryButton.TabIndex = 17;
+            this.ClearEntryButton.Text = "CE";
+            this.ClearEntryButton.UseVisualStyleBackColor = true;
+            this.ClearEntryButton.Click += new System.EventHandler(this.ClearEntryButtonClick);
+            // 
+            // richTextBox1
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.richTextBox1, 3);
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(411, 156);
+            this.richTextBox1.TabIndex = 18;
+            this.richTextBox1.Text = "";
             // 
             // Calculator
             // 
@@ -287,6 +326,8 @@ namespace Calculator
         private System.Windows.Forms.Button number1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button equalButton;
+        private System.Windows.Forms.Button ClearEntryButton;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
