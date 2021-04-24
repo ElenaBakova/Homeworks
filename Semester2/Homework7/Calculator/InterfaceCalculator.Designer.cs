@@ -63,6 +63,7 @@ namespace Calculator
             this.additionButton.TabIndex = 15;
             this.additionButton.Text = "+";
             this.additionButton.UseVisualStyleBackColor = true;
+            this.additionButton.Click += new System.EventHandler(this.OperationButtonClick);
             // 
             // number0
             // 
@@ -86,6 +87,7 @@ namespace Calculator
             this.subtractionButton.TabIndex = 11;
             this.subtractionButton.Text = "-";
             this.subtractionButton.UseVisualStyleBackColor = true;
+            this.subtractionButton.Click += new System.EventHandler(this.OperationButtonClick);
             // 
             // number9
             // 
@@ -181,6 +183,7 @@ namespace Calculator
             this.divisionButton.TabIndex = 3;
             this.divisionButton.Text = "/";
             this.divisionButton.UseVisualStyleBackColor = true;
+            this.divisionButton.Click += new System.EventHandler(this.OperationButtonClick);
             // 
             // number3
             // 
@@ -292,7 +295,7 @@ namespace Calculator
             this.richTextBox1.TabIndex = 18;
             this.richTextBox1.Text = "";
             // 
-            // Calculator
+            // InterfaceCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -300,7 +303,7 @@ namespace Calculator
             this.ClientSize = new System.Drawing.Size(606, 597);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(230, 495);
-            this.Name = "Calculator";
+            this.Name = "InterfaceCalculator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Calculator";
             this.tableLayoutPanel1.ResumeLayout(false);

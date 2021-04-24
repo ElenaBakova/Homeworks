@@ -13,12 +13,15 @@ namespace Calculator
             InitializeComponent();
         }
 
+        CalculatingClass calculator = new();
+
         /// <summary>
         /// Number button click handler 
         /// </summary>
         private void NumberButtonClick(object sender, EventArgs e)
         {
             richTextBox1.Text += (sender as Button).Text;
+            calculator.NewNumber((sender as Button).Text);
         }
 
         /// <summary>
@@ -30,11 +33,12 @@ namespace Calculator
         }
 
         /// <summary>
-        /// Operation button click handler 
+        /// Operation button click handler
         /// </summary>
         private void OperationButtonClick(object sender, EventArgs e)
         {
             richTextBox1.Text += $" {(sender as Button).Text} ";
+            calculator.NewOperation((sender as Button).Text);
         }
 
         /// <summary>
