@@ -19,7 +19,7 @@
         }
 
         private ListElement head;
-        int listSize;
+        private int listSize;
 
         /// <summary>
         /// Returns true if list is empty.
@@ -103,7 +103,7 @@
         /// <summary>
         /// Checks whether value is in the list
         /// </summary>
-        /// <returns>True if value is present</returns>
+        /// <returns>True if list contains value</returns>
         public bool IsContain(int value)
         {
             ListElement current = head;

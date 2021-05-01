@@ -5,7 +5,7 @@ namespace UniqueList.Tests
     [TestClass]
     public class ListTest
     {
-        List list;
+        private List list;
 
         [TestInitialize]
         public void Init()

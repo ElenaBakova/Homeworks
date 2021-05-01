@@ -8,7 +8,7 @@ namespace UniqueList
         {
             try
             {
-                UniqueList list = new UniqueList();
+                UniqueList list = new();
                 list.Add(5, 0);
                 list.Add(4, 1);
                 list.Add(6, 0);
