@@ -7,7 +7,7 @@ namespace PriorityQueue
     /// Throws in attempt to delete from empty queue
     /// </summary>
     [Serializable]
-    public class EmptyQueueException : Exception
+    public class EmptyQueueException : InvalidOperationException
     {
         public EmptyQueueException()
         {
@@ -15,21 +15,21 @@ namespace PriorityQueue
         }
 
         public EmptyQueueException(string message) 
-            : base(message)
-            {
+        : base(message)
+        {
                 
-            }
+        }
 
         public EmptyQueueException(string message, Exception inner) 
-            : base(message, inner)
-            {
+        : base(message, inner)
+        {
         
-            }
+        }
 
         protected EmptyQueueException(SerializationInfo info, StreamingContext context) 
-            : base(info, context)
-            {
+        : base(info, context)
+        {
         
-            }
+        }
     }
 }

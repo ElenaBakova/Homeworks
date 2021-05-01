@@ -9,23 +9,22 @@
         /// <summary>
         /// Priority queue element class 
         /// </summary>
-        /// <typeparam name="TValue"></typeparam>
-        private class QueueElement<TValue>
+        private class QueueElement
         {
-            public QueueElement(TValue value, int priority, QueueElement<TValue> next)
+            public QueueElement(TValue value, int priority, QueueElement next)
             {
                 Value = value;
                 Priority = priority;
                 Next = next;
             }
 
-            public TValue Value { get; set; }
-            public int Priority { get; set; }
-            public QueueElement<TValue> Next { get; set; }
+            public TValue Value { get; }
+            public int Priority { get; }
+            public QueueElement Next { get; set; }
         }
 
         private int size = 0;
-        private QueueElement<TValue> head;
+        private QueueElement head;
 
         /// <summary>
         /// Returns true is queue is empty 
@@ -49,7 +48,7 @@
             size++;
             if (size == 1 || head.Priority < priority)
             {
-                head = new QueueElement<TValue>(value, priority, head);
+                head = new QueueElement(value, priority, head);
                 return;
             }
 
@@ -58,7 +57,7 @@
             {
                 currentElement = currentElement.Next;
             }
-            var newElement= new QueueElement<TValue>(value, priority, currentElement.Next);
+            var newElement = new QueueElement(value, priority, currentElement.Next);
             currentElement.Next = newElement;
         }
 
