@@ -34,7 +34,7 @@ namespace MapFilterFold
         /// </summary>
         /// <param name="value">starting value</param>
         /// <returns>Accumulated result</returns>
-        public static T Fold<T>(List<T> list, T value, Func<T, T, T> function)
+        public static U Fold<T, U>(List<T> list, U value, Func<U, T, U> function)
         {
             foreach (var element in list)
             {

@@ -66,5 +66,12 @@ namespace MapFilterFold.Tests
             int answer = MapFilterFold.Fold(new List<int>() { 1, 3, 8, 21, 55 }, 1, (x, y) => x + y);
             Assert.AreEqual(89, answer);
         }
+        
+        [TestMethod]
+        public void FoldAnotherTest()
+        {
+            var answer = MapFilterFold.Fold(new List<int>() { 1, 2, 3 }, "", (x, y) => string.Concat(x, y.ToString()));
+            Assert.AreEqual("123", answer);
+        }
     }
 }
