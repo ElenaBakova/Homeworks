@@ -8,6 +8,10 @@ namespace MapFilterFold.Tests
     {
         private bool CheckEquality<T>(List<T> first, List<T> second)
         {
+            if (first.Count != second.Count)
+            {
+                return false;
+            }
             bool result = true;
             for (int i = 0; i < first.Count; i++)
             {
@@ -21,6 +25,14 @@ namespace MapFilterFold.Tests
         {
             var list = MapFilterFold.Map(new List<int>() { 1, 2, 3 }, x => x * 2);
             var answerList = new List<int>() { 2, 4, 6 };
+            Assert.IsTrue(CheckEquality(list, answerList));
+        }
+        
+        [TestMethod]
+        public void MapDifferentTypesTest()
+        {
+            var list = MapFilterFold.Map(new List<int>() { 1, 2, 3 }, x => x.ToString());
+            var answerList = new List<string>() { "1", "2", "3" };
             Assert.IsTrue(CheckEquality(list, answerList));
         }
         

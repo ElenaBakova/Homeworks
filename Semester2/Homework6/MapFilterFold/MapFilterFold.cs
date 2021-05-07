@@ -11,9 +11,9 @@ namespace MapFilterFold
         /// <typeparam name="T">type of the elements</typeparam>
         /// <param name="function">function that changes element in list</param>
         /// <returns>New list</returns>
-        public static List<T> Map<T>(List<T> list, Func<T, T> function)
+        public static List<U> Map<T, U>(List<T> list, Func<T, U> function)
         {
-            var answerList = new List<T>();
+            var answerList = new List<U>();
             foreach (var element in list)
             {
                 answerList.Add(function(element));
