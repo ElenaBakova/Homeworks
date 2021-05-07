@@ -8,12 +8,6 @@ namespace ParseTree.Tests
     /// </summary>
     public class Tests
     {
-        /*[SetUp]
-        public void Setup()
-        {
-            var tree = new Tree("");
-        }*/
-
         private double CountAnExpression(string expression)
         {
             var tree = new Tree(expression);
