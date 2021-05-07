@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace ParseTree
 {
@@ -6,10 +7,12 @@ namespace ParseTree
     {
         static void Main(string[] args)
         {
-            var readString = Console.ReadLine();
-            var elements = readString.Split(new char[] { ' ', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-            var tree = new Tree();
-            tree.BuildTree(elements);
+            string readString;
+            using (var reader = new StreamReader("../../../input.txt"))
+            {
+                readString = reader.ReadLine();
+            }
+            var tree = new Tree(readString);
             tree.Print();
             Console.Write($"= {tree.Count()}");
         }

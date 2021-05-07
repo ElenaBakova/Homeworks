@@ -2,6 +2,9 @@
 
 namespace ParseTree
 {
+    /// <summary>
+    /// Class for a multiplication operation
+    /// </summary>
     class Multiplication : Operation
     {
         public override double Count()

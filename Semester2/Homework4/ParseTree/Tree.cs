@@ -12,10 +12,11 @@ namespace ParseTree
         /// <summary>
         /// Makes parse tree based on given expression
         /// </summary>
-        public void BuildTree(string[] expression)
+        public Tree(string expression)
         {
+            var elements = expression.Split(new char[] { ' ', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
             int position = 0;
-            root = CreateTree(expression, ref position);
+            root = CreateTree(elements, ref position);
         }
 
         private bool IsOperator(char symbol)

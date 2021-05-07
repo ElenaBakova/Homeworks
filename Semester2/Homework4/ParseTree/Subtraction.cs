@@ -2,6 +2,9 @@
 
 namespace ParseTree
 {
+    /// <summary>
+    /// Subtraction between left and right subtree
+    /// </summary>
     class Subtraction : Operation
     {
         public override double Count()

@@ -8,17 +8,15 @@ namespace ParseTree.Tests
     /// </summary>
     public class Tests
     {
-        [SetUp]
+        /*[SetUp]
         public void Setup()
         {
-            var tree = new Tree();
-        }
+            var tree = new Tree("");
+        }*/
 
         private double CountAnExpression(string expression)
         {
-            var elements = expression.Split(new char[] { ' ', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-            var tree = new Tree();
-            tree.BuildTree(elements);
+            var tree = new Tree(expression);
             return tree.Count();
         }
 
