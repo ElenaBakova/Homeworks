@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Calculator
 {
-
     [Serializable]
     public class MissingOperandException : ArgumentException
     {
