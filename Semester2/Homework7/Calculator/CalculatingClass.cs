@@ -1,4 +1,6 @@
-﻿namespace Calculator
+﻿using System;
+
+namespace Calculator
 {
     /// <summary>
     /// Calculator class
@@ -15,19 +17,51 @@
 
         private int currentValue = 0;
         private Expression state = Expression.Empty;
-        private double[] numbers = new double[2]{ 0, 0 };
-        private char operation;
+        private double[] numbers = new double[2];
+       // private char operation;
 
         public int Value { get => currentValue; }
 
+        /// <summary>
+        /// Clears currentValue, both numbers and state
+        /// </summary>
         public void ClearEntry()
         {
-            currentValue = 0;
+            //currentValue = 0;
             state = Expression.Empty;
             numbers[0] = 0;
             numbers[1] = 0;
         }
 
+        private void CountExpression(char operationSign)
+        {
+            switch (operationSign)
+            {
+                case '+':
+                    numbers[0] += numbers[1];
+                    break;
+                case '-':
+                    numbers[0] -= numbers[1];
+                    break;
+                case '*':
+                    numbers[0] *= numbers[1];
+                    break;
+                case '/':
+                    if (Math.Abs(numbers[1]) <= 1e-6)
+                    {
+                        throw new DivideByZeroException();
+                    }
+                    numbers[0] /= numbers[1];
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Handles new number event
+        /// </summary>
+        /// <param name="button">Pressed button</param>
         public void NewNumber(string button)
         {
             if (double.TryParse(button, out double number))
@@ -54,10 +88,28 @@
             }
         }
 
+        /// <summary>
+        /// Handles new operation event
+        /// </summary>
+        /// <param name="button">Pressed button</param>
         public void NewOperation(string button)
         {
-            operation = button[0];
-
+            switch (state)
+            {
+                case Expression.Empty:
+                    throw new MissingOperandException();
+                case Expression.FirstNumber:
+                    state = Expression.OperationSign;
+                    break;
+                case Expression.OperationSign:
+                    throw new MissingOperandException();
+                case Expression.SecondNumber:
+                    CountExpression(button[0]);
+                    state = Expression.OperationSign;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
