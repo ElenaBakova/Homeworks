@@ -38,7 +38,21 @@ namespace Calculator
         /// </summary>
         private void OperationButtonClick(object sender, EventArgs e)
         {
-            calculator.NewOperation((sender as Button).Text);
+            try
+            {
+                calculator.NewOperation((sender as Button).Text);
+            }
+            catch (DivideByZeroException)
+            {
+                richTextBox1.Text = "Cannot divide by zero";
+                Environment.Exit(-1);
+            }
+            catch (MissingOperandException)
+            {
+                richTextBox1.Text = "Invalid expression";
+                Environment.Exit(1);
+            }
+
             if (calculator.Value != null)
             {
                 richTextBox1.Text = calculator.Value.ToString();
@@ -50,8 +64,6 @@ namespace Calculator
         /// Equal button click handler 
         /// </summary>
         private void EqualButtonClick(object sender, EventArgs e)
-        {
-
-        }
+            => richTextBox1.Text = calculator.EqualSign().ToString();
     }
 }

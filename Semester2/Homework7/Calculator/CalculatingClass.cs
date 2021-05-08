@@ -61,6 +61,17 @@ namespace Calculator
         }
 
         /// <summary>
+        /// Returns expression value
+        /// </summary>
+        public double EqualSign()
+        {
+            CountExpression(operation ?? ' ');
+            operation = null;
+            state = Expression.FirstNumber;
+            return currentValue ?? 0;
+        }
+
+        /// <summary>
         /// Handles new number event
         /// </summary>
         /// <param name="button">Pressed button</param>
@@ -99,7 +110,8 @@ namespace Calculator
             switch (state)
             {
                 case Expression.Empty:
-                    throw new MissingOperandException();
+                    state = Expression.OperationSign;
+                    break;
                 case Expression.FirstNumber:
                     state = Expression.OperationSign;
                     break;
