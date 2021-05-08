@@ -30,6 +30,7 @@ namespace Calculator
         private void ClearEntryButtonClick(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
+            calculator.ClearEntry();
         }
 
         /// <summary>
@@ -37,8 +38,12 @@ namespace Calculator
         /// </summary>
         private void OperationButtonClick(object sender, EventArgs e)
         {
-            richTextBox1.Text += $" {(sender as Button).Text} ";
             calculator.NewOperation((sender as Button).Text);
+            if (calculator.Value != null)
+            {
+                richTextBox1.Text = calculator.Value.ToString();
+            }
+            richTextBox1.Text += $" {(sender as Button).Text} ";
         }
 
         /// <summary>

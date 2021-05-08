@@ -15,20 +15,21 @@ namespace Calculator
             SecondNumber
         }
 
-        private int currentValue = 0;
+        private double? currentValue = null;
         private Expression state = Expression.Empty;
         private double[] numbers = new double[2];
-       // private char operation;
+        private char? operation;
 
-        public int Value { get => currentValue; }
+        public double? Value { get => currentValue; }
 
         /// <summary>
         /// Clears currentValue, both numbers and state
         /// </summary>
         public void ClearEntry()
         {
-            //currentValue = 0;
+            currentValue = null;
             state = Expression.Empty;
+            operation = null;
             numbers[0] = 0;
             numbers[1] = 0;
         }
@@ -56,6 +57,7 @@ namespace Calculator
                 default:
                     break;
             }
+            currentValue = numbers[0];
         }
 
         /// <summary>
@@ -104,12 +106,13 @@ namespace Calculator
                 case Expression.OperationSign:
                     throw new MissingOperandException();
                 case Expression.SecondNumber:
-                    CountExpression(button[0]);
+                    CountExpression(operation ?? button[0]);
                     state = Expression.OperationSign;
                     break;
                 default:
                     break;
             }
+            operation = button[0];
         }
     }
 }
