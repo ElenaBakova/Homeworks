@@ -20,10 +20,12 @@ namespace Calculator
         /// </summary>
         private void NumberButtonClick(object sender, EventArgs e)
         {
-            if (calculator.NewNumber((sender as Button).Text))
+            if (calculator.Error)
             {
-                calculatorEntryBox.Text += (sender as Button).Text;
+                calculatorEntryBox.Text = calculator.OldExpression;
             }
+            calculatorEntryBox.Text += (sender as Button).Text;
+            calculator.NewNumber((sender as Button).Text);
         }
 
         /// <summary>
@@ -44,6 +46,11 @@ namespace Calculator
             {
                 calculator.NewOperation((sender as Button).Text);
             }
+            catch (DivideByZeroException)
+            {
+                calculatorEntryBox.Text = "Error";
+                return;
+            }
             catch (MissingOperandException)
             {
                 calculatorEntryBox.Text = "Invalid expression";
@@ -61,6 +68,17 @@ namespace Calculator
         /// Equal button click handler 
         /// </summary>
         private void EqualButtonClick(object sender, EventArgs e)
-            => calculatorEntryBox.Text = calculator.EqualSign().ToString();
+        {
+            try
+            {
+                calculator.EqualSign();
+                calculatorEntryBox.Text = (calculator.Value ?? 0).ToString();
+            }
+            catch (DivideByZeroException)
+            {
+                calculatorEntryBox.Text = "Error";
+                calculator.Error = true;
+            }
+        }
     }
 }

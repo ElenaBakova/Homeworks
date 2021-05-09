@@ -29,10 +29,18 @@ namespace Calculator
         public double? Value { get => currentValue; }
 
         /// <summary>
+        /// True if an error occured
+        /// </summary>
+        public bool Error { get; set; }
+
+        public string OldExpression { get => $"{numbers[0]} / "; }
+
+        /// <summary>
         /// Clears currentValue, both numbers and state
         /// </summary>
         public void ClearEntry()
         {
+            Error = false;
             currentValue = null;
             state = Expression.Empty;
             operation = null;
@@ -56,7 +64,8 @@ namespace Calculator
                 case '/':
                     if (Math.Abs(numbers[1]) <= 1e-6)
                     {
-                        return;
+                        Error = true;
+                        throw new DivideByZeroException();
                     }
                     numbers[0] /= numbers[1];
                     break;
@@ -69,21 +78,25 @@ namespace Calculator
         /// <summary>
         /// Returns expression value
         /// </summary>
-        public double EqualSign()
+        public void EqualSign()
         {
+            if (Error)
+            {
+                return;
+            }
+
             CountExpression(operation ?? ' ');
             operation = null;
             state = Expression.FirstNumber;
-            return currentValue ?? 0;
         }
 
         /// <summary>
         /// Handles new number event
         /// </summary>
         /// <param name="button">Pressed button</param>
-        /// <returns>True if number was added successfully</returns>
-        public bool NewNumber(string button)
+        public void NewNumber(string button)
         {
+            Error = false;
             if (double.TryParse(button, out double number))
             {
                 switch (state)
@@ -96,10 +109,6 @@ namespace Calculator
                         numbers[0] = numbers[0] * 10 + number;
                         break;
                     case Expression.OperationSign:
-                        if (operation == '/' && Math.Abs(number) <= 1e-6)
-                        {
-                            return false;
-                        }
                         state = Expression.SecondNumber;
                         numbers[1] = number;
                         break;
@@ -110,7 +119,6 @@ namespace Calculator
                         break;
                 }
             }
-            return true;
         }
 
         /// <summary>
@@ -119,6 +127,11 @@ namespace Calculator
         /// <param name="button">Pressed button</param>
         public void NewOperation(string button)
         {
+            if (Error)
+            {
+                return;
+            }
+
             switch (state)
             {
                 case Expression.Empty:
@@ -136,6 +149,7 @@ namespace Calculator
                 default:
                     break;
             }
+
             operation = button[0];
         }
     }
