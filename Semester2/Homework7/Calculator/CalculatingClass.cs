@@ -50,7 +50,7 @@ namespace Calculator
                 case '/':
                     if (Math.Abs(numbers[1]) <= 1e-6)
                     {
-                        throw new DivideByZeroException();
+                        return;
                     }
                     numbers[0] /= numbers[1];
                     break;
@@ -75,7 +75,8 @@ namespace Calculator
         /// Handles new number event
         /// </summary>
         /// <param name="button">Pressed button</param>
-        public void NewNumber(string button)
+        /// <returns>True if number was added successfully</returns>
+        public bool NewNumber(string button)
         {
             if (double.TryParse(button, out double number))
             {
@@ -89,6 +90,10 @@ namespace Calculator
                         numbers[0] = numbers[0] * 10 + number;
                         break;
                     case Expression.OperationSign:
+                        if (operation == '/' && Math.Abs(number) <= 1e-6)
+                        {
+                            return false;
+                        }
                         state = Expression.SecondNumber;
                         numbers[1] = number;
                         break;
@@ -99,6 +104,7 @@ namespace Calculator
                         break;
                 }
             }
+            return true;
         }
 
         /// <summary>
@@ -118,8 +124,8 @@ namespace Calculator
                 case Expression.OperationSign:
                     throw new MissingOperandException();
                 case Expression.SecondNumber:
-                    CountExpression(operation ?? button[0]);
                     state = Expression.OperationSign;
+                    CountExpression(operation ?? button[0]);
                     break;
                 default:
                     break;

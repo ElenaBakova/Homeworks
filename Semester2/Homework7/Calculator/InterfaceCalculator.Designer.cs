@@ -49,7 +49,7 @@ namespace Calculator
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.equalButton = new System.Windows.Forms.Button();
             this.ClearEntryButton = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.calculatorEntryBox = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -246,7 +246,7 @@ namespace Calculator
             this.tableLayoutPanel1.Controls.Add(this.additionButton, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.equalButton, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.ClearEntryButton, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.richTextBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.calculatorEntryBox, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -284,16 +284,16 @@ namespace Calculator
             this.ClearEntryButton.UseVisualStyleBackColor = true;
             this.ClearEntryButton.Click += new System.EventHandler(this.ClearEntryButtonClick);
             // 
-            // richTextBox1
+            // calculatorEntryBox
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.richTextBox1, 3);
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(411, 156);
-            this.richTextBox1.TabIndex = 18;
-            this.richTextBox1.Text = "";
+            this.tableLayoutPanel1.SetColumnSpan(this.calculatorEntryBox, 3);
+            this.calculatorEntryBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.calculatorEntryBox.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.calculatorEntryBox.Location = new System.Drawing.Point(3, 3);
+            this.calculatorEntryBox.Name = "calculatorEntryBox";
+            this.calculatorEntryBox.Size = new System.Drawing.Size(411, 156);
+            this.calculatorEntryBox.TabIndex = 18;
+            this.calculatorEntryBox.Text = "";
             // 
             // InterfaceCalculator
             // 
@@ -330,7 +330,7 @@ namespace Calculator
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button equalButton;
         private System.Windows.Forms.Button ClearEntryButton;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox calculatorEntryBox;
     }
 }
 

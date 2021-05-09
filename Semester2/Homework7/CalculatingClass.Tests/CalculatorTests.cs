@@ -38,12 +38,6 @@ namespace CalculatingClasss.Tests
             }
         }
 
-        [TestCase("1 / 0 =")]
-        [TestCase("2 * 2 + 6 / 0 =")]
-        [TestCase("7 - 9 / 0 =")]
-        public void DivideByZeroTest(string expression)
-            => Assert.Throws<DivideByZeroException>(() => ClickButtons(expression));
-
         [TestCase("8 / +")]
         [TestCase("2 * 2 +-")]
         public void InvalidExpressionTest(string expression)
@@ -51,6 +45,9 @@ namespace CalculatingClasss.Tests
 
         [TestCase("4 - 8 + 3 =", ExpectedResult = -1)]
         [TestCase("6 / 5 + 6 =", ExpectedResult = 7.2)]
+        [TestCase("1 / 0 2 =", ExpectedResult = 0.5)]
+        [TestCase("2 * 2 + 6 / 0 5 =", ExpectedResult = 2)]
+        [TestCase("7 - 9 / 0 =", ExpectedResult = -0.2222222222222222)]
         public double DifferentExpressionsTest(string expression)
         {
             ClickButtons(expression);
