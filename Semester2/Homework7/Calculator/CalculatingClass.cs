@@ -7,6 +7,9 @@ namespace Calculator
     /// </summary>
     public class CalculatingClass
     {
+        /// <summary>
+        /// Expression state
+        /// </summary>
         private enum Expression
         {
             Empty,
@@ -20,6 +23,9 @@ namespace Calculator
         private double[] numbers = new double[2];
         private char? operation;
 
+        /// <summary>
+        /// Current expression value
+        /// </summary>
         public double? Value { get => currentValue; }
 
         /// <summary>

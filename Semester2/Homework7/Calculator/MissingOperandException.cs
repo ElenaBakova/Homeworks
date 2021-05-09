@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace Calculator
 {
+    /// <summary>
+    /// Throws when one operand in expression is misssed
+    /// </summary>
     [Serializable]
     public class MissingOperandException : ArgumentException
     {

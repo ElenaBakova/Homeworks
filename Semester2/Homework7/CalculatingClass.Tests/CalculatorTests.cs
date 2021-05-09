@@ -1,9 +1,11 @@
 using Calculator;
 using NUnit.Framework;
-using System;
 
 namespace CalculatingClasss.Tests
 {
+    /// <summary>
+    /// Tests for calculating class
+    /// </summary>
     public class Tests
     {
         private CalculatingClass calculator;
@@ -14,11 +16,15 @@ namespace CalculatingClasss.Tests
             calculator = new();
         }
 
+        /// <returns>True if given symbol is operation sign</returns>
         private bool IsOperation(char symbol)
         {
             return symbol == '-' || symbol == '+' || symbol == '*' || symbol == '/';
         }
 
+        /// <summary>
+        /// Clicks buttons in given expression
+        /// </summary>
         private void ClickButtons(string expression)
         {
             for (int i = 0; i < expression.Length; i++)
