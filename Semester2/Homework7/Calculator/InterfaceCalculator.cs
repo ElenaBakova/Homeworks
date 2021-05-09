@@ -42,6 +42,11 @@ namespace Calculator
         /// </summary>
         private void OperationButtonClick(object sender, EventArgs e)
         {
+            if (calculator.Error)
+            {
+                return;
+            }
+
             try
             {
                 calculator.NewOperation((sender as Button).Text);
@@ -69,6 +74,11 @@ namespace Calculator
         /// </summary>
         private void EqualButtonClick(object sender, EventArgs e)
         {
+            if (calculator.Error)
+            {
+                return;
+            }
+
             try
             {
                 calculator.EqualSign();
@@ -77,7 +87,6 @@ namespace Calculator
             catch (DivideByZeroException)
             {
                 calculatorEntryBox.Text = "Error";
-                calculator.Error = true;
             }
         }
     }

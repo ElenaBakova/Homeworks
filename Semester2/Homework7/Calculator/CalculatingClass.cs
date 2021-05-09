@@ -80,11 +80,6 @@ namespace Calculator
         /// </summary>
         public void EqualSign()
         {
-            if (Error)
-            {
-                return;
-            }
-
             CountExpression(operation ?? ' ');
             operation = null;
             state = Expression.FirstNumber;
@@ -127,11 +122,6 @@ namespace Calculator
         /// <param name="button">Pressed button</param>
         public void NewOperation(string button)
         {
-            if (Error)
-            {
-                return;
-            }
-
             switch (state)
             {
                 case Expression.Empty:

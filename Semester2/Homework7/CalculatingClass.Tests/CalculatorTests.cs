@@ -52,12 +52,16 @@ namespace CalculatingClasss.Tests
         [TestCase("4 - 8 + 3 =", ExpectedResult = -1)]
         [TestCase("6 / 5 + 6 =", ExpectedResult = 7.2)]
         [TestCase("1 / 0 2 =", ExpectedResult = 0.5)]
+        [TestCase("5 * 3 - 2 + 7 / 10000 =", ExpectedResult = 0.002)]
         [TestCase("2 * 2 + 6 / 0 5 =", ExpectedResult = 2)]
-        [TestCase("7 - 9 / 0 =", ExpectedResult = -0.2222222222222222)]
-        public double DifferentExpressionsTest(string expression)
+        [TestCase("7 - 9 / 0", ExpectedResult = -2)]
+        [TestCase("7 - =", ExpectedResult = 7)]
+        [TestCase("9", ExpectedResult = null)]
+        [TestCase("=", ExpectedResult = 0)]
+        public double? DifferentExpressionsTest(string expression)
         {
             ClickButtons(expression);
-            return calculator.Value ?? 0;
+            return calculator.Value;
         }
     }
 }
