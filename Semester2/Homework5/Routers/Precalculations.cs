@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Routers
 {
@@ -42,14 +43,7 @@ namespace Routers
             }
             var used = new bool[countVertices];
             DFS(0, graph, ref used);
-            for (int i = 0; i < used.Length; i++)
-            {
-                if (!used[i])
-                {
-                    return false;
-                }
-            }
-            return true;
+            return used.All(x => x);
     }
 
         /// <summary>
