@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Routers": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../Input.txt ../../../Output.txt"
+    }
+  }
+}
