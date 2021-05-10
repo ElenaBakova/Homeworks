@@ -35,7 +35,7 @@ namespace Routers
         public static bool CheckConnectivity(int countVertices, List<Edge> edges)
         {
             var graph = new int[countVertices, countVertices];
-            foreach(var edge in edges)
+            foreach (var edge in edges)
             {
                 graph[edge.Start - 1, edge.Finish - 1] = 1;
                 graph[edge.Finish - 1, edge.Start - 1] = 1;
