@@ -26,7 +26,7 @@ namespace Calculator
         /// <summary>
         /// Current expression value
         /// </summary>
-        public double? Value { get => currentValue; }
+        public double? Value => currentValue;
 
         /// <summary>
         /// True if an error occured

@@ -13,7 +13,7 @@ namespace Calculator
             InitializeComponent();
         }
 
-        CalculatingClass calculator = new();
+        private CalculatingClass calculator = new();
 
         /// <summary>
         /// Number button click handler 

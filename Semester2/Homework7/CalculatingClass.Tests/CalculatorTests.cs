@@ -16,11 +16,9 @@ namespace CalculatingClasss.Tests
             calculator = new();
         }
 
-        /// <returns>True if given symbol is operation sign</returns>
+        /// True if given symbol is operation sign
         private bool IsOperation(char symbol)
-        {
-            return symbol == '-' || symbol == '+' || symbol == '*' || symbol == '/';
-        }
+            => symbol == '-' || symbol == '+' || symbol == '*' || symbol == '/';
 
         /// <summary>
         /// Clicks buttons in given expression
