@@ -7,11 +7,7 @@ namespace ParseTree
     {
         static void Main(string[] args)
         {
-            string readString;
-            using (var reader = new StreamReader("../../../input.txt"))
-            {
-                readString = reader.ReadLine();
-            }
+            string readString = File.ReadAllText("../../../input.txt");
             var tree = new Tree(readString);
             tree.Print();
             Console.Write($"= {tree.Count()}");
