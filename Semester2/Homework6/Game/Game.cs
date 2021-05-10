@@ -8,25 +8,23 @@ namespace GameTask
     /// </summary>
     public class Game
     {
-        public Game(string path, Action<int, int> SetCursor, Action<string> Print)
+        public Game(string path, Action<int, int> setCursor, Action<string> print)
         {
-            this.SetCursor = SetCursor;
-            this.Print = Print;
+            this.setCursor = setCursor;
+            this.print = print;
             ReadMap(path);
         }
 
         private int x;
         private int y;
-        private Action<int, int> SetCursor;
-        private Action<string> Print;
+        private Action<int, int> setCursor;
+        private Action<string> print;
         private char[,] map;
-        private int mapHeight;
 
         private void ReadMap(string path)
         {
             var gameMap = File.ReadAllLines(path);
             map = new char[gameMap[0].Length, gameMap.Length];
-            mapHeight = gameMap.Length;
 
             for (int i = 0; i < gameMap.Length; i++)
             {
@@ -35,100 +33,77 @@ namespace GameTask
                     if (gameMap[i][j] == '#')
                     {
                         map[j, i] = '#';
-                        SetCursor(j, i);
-                        Print("#");
+                        setCursor(j, i);
+                        print("#");
                     }
                     else if (gameMap[i][j] == '@')
                     {
                         x = j;
                         y = i;
-                        SetCursor(j, i);
-                        Print("@");
+                        setCursor(j, i);
+                        print("@");
                     }
                     else
                     {
-                        SetCursor(j, i);
-                        Print(" ");
+                        setCursor(j, i);
+                        print(" ");
                     }
                 }
             }
         }
 
-        /// <returns>Current left coordinate of character</returns>
+        /// Current left coordinate of character
         public int LeftCoordinate
             => x;
         
-        /// <returns>Current top coordinate of character</returns>
+        /// Current top coordinate of character
         public int TopCoordinate
             => y;
+
+        private void MoveCoordinates(int xCoordinate, int yCoordinate)
+        {
+            if (map[x + xCoordinate, y + yCoordinate] != '#')
+            {
+                setCursor(x, y);
+                print(" ");
+                x += xCoordinate;
+                y += yCoordinate;
+                setCursor(x, y);
+                print("@");
+            }
+        }
 
         /// <summary>
         /// Moves character to the left
         /// </summary>
         public void MoveLeft(object sender, EventArgs args)
-        {
-            if (map[x - 1, y] != '#')
-            {
-                SetCursor(x, y);
-                Print(" ");
-                x--;
-                SetCursor(x, y);
-                Print("@");
-            }
-        }
+            => MoveCoordinates(-1, 0);
 
         /// <summary>
         /// Moves character to the right
         /// </summary>
         public void MoveRight(object sender, EventArgs args)
-        {
-            if (map[x + 1, y] != '#')
-            {
-                SetCursor(x, y);
-                Print(" ");
-                x++;
-                SetCursor(x, y);
-                Print("@");
-            }
-        }
+            => MoveCoordinates(1, 0);
 
         /// <summary>
         /// Moves character up
         /// </summary>
         public void MoveUp(object sender, EventArgs args)
-        {
-            if (map[x, y - 1] != '#')
-            {
-                SetCursor(x, y);
-                Print(" ");
-                y--;
-                SetCursor(x, y);
-                Print("@");
-            }
-        }
+            => MoveCoordinates(0, -1);
 
         /// <summary>
         /// Moves character down
         /// </summary>
         public void MoveDown(object sender, EventArgs args)
-        {
-            if (map[x, y + 1] != '#')
-            {
-                SetCursor(x, y);
-                Print(" ");
-                y++;
-                SetCursor(x, y);
-                Print("@");
-            }
-        }
+            => MoveCoordinates(0, 1);
 
         /// <summary>
         /// Closes console
         /// </summary>
         public void EscapeKey(object sender, EventArgs args)
         {
-            SetCursor(0, mapHeight + 1);
-            Print("Bye");
+            setCursor(0, map.GetLength(1) + 1);
+            print("Bye");
             Environment.Exit(0);
         }
     }
