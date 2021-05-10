@@ -52,13 +52,10 @@ namespace GameTask
             }
         }
 
-        /// Current left coordinate of character
-        public int LeftCoordinate
-            => x;
-        
-        /// Current top coordinate of character
-        public int TopCoordinate
-            => y;
+        /// <summary>
+        /// Returns pair x and y coordinate
+        /// </summary>
+        public (int, int) Coordinates => (x, y);
 
         private void MoveCoordinates(int xCoordinate, int yCoordinate)
         {
