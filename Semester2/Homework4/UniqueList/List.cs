@@ -103,7 +103,7 @@
         public (bool, int) IsContain(int value)
         {
             ListElement current = head;
-            for (int i = 1; i <= listSize; i++)
+            for (int i = 0; i < listSize; i++)
             {
                 if (current.Value == value)
                 {

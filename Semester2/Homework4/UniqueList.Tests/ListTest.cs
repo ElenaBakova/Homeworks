@@ -14,6 +14,16 @@ namespace UniqueList.Tests
         }
 
         [TestCaseSource(nameof(Lists))]
+        public void ChangingSameElementDoNothing(List list)
+        {
+            list.Add(2, 0);
+            bool result = list.IsContain(2).Item1;
+            list.ChangeElement(2, 0);
+            result &= list.IsContain(2).Item1 && list.IsContain(2).Item2 == 0;
+            Assert.IsTrue(result);
+        }
+        
+        [TestCaseSource(nameof(Lists))]
         public void ValueShouldBeReplacedByNewOne(List list)
         {
             list.Add(2, 0);
