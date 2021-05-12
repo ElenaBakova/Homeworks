@@ -1,30 +1,25 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace UniqueList.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ListTest
     {
-        private List list;
-
-        [TestInitialize]
-        public void Init()
-            => list = new List();
-
-        [TestMethod]
-        public void AfterAddingShouldNotBeEmpty()
+        [TestCaseSource(nameof(Lists))]
+        public void AfterAddingShouldNotBeEmpty(List list)
         {
             list.Add(2, 0);
             Assert.IsFalse(list.Empty);
         }
 
-        [TestMethod]
-        public void ValueShouldBeReplacedByNewOne()
+        [TestCaseSource(nameof(Lists))]
+        public void ValueShouldBeReplacedByNewOne(List list)
         {
             list.Add(2, 0);
-            bool result = list.IsContain(2);
+            bool result = list.IsContain(2).Item1;
             list.ChangeElement(5, 0);
-            result &= !list.IsContain(2) && list.IsContain(5);
+            result &= !list.IsContain(2).Item1 && list.IsContain(5).Item1;
             Assert.IsTrue(result);
         }
 
@@ -33,13 +28,13 @@ namespace UniqueList.Tests
             bool result = true;
             for (int i = start; i <= finish; i++)
             {
-                result &= list.IsContain(i);
+                result &= list.IsContain(i).Item1;
             }
             return result;
         }
 
-        [TestMethod]
-        public void AddToTheList()
+        [TestCaseSource(nameof(Lists))]
+        public void AddToTheList(List list)
         {
             list.Add(1, 0);
             list.Add(2, 1);
@@ -48,16 +43,16 @@ namespace UniqueList.Tests
             Assert.IsTrue(CheckPresent(list, 0, 3));
         }
 
-        [TestMethod]
-        public void ListSizeShouldBeIncreasedAfterAdd()
+        [TestCaseSource(nameof(Lists))]
+        public void ListSizeShouldBeIncreasedAfterAdd(List list)
         {
             list.Add(1, 0);
             list.Add(2, 1);
             Assert.AreEqual(list.Size, 2);
         }
-        
-        [TestMethod]
-        public void ListSizeShouldBeDecreasedAfterDelete()
+
+        [TestCaseSource(nameof(Lists))]
+        public void ListSizeShouldBeDecreasedAfterDelete(List list)
         {
             list.Add(1, 0);
             list.Add(2, 1);
@@ -65,5 +60,12 @@ namespace UniqueList.Tests
             list.Delete(1);
             Assert.AreEqual(list.Size, 2);
         }
+
+        private static IEnumerable<TestCaseData> Lists
+            => new TestCaseData[]
+                {
+                    new TestCaseData(new List()),
+                    new TestCaseData(new UniqueList())
+                };
     }
 }
