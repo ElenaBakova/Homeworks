@@ -33,6 +33,15 @@
         public int Size
             => listSize;
 
+        private ListElement FindPosition(int position, ListElement current)
+        {
+            for (int i = 0; i != position; i++)
+            {
+                current = current.Next;
+            }
+            return current;
+        }
+
         /// <summary>
         /// Adds value into list
         /// </summary>
@@ -49,11 +58,7 @@
                 head = new ListElement(value, head);
                 return;
             }
-            ListElement current = head;
-            for (int i = 0; i + 1 != position; i++)
-            {
-                current = current.Next;
-            }
+            ListElement current = FindPosition(position - 1, head);
             current.Next = new ListElement(value, current.Next);
         }
         
@@ -73,11 +78,7 @@
                 head = head.Next;
                 return;
             }
-            ListElement current = head;
-            for (int i = 0; i + 1 != position; i++)
-            {
-                current = current.Next;
-            }
+            ListElement current = FindPosition(position - 1, head);
             current.Next = current.Next.Next;
         }
 
@@ -92,12 +93,7 @@
             {
                 return;
             }
-            ListElement current = head;
-            for (int i = 0; i != position; i++)
-            {
-                current = current.Next;
-            }
-            current.Value = newValue;
+            FindPosition(position, head).Value = newValue;
         }
 
         /// <summary>
