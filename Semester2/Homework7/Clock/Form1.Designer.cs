@@ -39,7 +39,7 @@ namespace Clock
             this.ClockBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClockBox.Location = new System.Drawing.Point(0, 0);
             this.ClockBox.Name = "ClockBox";
-            this.ClockBox.Size = new System.Drawing.Size(482, 453);
+            this.ClockBox.Size = new System.Drawing.Size(582, 553);
             this.ClockBox.TabIndex = 0;
             this.ClockBox.TabStop = false;
             // 
@@ -47,11 +47,11 @@ namespace Clock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 453);
+            this.ClientSize = new System.Drawing.Size(582, 553);
             this.Controls.Add(this.ClockBox);
             this.Name = "ClockForm";
             this.Text = "ClockForm";
-            this.Load += new System.EventHandler(this.ClockForm_Load);
+            this.Load += new System.EventHandler(this.ClockFormLoad);
             ((System.ComponentModel.ISupportInitialize)(this.ClockBox)).EndInit();
             this.ResumeLayout(false);
 
