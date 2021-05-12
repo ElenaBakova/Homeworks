@@ -100,18 +100,18 @@
         /// Checks whether value is in the list
         /// </summary>
         /// <returns>True if list contains value</returns>
-        public bool IsContain(int value)
+        public (bool, int) IsContain(int value)
         {
             ListElement current = head;
             for (int i = 1; i <= listSize; i++)
             {
                 if (current.Value == value)
                 {
-                    return true;
+                    return (true, i);
                 }
                 current = current.Next;
             }
-            return false;
+            return (false, -1);
         }
     }
 }

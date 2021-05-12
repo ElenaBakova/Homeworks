@@ -7,7 +7,7 @@
         /// </summary>
         public override void Add(int value, int position)
         {
-            if (IsContain(value))
+            if (IsContain(value).Item1)
             {
                 throw new AddingExistingValueException("Error: that value already exists");
             }
@@ -19,7 +19,8 @@
         /// </summary>
         public override void ChangeElement(int newValue, int position)
         {
-            if (IsContain(newValue))
+            var searchResult = IsContain(newValue);
+            if (searchResult.Item1 && searchResult.Item2 != position)
             {
                 throw new AddingExistingValueException("Error: that value already exists");
             }
