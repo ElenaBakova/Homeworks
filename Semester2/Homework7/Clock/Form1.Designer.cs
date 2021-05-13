@@ -29,7 +29,9 @@ namespace Clock
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.ClockBox = new System.Windows.Forms.PictureBox();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ClockBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,6 +44,11 @@ namespace Clock
             this.ClockBox.Size = new System.Drawing.Size(582, 553);
             this.ClockBox.TabIndex = 0;
             this.ClockBox.TabStop = false;
+            // 
+            // timer
+            // 
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timerTick);
             // 
             // ClockForm
             // 
@@ -60,6 +67,7 @@ namespace Clock
         #endregion
 
         private System.Windows.Forms.PictureBox ClockBox;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

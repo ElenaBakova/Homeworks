@@ -16,6 +16,8 @@ namespace Clock
         public ClockForm()
         {
             InitializeComponent();
+            timer.Tick += new EventHandler(timerTick);
+            timer.Enabled = true;
         }
 
         private int clockWidth = 500;
@@ -25,8 +27,8 @@ namespace Clock
         private void ClockFormLoad(object sender, EventArgs e)
         {
             ClockBox.Paint += new PaintEventHandler(ClockPaint);
-            //Controls.Add(ClockBox);
         }
+        //invalidate;
 
         private void ClockPaint(object sender, PaintEventArgs e)
         {
@@ -43,6 +45,11 @@ namespace Clock
                 graphics.RotateTransform(-30 * i);
                 graphics.DrawString(i.ToString(), font, Brushes.Black, 0, 0);
             }
+        }
+
+        private void timerTick(object sender, EventArgs e)
+        {
+
         }
     }
 }
