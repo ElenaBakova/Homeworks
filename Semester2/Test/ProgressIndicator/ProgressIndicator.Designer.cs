@@ -1,0 +1,80 @@
+﻿
+namespace ProgressIndicator
+{
+    partial class ProgressIndicatorForm
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.controlButton = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // progressBar
+            // 
+            this.progressBar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.progressBar.Location = new System.Drawing.Point(24, 12);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(592, 38);
+            this.progressBar.TabIndex = 0;
+            // 
+            // controlButton
+            // 
+            this.controlButton.Location = new System.Drawing.Point(24, 79);
+            this.controlButton.Name = "controlButton";
+            this.controlButton.Size = new System.Drawing.Size(148, 48);
+            this.controlButton.TabIndex = 1;
+            this.controlButton.Text = "start";
+            this.controlButton.UseVisualStyleBackColor = true;
+            this.controlButton.Click += new System.EventHandler(this.startButtonClick);
+            // 
+            // timer
+            // 
+            this.timer.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // ProgressIndicatorForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.controlButton);
+            this.Controls.Add(this.progressBar);
+            this.Name = "ProgressIndicatorForm";
+            this.Text = "ProgressForm";
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Button controlButton;
+        private System.Windows.Forms.Timer timer;
+    }
+}
+
