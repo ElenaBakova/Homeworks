@@ -16,13 +16,15 @@ namespace Clock
         public ClockForm()
         {
             InitializeComponent();
+            timer.Interval = 1000;
             timer.Tick += new EventHandler(timerTick);
-            timer.Enabled = true;
+            timer.Start();
         }
 
         private int clockWidth = 500;
         private int clockHeight = 500;
         private Font font = new Font("Arial", 28);
+        private Graphics graphics;
 
         private void ClockFormLoad(object sender, EventArgs e)
         {
@@ -32,8 +34,7 @@ namespace Clock
 
         private void ClockPaint(object sender, PaintEventArgs e)
         {
-            Graphics graphics = e.Graphics;
-
+            graphics = e.Graphics;
             graphics.DrawEllipse(new Pen(Brushes.Black, 10), 40, 30, clockWidth, clockHeight);
             graphics.DrawEllipse(new Pen(Brushes.Black, 5), 287, 277, 5, 5);
 
@@ -47,9 +48,15 @@ namespace Clock
             }
         }
 
+        private void DrawArrows(DateTime time)
+        {
+            graphics.DrawString(time.Hour.ToString(), font, Brushes.Black, time.Second / 5, 0);
+        }
+
         private void timerTick(object sender, EventArgs e)
         {
-
+            Invalidate();
+            DrawArrows(DateTime.Now);
         }
     }
 }
