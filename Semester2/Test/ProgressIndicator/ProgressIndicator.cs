@@ -28,7 +28,9 @@ namespace ProgressIndicator
 
             timer.Interval = 500;
             timer.Tick += new EventHandler(timerTick);
-            controlButton.Text = "Processing...";
+            controlButton.Hide();
+            textBox.Show();
+            textBox.Text = "Processing...";
             timer.Start();
         }
         
@@ -39,6 +41,8 @@ namespace ProgressIndicator
         {
             if (progressBar.Value == 100)
             {
+                textBox.Hide();
+                controlButton.Show();
                 controlButton.Text = "Close";
                 return;
             }

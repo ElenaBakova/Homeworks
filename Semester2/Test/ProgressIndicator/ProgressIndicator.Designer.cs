@@ -33,6 +33,7 @@ namespace ProgressIndicator
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.controlButton = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.textBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // progressBar
@@ -53,16 +54,27 @@ namespace ProgressIndicator
             this.controlButton.UseVisualStyleBackColor = true;
             this.controlButton.Click += new System.EventHandler(this.ButtonClick);
             // 
+            // textBox
+            // 
+            this.textBox.Location = new System.Drawing.Point(24, 79);
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(148, 27);
+            this.textBox.TabIndex = 2;
+            this.textBox.Hide();
+            // 
             // ProgressIndicatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(950, 464);
+            this.Controls.Add(this.textBox);
             this.Controls.Add(this.controlButton);
             this.Controls.Add(this.progressBar);
+            this.MinimumSize = new System.Drawing.Size(650, 170);
             this.Name = "ProgressIndicatorForm";
             this.Text = "ProgressForm";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -71,6 +83,7 @@ namespace ProgressIndicator
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button controlButton;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.TextBox textBox;
     }
 }
 
