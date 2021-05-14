@@ -1,5 +1,4 @@
-﻿
-namespace ProgressIndicator
+﻿namespace ProgressIndicator
 {
     partial class ProgressIndicatorForm
     {
@@ -41,11 +40,12 @@ namespace ProgressIndicator
             this.progressBar.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.progressBar.Location = new System.Drawing.Point(24, 12);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(592, 38);
+            this.progressBar.Size = new System.Drawing.Size(592, 61);
             this.progressBar.TabIndex = 0;
             // 
             // controlButton
             // 
+            this.controlButton.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.controlButton.Location = new System.Drawing.Point(24, 79);
             this.controlButton.Name = "controlButton";
             this.controlButton.Size = new System.Drawing.Size(148, 48);
@@ -77,6 +77,7 @@ namespace ProgressIndicator
             this.Text = "ProgressForm";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
