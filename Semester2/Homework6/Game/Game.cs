@@ -55,7 +55,7 @@ namespace GameTask
         /// <summary>
         /// Returns pair x and y coordinate
         /// </summary>
-        public (int, int) Coordinates => (x, y);
+        public (int x, int y) Coordinates => (x, y);
 
         private void MoveCoordinates(int xCoordinate, int yCoordinate)
         {
