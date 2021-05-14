@@ -1,5 +1,4 @@
-﻿
-namespace Clock
+﻿namespace Clock
 {
     partial class ClockForm
     {
@@ -48,7 +47,7 @@ namespace Clock
             // timer
             // 
             this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.timerTick);
+            this.timer.Tick += new System.EventHandler(this.TimerTick);
             // 
             // ClockForm
             // 

@@ -1,44 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
 
 namespace Clock
 {
+    /// <summary>
+    /// Clock form class
+    /// </summary>
     public partial class ClockForm : Form
     {
+        /// <summary>
+        /// Initializes components, sets timer
+        /// </summary>
         public ClockForm()
         {
             InitializeComponent();
-            timer.Interval = 1000;
-            timer.Tick += new EventHandler(timerTick);
+            timer.Interval = 500;
+            timer.Tick += new EventHandler(TimerTick);
             timer.Start();
         }
 
         private int clockWidth = 500;
         private int clockHeight = 500;
+        private Point center = new Point(287, 277);
+        private int secondHandLength = 165;
+        private int minuteHandLength = 140;
+        private int hourHandLength = 110;
         private Font font = new Font("Arial", 28);
         private Graphics graphics;
+        private Bitmap bitmap;
 
         private void ClockFormLoad(object sender, EventArgs e)
-        {
-            ClockBox.Paint += new PaintEventHandler(ClockPaint);
-        }
-        //invalidate;
+            => ClockBox.Paint += new PaintEventHandler(ClockPaint);
 
+        /// <summary>
+        /// Draws clock face
+        /// </summary>
         private void ClockPaint(object sender, PaintEventArgs e)
         {
             graphics = e.Graphics;
             graphics.DrawEllipse(new Pen(Brushes.Black, 10), 40, 30, clockWidth, clockHeight);
-            graphics.DrawEllipse(new Pen(Brushes.Black, 5), 287, 277, 5, 5);
+            graphics.DrawEllipse(new Pen(Brushes.Black, 10), center.X - 3, center.Y - 3, 10, 10);
 
-            graphics.TranslateTransform(263, 42);
+            graphics.TranslateTransform(263, 45);
             for (int i = 1; i <= 12; i++)
             {
                 graphics.RotateTransform(30 * i);
@@ -48,15 +52,53 @@ namespace Clock
             }
         }
 
-        private void DrawArrows(DateTime time)
+        /// <summary>
+        /// Draw clock hands
+        /// </summary>
+        private void TimerTick(object sender, EventArgs e)
         {
-            graphics.DrawString(time.Hour.ToString(), font, Brushes.Black, time.Second / 5, 0);
+            bitmap = new Bitmap(clockWidth, clockHeight);
+            graphics = Graphics.FromImage(bitmap);
+            DateTime time = DateTime.Now;
+
+            Point handEndPoint = MinuteSecondHandCoordinates(time.Second, secondHandLength);
+            graphics.DrawLine(new Pen(Color.Red, 5), center, handEndPoint);
+
+            handEndPoint = MinuteSecondHandCoordinates(time.Minute, minuteHandLength);
+            graphics.DrawLine(new Pen(Color.Black, 7), center, handEndPoint);
+
+            handEndPoint = HourHandCoordinates(time.Hour % 12, time.Minute, hourHandLength);
+            graphics.DrawLine(new Pen(Color.Gray, 10), center, handEndPoint);
+
+            ClockBox.Image = bitmap;
         }
 
-        private void timerTick(object sender, EventArgs e)
+        /// <summary>
+        /// Counts minute or second hand end point coordinate
+        /// </summary>
+        private Point MinuteSecondHandCoordinates(int time, int handLength)
+            => CountHandCoordinates(time * 6, handLength);
+
+        /// <summary>
+        /// Counts hour hand end point coordinate
+        /// </summary>
+        private Point HourHandCoordinates(int hour, int minute, int handLength)
+            => CountHandCoordinates((int)((hour * 30) + (minute * 0.5)), handLength);
+
+        private Point CountHandCoordinates(int temp, int handLength)
         {
-            Invalidate();
-            DrawArrows(DateTime.Now);
+            Point coordinates = new Point();
+            if (temp >= 0 && temp <= 180)
+            {
+                coordinates.X = center.X + (int)(handLength * Math.Sin(Math.PI * temp / 180));
+                coordinates.Y = center.Y - (int)(handLength * Math.Cos(Math.PI * temp / 180));
+            }
+            else
+            {
+                coordinates.X = center.X - (int)(handLength * (-Math.Sin(Math.PI * temp / 180)));
+                coordinates.Y = center.Y - (int)(handLength * Math.Cos(Math.PI * temp / 180));
+            }
+            return coordinates;
         }
     }
 }
