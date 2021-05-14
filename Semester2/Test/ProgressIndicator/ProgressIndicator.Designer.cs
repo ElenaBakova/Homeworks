@@ -51,11 +51,7 @@ namespace ProgressIndicator
             this.controlButton.TabIndex = 1;
             this.controlButton.Text = "start";
             this.controlButton.UseVisualStyleBackColor = true;
-            this.controlButton.Click += new System.EventHandler(this.startButtonClick);
-            // 
-            // timer
-            // 
-            this.timer.Tick += new System.EventHandler(this.timer1_Tick);
+            this.controlButton.Click += new System.EventHandler(this.ButtonClick);
             // 
             // ProgressIndicatorForm
             // 
