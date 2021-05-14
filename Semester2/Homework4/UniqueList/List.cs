@@ -33,6 +33,9 @@
         public int Size
             => listSize;
 
+        public int GetValueByPosition(int position)
+            => FindPosition(position, head).Value;
+
         private ListElement FindPosition(int position, ListElement current)
         {
             for (int i = 0; i != position; i++)
@@ -100,18 +103,18 @@
         /// Checks whether value is in the list
         /// </summary>
         /// <returns>True if list contains value</returns>
-        public (bool, int) IsContain(int value)
+        public bool Contains(int value)
         {
             ListElement current = head;
             for (int i = 0; i < listSize; i++)
             {
                 if (current.Value == value)
                 {
-                    return (true, i);
+                    return true;
                 }
                 current = current.Next;
             }
-            return (false, -1);
+            return false;
         }
     }
 }

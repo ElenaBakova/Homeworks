@@ -5,7 +5,7 @@ namespace UniqueList.Tests
     [TestFixture]
     public class UniqueListTest
     {
-        UniqueList list;
+        private UniqueList list;
 
         [SetUp]
         public void Init()

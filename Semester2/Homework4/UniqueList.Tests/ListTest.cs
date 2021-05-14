@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UniqueList.Tests
 {
@@ -17,9 +18,9 @@ namespace UniqueList.Tests
         public void ChangingSameElementDoNothing(List list)
         {
             list.Add(2, 0);
-            bool result = list.IsContain(2).Item1;
+            bool result = list.Contains(2);
             list.ChangeElement(2, 0);
-            result &= list.IsContain(2).Item1 && list.IsContain(2).Item2 == 0;
+            result &= list.Contains(2) && list.GetValueByPosition(0) == 2;
             Assert.IsTrue(result);
         }
         
@@ -27,9 +28,9 @@ namespace UniqueList.Tests
         public void ValueShouldBeReplacedByNewOne(List list)
         {
             list.Add(2, 0);
-            bool result = list.IsContain(2).Item1;
+            bool result = list.Contains(2);
             list.ChangeElement(5, 0);
-            result &= !list.IsContain(2).Item1 && list.IsContain(5).Item1;
+            result &= !list.Contains(2) && list.Contains(5);
             Assert.IsTrue(result);
         }
 
@@ -38,7 +39,7 @@ namespace UniqueList.Tests
             bool result = true;
             for (int i = start; i <= finish; i++)
             {
-                result &= list.IsContain(i).Item1;
+                result &= list.Contains(i);
             }
             return result;
         }
