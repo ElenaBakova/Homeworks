@@ -14,6 +14,7 @@ namespace ProgressIndicator
         public ProgressIndicatorForm()
         {
             InitializeComponent();
+            textBox.Hide();
         }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace ProgressIndicator
                 controlButton.Text = "Close";
                 return;
             }
+
             progressBar.PerformStep();
         }
     }

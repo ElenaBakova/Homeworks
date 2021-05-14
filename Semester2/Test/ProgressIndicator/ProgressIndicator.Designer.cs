@@ -56,11 +56,13 @@ namespace ProgressIndicator
             // 
             // textBox
             // 
+            this.textBox.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.textBox.BackColor = System.Drawing.SystemColors.Control;
             this.textBox.Location = new System.Drawing.Point(24, 79);
             this.textBox.Name = "textBox";
+            this.textBox.ReadOnly = true;
             this.textBox.Size = new System.Drawing.Size(148, 27);
             this.textBox.TabIndex = 2;
-            this.textBox.Hide();
             // 
             // ProgressIndicatorForm
             // 
@@ -75,7 +77,6 @@ namespace ProgressIndicator
             this.Text = "ProgressForm";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
