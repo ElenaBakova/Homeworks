@@ -16,7 +16,7 @@ namespace Clock
         {
             InitializeComponent();
             timer.Interval = 500;
-            timer.Tick += new EventHandler(TimerTick);
+            timer.Tick += TimerTick;
             timer.Start();
         }
 
