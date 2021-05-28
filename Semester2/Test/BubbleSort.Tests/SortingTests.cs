@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace BubbleSort.Tests
 {
+    /// <summary>
+    /// Bubble sort testing method
+    /// </summary>
     public class Tests
     {
         private bool CheckEquality<TValue>(List<TValue> first, List<TValue> second)
@@ -19,6 +22,9 @@ namespace BubbleSort.Tests
             return result;
         }
 
+        /// <summary>
+        /// Descending list sort
+        /// </summary>
         [Test]
         public void IntTest()
         {
@@ -28,15 +34,21 @@ namespace BubbleSort.Tests
             Assert.IsTrue(CheckEquality(list, answerList));
         }
         
+        /// <summary>
+        /// Odd/even sorting
+        /// </summary>
         [Test]
         public void IntEvenTest()
         {
             var list = new List<int> { 2, 1, 4, 8, 5, 7 };
-            var answerList = new List<int> { 1, 5, 7, 8, 4, 2 };
-            BubbleSort.Sorting(list, (x, y) => x % 2 == 0);
+            var answerList = new List<int> { 1, 5, 7, 2, 4, 8 };
+            BubbleSort.Sorting(list, (x, y) => x % 2 == 0 && y % 2 != 0);
             Assert.IsTrue(CheckEquality(list, answerList));
         }
         
+        /// <summary>
+        /// Sorting by last letter
+        /// </summary>
         [Test]
         public void StringTest()
         {
