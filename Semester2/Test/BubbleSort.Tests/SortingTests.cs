@@ -57,5 +57,17 @@ namespace BubbleSort.Tests
             BubbleSort.Sorting(list, (x, y) => x[x.Length - 1] > y[y.Length - 1]);
             Assert.IsTrue(CheckEquality(list, answerList));
         }
+
+        /// <summary>
+        /// Sorting by length
+        /// </summary>
+        [Test]
+        public void StringLengthTest()
+        {
+            var list = new List<string> { "Twenty", "Two", "Three", "Eleventh" };
+            var answerList = new List<string> { "Two", "Three", "Twenty", "Eleventh" };
+            BubbleSort.Sorting(list, (x, y) => x.Length > y.Length);
+            Assert.IsTrue(CheckEquality(list, answerList));
+        }
     }
 }
