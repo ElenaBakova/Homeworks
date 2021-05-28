@@ -10,7 +10,7 @@ namespace BTree
         readonly int treeOrder;
         private Node root;
 
-        class Node
+        private class Node
         {
             public int countNodes;
             public string[] keys;
@@ -120,7 +120,7 @@ namespace BTree
             if (x.isLeaf)
             {
                 int i = 0;
-                for (i = x.countNodes - 1; i >= 0 && k < x.keys[i]; i--)
+                for (i = x.countNodes - 1; i >= 0 && string.Compare(k, x.keys[i]) < 0; i--)
                 {
                     x.keys[i + 1] = x.keys[i];
                 }
@@ -130,7 +130,7 @@ namespace BTree
             else
             {
                 int i = 0;
-                for (i = x.countNodes - 1; i >= 0 && k < x.keys[i]; i--)
+                for (i = x.countNodes - 1; i >= 0 && string.Compare(k, x.keys[i]) < 0; i--)
                 {
                 }
                 i++;
@@ -138,14 +138,255 @@ namespace BTree
                 if (tmp.countNodes == 2 * treeOrder - 1)
                 {
                     SplitNodes(x, tmp, i);
-                    if (k > x.keys[i])
+                    if (string.Compare(k, x.keys[i]) > 0)
                     {
                         i++;
                     }
                 }
                 insertValue(x.child[i], k);
             }
+        }
 
+        public bool IsContain(string key)
+            => FindValueByKey(root, key) != null;
+
+        private void Remove(Node node, string key)
+        {
+            int pos = node.FindInNode(key);
+            if (pos != -1)
+            {
+                if (node.isLeaf)
+                {
+                    int i = 0;
+                    for (i = 0; i < node.countNodes && node.keys[i] != key; i++)
+                    {
+                    }
+
+                    for (; i < node.countNodes; i++)
+                    {
+                        if (i != 2 * treeOrder - 2)
+                        {
+                            node.keys[i] = node.keys[i + 1];
+                        }
+                    }
+                    node.countNodes--;
+                }
+                else if (!node.isLeaf)
+                {
+
+                    Node pred = node.child[pos];
+                    string predKey = "";
+                    if (pred.countNodes >= treeOrder)
+                    {
+                        for (; ; )
+                        {
+                            if (pred.isLeaf)
+                            {
+                                predKey = pred.keys[pred.countNodes - 1];
+                                break;
+                            }
+                            else
+                            {
+                                pred = pred.child[pred.countNodes];
+                            }
+                        }
+                        Remove(pred, predKey);
+                        node.keys[pos] = predKey;
+                        return;
+                    }
+
+                    Node nextNode = node.child[pos + 1];
+                    if (nextNode.countNodes >= treeOrder)
+                    {
+                        string nextKey = nextNode.keys[0];
+                        if (!nextNode.isLeaf)
+                        {
+                            nextNode = nextNode.child[0];
+                            for (; ; )
+                            {
+                                if (nextNode.isLeaf)
+                                {
+                                    nextKey = nextNode.keys[nextNode.countNodes - 1];
+                                    break;
+                                }
+                                else
+                                {
+                                    nextNode = nextNode.child[nextNode.countNodes];
+                                }
+                            }
+                        }
+                        Remove(nextNode, nextKey);
+                        node.keys[pos] = nextKey;
+                        return;
+                    }
+
+                    int temp = pred.countNodes + 1;
+                    pred.keys[pred.countNodes] = node.keys[pos];
+                    pred.countNodes++;
+                    for (int i = 0, j = pred.countNodes; i < nextNode.countNodes; i++)
+                    {
+                        pred.keys[j] = nextNode.keys[i];
+                        j++;
+                        pred.countNodes++;
+                    }
+                    for (int i = 0; i < nextNode.countNodes + 1; i++)
+                    {
+                        pred.child[temp] = nextNode.child[i];
+                        temp++;
+                    }
+
+                    node.child[pos] = pred;
+                    for (int i = pos; i < node.countNodes; i++)
+                    {
+                        if (i != 2 * treeOrder - 2)
+                        {
+                            node.keys[i] = node.keys[i + 1];
+                        }
+                    }
+                    for (int i = pos + 1; i < node.countNodes + 1; i++)
+                    {
+                        if (i != 2 * treeOrder - 1)
+                        {
+                            node.child[i] = node.child[i + 1];
+                        }
+                    }
+                    node.countNodes--;
+                    if (node.countNodes == 0)
+                    {
+                        if (node == root)
+                        {
+                            root = node.child[0];
+                        }
+                        node = node.child[0];
+                    }
+                    Remove(pred, key);
+                    return;
+                }
+            }
+            else
+            {
+                for (pos = 0; pos < node.countNodes; pos++)
+                {
+                    if (string.Compare(node.keys[pos], key) > 0)
+                    {
+                        break;
+                    }
+                }
+                Node tmp = node.child[pos];
+                if (tmp.countNodes >= treeOrder)
+                {
+                    Remove(tmp, key);
+                    return;
+                }
+                if (true)
+                {
+                    Node nb = null;
+                    string devider = "";
+
+                    if (pos != node.countNodes && node.child[pos + 1].countNodes >= treeOrder)
+                    {
+                        devider = node.keys[pos];
+                        nb = node.child[pos + 1];
+                        node.keys[pos] = nb.keys[0];
+                        tmp.keys[tmp.countNodes++] = devider;
+                        tmp.child[tmp.countNodes] = nb.child[0];
+                        for (int i = 1; i < nb.countNodes; i++)
+                        {
+                            nb.keys[i - 1] = nb.keys[i];
+                        }
+                        for (int i = 1; i <= nb.countNodes; i++)
+                        {
+                            nb.child[i - 1] = nb.child[i];
+                        }
+                        nb.countNodes--;
+                        Remove(tmp, key);
+                        return;
+                    }
+                    else if (pos != 0 && node.child[pos - 1].countNodes >= treeOrder)
+                    {
+
+                        devider = node.keys[pos - 1];
+                        nb = node.child[pos - 1];
+                        node.keys[pos - 1] = nb.keys[nb.countNodes - 1];
+                        Node child = nb.child[nb.countNodes];
+                        nb.countNodes--;
+
+                        for (int i = tmp.countNodes; i > 0; i--)
+                        {
+                            tmp.keys[i] = tmp.keys[i - 1];
+                        }
+                        tmp.keys[0] = devider;
+                        for (int i = tmp.countNodes + 1; i > 0; i--)
+                        {
+                            tmp.child[i] = tmp.child[i - 1];
+                        }
+                        tmp.child[0] = child;
+                        tmp.countNodes++;
+                        Remove(tmp, key);
+                        return;
+                    }
+                    else
+                    {
+                        Node leftSubtree = null;
+                        Node rightSubtree = null;
+                        bool last = false;
+                        if (pos != node.countNodes)
+                        {
+                            devider = node.keys[pos];
+                            leftSubtree = node.child[pos];
+                            rightSubtree = node.child[pos + 1];
+                        }
+                        else
+                        {
+                            devider = node.keys[pos - 1];
+                            rightSubtree = node.child[pos];
+                            leftSubtree = node.child[pos - 1];
+                            last = true;
+                            pos--;
+                        }
+                        for (int i = pos; i < node.countNodes - 1; i++)
+                        {
+                            node.keys[i] = node.keys[i + 1];
+                        }
+                        for (int i = pos + 1; i < node.countNodes; i++)
+                        {
+                            node.child[i] = node.child[i + 1];
+                        }
+                        node.countNodes--;
+                        leftSubtree.keys[leftSubtree.countNodes++] = devider;
+
+                        for (int i = 0, j = leftSubtree.countNodes; i < rightSubtree.countNodes + 1; i++, j++)
+                        {
+                            if (i < rightSubtree.countNodes)
+                            {
+                                leftSubtree.keys[j] = rightSubtree.keys[i];
+                            }
+                            leftSubtree.child[j] = rightSubtree.child[i];
+                        }
+                        leftSubtree.countNodes += rightSubtree.countNodes;
+                        if (node.countNodes == 0)
+                        {
+                            if (node == root)
+                            {
+                                root = node.child[0];
+                            }
+                            node = node.child[0];
+                        }
+                        Remove(leftSubtree, key);
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void Remove(string key)
+        {
+            Node x = FindValueByKey(root, key);
+            if (x == null)
+            {
+                return;
+            }
+            Remove(root, key);
         }
     }
 }
