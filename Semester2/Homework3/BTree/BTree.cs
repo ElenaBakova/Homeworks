@@ -3,191 +3,181 @@
 namespace BTree
 {
     /// <summary>
-    /// Tree wich contains key(string) and value(string)
+    /// Tree wich contains key and value
     /// </summary>
     class BTree
     {
-        readonly int treeOrder;
+        readonly int treeDegree;
         private Node root;
-
-        private class Node
+        
+        /// <summary>
+        /// B-tree constructor
+        /// </summary>
+        /// <param name="degree">Tree minimum degree</param>
+        public BTree(int degree)
         {
-            public int countNodes;
-            public string[] keys;
-            public Node[] child;
-            public bool isLeaf;
-
-            public Node(int order)
-            {
-                keys = new string[2 * order];
-                child = new Node[2 * order];
-                isLeaf = true;
-                countNodes = 0;
-            }
-
-            public int FindInNode(string key)
-            {
-                for (int i = 0; i < countNodes; i++)
-                {
-                    if (keys[i] == key)
-                    {
-                        return i;
-                    }
-                }
-                return -1;
-            }
+            treeDegree = degree;
+            root = new Node(degree);
         }
 
-        public BTree(int order)
-        {
-            treeOrder = order;
-            root = new Node(order);
-        }
-
-        private Node FindValueByKey(Node root, string key)
+        private string FindValue(Node root, string key)
         {
             if (root == null)
             {
-                return root;
+                return null;
             }
             int i = 0;
-            for (; i < root.countNodes; i++)
+            for (; i < root.KeysCount; i++)
             {
-                int comparingResult = string.Compare(key, root.keys[i]);
+                int comparingResult = string.Compare(key, root.Data[i].Key);
                 if (comparingResult == -1)
                 {
                     break;
                 }
                 if (comparingResult == 0)
                 {
-                    return root;
+                    return root.Data[i].Value;
                 }
             }
-            return root.isLeaf ? null : FindValueByKey(root.child[i], key);
+            return root.IsLeaf ? null : FindValue(root.Children[i], key);
         }
 
-        private void SplitNodes(Node first, Node second, int position)
-        {
-            var temp = new Node(treeOrder);
-            temp.isLeaf = second.isLeaf;
-            temp.countNodes = treeOrder - 1;
-            for (int i = 0; i < treeOrder - 1; i++)
-            {
-                temp.keys[i] = second.keys[i + treeOrder];
-            }
-            if (!second.isLeaf)
-            {
-                for (int i = 0; i < treeOrder; i++)
-                {
-                    temp.child[i] = second.child[i + treeOrder];
-                }
-            }
-            second.countNodes = treeOrder - 1;
-            for (int i = first.countNodes; i >= position + 1; i--)
-            {
-                first.child[i + 1] = first.child[i];
-            }
-            first.child[position + 1] = temp;
-            for (int i = first.countNodes - 1; i >= position; i--)
-            {
-                first.keys[i + 1] = first.keys[i];
-            }
-            first.keys[position] = second.keys[treeOrder - 1];
-            first.countNodes++;
-        }
+        /// <summary>
+        /// Searches for a key in the tree
+        /// </summary>
+        /// <returns>Key's value</returns>
+        public string FindValueByKey(string key)
+            => FindValue(root, key);
 
-        public void Insert(string key)
+        /// <summary>
+        /// True if key is in the tree
+        /// </summary>
+        public bool IsContain(string key)
+            => FindValue(root, key) != null;
+
+        /// <summary>
+        /// Inserts key-value into the tree
+        /// </summary>
+        public void Insert(string key, string value)
         {
             Node tempRoot = root;
-            if (tempRoot.countNodes == 2 * treeOrder - 1)
+            if (tempRoot.KeysCount == 2 * treeDegree - 1)
             {
-                Node newNode = new Node(treeOrder);
+                Node newNode = new Node(treeDegree);
                 root = newNode;
-                newNode.isLeaf = false;
-                newNode.countNodes = 0;
-                newNode.child[0] = tempRoot;
+                newNode.IsLeaf = false;
+                newNode.KeysCount = 0;
+                newNode.Children[0] = tempRoot;
                 SplitNodes(newNode, tempRoot, 0);
-                insertValue(newNode, key);
+                InsertValue(newNode, key, value);
             }
             else
             {
-                insertValue(tempRoot, key);
+                InsertValue(tempRoot, key, value);
             }
         }
 
-        private void insertValue(Node x, string k)
+        private void InsertValue(Node root, string key, string value)
         {
-            if (x.isLeaf)
+            int i = root.KeysCount - 1;
+            if (root.IsLeaf)
             {
-                int i = 0;
-                for (i = x.countNodes - 1; i >= 0 && string.Compare(k, x.keys[i]) < 0; i--)
+                for (; i >= 0 && string.Compare(key, root.Data[i].Key) < 0; i--)
                 {
-                    x.keys[i + 1] = x.keys[i];
+                    root.Data[i + 1] = root.Data[i];
                 }
-                x.keys[i + 1] = k;
-                x.countNodes = x.countNodes + 1;
+                root.Data[i + 1] = (key, value);
+                root.KeysCount++;
             }
             else
             {
-                int i = 0;
-                for (i = x.countNodes - 1; i >= 0 && string.Compare(k, x.keys[i]) < 0; i--)
+                for (; i >= 0 && string.Compare(key, root.Data[i].Key) < 0; i--)
                 {
                 }
                 i++;
-                Node tmp = x.child[i];
-                if (tmp.countNodes == 2 * treeOrder - 1)
+                Node temp = root.Children[i];
+                if (temp.KeysCount == 2 * treeDegree - 1)
                 {
-                    SplitNodes(x, tmp, i);
-                    if (string.Compare(k, x.keys[i]) > 0)
+                    SplitNodes(root, temp, i);
+                    if (string.Compare(key, root.Data[i].Key) > 0)
                     {
                         i++;
                     }
                 }
-                insertValue(x.child[i], k);
+                InsertValue(root.Children[i], key, value);
             }
         }
 
-        public bool IsContain(string key)
-            => FindValueByKey(root, key) != null;
+        private void SplitNodes(Node first, Node second, int position)
+        {
+            var temp = new Node(treeDegree);
+            temp.IsLeaf = second.IsLeaf;
+            temp.KeysCount = treeDegree - 1;
+            for (int i = 0; i < treeDegree - 1; i++)
+            {
+                temp.Data[i] = second.Data[i + treeDegree];
+            }
+            if (!second.IsLeaf)
+            {
+                for (int i = 0; i < treeDegree; i++)
+                {
+                    temp.Children[i] = second.Children[i + treeDegree];
+                }
+            }
+            second.KeysCount = treeDegree - 1;
 
-        private void Remove(Node node, string key)
+            for (int i = first.KeysCount; i >= position + 1; i--)
+            {
+                first.Children[i + 1] = first.Children[i];
+            }
+            first.Children[position + 1] = temp;
+
+            for (int i = first.KeysCount - 1; i >= position; i--)
+            {
+                first.Data[i + 1] = first.Data[i];
+            }
+            first.Data[position] = second.Data[treeDegree - 1];
+            first.KeysCount++;
+        }
+
+        /*private void RemoveKey(Node node, string key)
         {
             int pos = node.FindInNode(key);
             if (pos != -1)
             {
-                if (node.isLeaf)
+                if (node.IsLeaf)
                 {
                     int i = 0;
-                    for (i = 0; i < node.countNodes && node.keys[i] != key; i++)
+                    for (i = 0; i < node.KeysCount && node.keys[i] != key; i++)
                     {
                     }
 
-                    for (; i < node.countNodes; i++)
+                    for (; i < node.KeysCount; i++)
                     {
-                        if (i != 2 * treeOrder - 2)
+                        if (i != 2 * treeDegree - 2)
                         {
                             node.keys[i] = node.keys[i + 1];
                         }
                     }
-                    node.countNodes--;
+                    node.KeysCount--;
                 }
-                else if (!node.isLeaf)
+                else if (!node.IsLeaf)
                 {
 
-                    Node pred = node.child[pos];
+                    Node pred = node.GetChild(pos);
                     string predKey = "";
-                    if (pred.countNodes >= treeOrder)
+                    if (pred.KeysCount >= treeDegree)
                     {
                         for (; ; )
                         {
-                            if (pred.isLeaf)
+                            if (pred.IsLeaf)
                             {
-                                predKey = pred.keys[pred.countNodes - 1];
+                                predKey = pred.keys[pred.KeysCount - 1];
                                 break;
                             }
                             else
                             {
-                                pred = pred.child[pred.countNodes];
+                                pred = pred.GetChild(pred.KeysCount);
                             }
                         }
                         Remove(pred, predKey);
@@ -195,23 +185,23 @@ namespace BTree
                         return;
                     }
 
-                    Node nextNode = node.child[pos + 1];
-                    if (nextNode.countNodes >= treeOrder)
+                    Node nextNode = node.GetChild(pos + 1);
+                    if (nextNode.KeysCount >= treeDegree)
                     {
                         string nextKey = nextNode.keys[0];
-                        if (!nextNode.isLeaf)
+                        if (!nextNode.IsLeaf)
                         {
-                            nextNode = nextNode.child[0];
+                            nextNode = nextNode.GetChild(0);
                             for (; ; )
                             {
-                                if (nextNode.isLeaf)
+                                if (nextNode.IsLeaf)
                                 {
-                                    nextKey = nextNode.keys[nextNode.countNodes - 1];
+                                    nextKey = nextNode.keys[nextNode.KeysCount - 1];
                                     break;
                                 }
                                 else
                                 {
-                                    nextNode = nextNode.child[nextNode.countNodes];
+                                    nextNode = nextNode.GetChild(nextNode.KeysCount);
                                 }
                             }
                         }
@@ -220,44 +210,44 @@ namespace BTree
                         return;
                     }
 
-                    int temp = pred.countNodes + 1;
-                    pred.keys[pred.countNodes] = node.keys[pos];
-                    pred.countNodes++;
-                    for (int i = 0, j = pred.countNodes; i < nextNode.countNodes; i++)
+                    int temp = pred.KeysCount + 1;
+                    pred.keys[pred.KeysCount] = node.keys[pos];
+                    pred.KeysCount++;
+                    for (int i = 0, j = pred.KeysCount; i < nextNode.KeysCount; i++)
                     {
                         pred.keys[j] = nextNode.keys[i];
                         j++;
-                        pred.countNodes++;
+                        pred.KeysCount++;
                     }
-                    for (int i = 0; i < nextNode.countNodes + 1; i++)
+                    for (int i = 0; i < nextNode.KeysCount + 1; i++)
                     {
-                        pred.child[temp] = nextNode.child[i];
+                        pred.AssignChild(temp, nextNode.GetChild(i));
                         temp++;
                     }
 
-                    node.child[pos] = pred;
-                    for (int i = pos; i < node.countNodes; i++)
+                    node.AssignChild(pos, pred);
+                    for (int i = pos; i < node.KeysCount; i++)
                     {
-                        if (i != 2 * treeOrder - 2)
+                        if (i != 2 * treeDegree - 2)
                         {
                             node.keys[i] = node.keys[i + 1];
                         }
                     }
-                    for (int i = pos + 1; i < node.countNodes + 1; i++)
+                    for (int i = pos + 1; i < node.KeysCount + 1; i++)
                     {
-                        if (i != 2 * treeOrder - 1)
+                        if (i != 2 * treeDegree - 1)
                         {
-                            node.child[i] = node.child[i + 1];
+                            node.AssignChild(i, node.GetChild(i + 1));
                         }
                     }
-                    node.countNodes--;
-                    if (node.countNodes == 0)
+                    node.KeysCount--;
+                    if (node.KeysCount == 0)
                     {
                         if (node == root)
                         {
-                            root = node.child[0];
+                            root = node.GetChild(0);
                         }
-                        node = node.child[0];
+                        node = node.GetChild(0);
                     }
                     Remove(pred, key);
                     return;
@@ -265,15 +255,15 @@ namespace BTree
             }
             else
             {
-                for (pos = 0; pos < node.countNodes; pos++)
+                for (pos = 0; pos < node.KeysCount; pos++)
                 {
                     if (string.Compare(node.keys[pos], key) > 0)
                     {
                         break;
                     }
                 }
-                Node tmp = node.child[pos];
-                if (tmp.countNodes >= treeOrder)
+                Node tmp = node.GetChild(pos);
+                if (tmp.KeysCount >= treeDegree)
                 {
                     Remove(tmp, key);
                     return;
@@ -283,106 +273,108 @@ namespace BTree
                     Node nb = null;
                     string devider = "";
 
-                    if (pos != node.countNodes && node.child[pos + 1].countNodes >= treeOrder)
+                    if (pos != node.KeysCount && node.GetChild(pos + 1).KeysCount >= treeDegree)
                     {
                         devider = node.keys[pos];
-                        nb = node.child[pos + 1];
+                        nb = node.GetChild(pos + 1);
                         node.keys[pos] = nb.keys[0];
-                        tmp.keys[tmp.countNodes++] = devider;
-                        tmp.child[tmp.countNodes] = nb.child[0];
-                        for (int i = 1; i < nb.countNodes; i++)
+                        tmp.keys[tmp.KeysCount++] = devider;
+                        tmp.AssignChild(tmp.KeysCount, nb.GetChild(0));
+                        for (int i = 1; i < nb.KeysCount; i++)
                         {
                             nb.keys[i - 1] = nb.keys[i];
                         }
-                        for (int i = 1; i <= nb.countNodes; i++)
+                        for (int i = 1; i <= nb.KeysCount; i++)
                         {
-                            nb.child[i - 1] = nb.child[i];
+                            nb.AssignChild(i - 1, nb.GetChild(i));
                         }
-                        nb.countNodes--;
+                        nb.KeysCount--;
                         Remove(tmp, key);
                         return;
                     }
-                    else if (pos != 0 && node.child[pos - 1].countNodes >= treeOrder)
+                    else if (pos != 0 && node.GetChild(pos - 1).KeysCount >= treeDegree)
                     {
 
                         devider = node.keys[pos - 1];
-                        nb = node.child[pos - 1];
-                        node.keys[pos - 1] = nb.keys[nb.countNodes - 1];
-                        Node child = nb.child[nb.countNodes];
-                        nb.countNodes--;
+                        nb = node.GetChild(pos - 1);
+                        node.keys[pos - 1] = nb.keys[nb.KeysCount - 1];
+                        Node child = nb.GetChild(nb.KeysCount);
+                        nb.KeysCount--;
 
-                        for (int i = tmp.countNodes; i > 0; i--)
+                        for (int i = tmp.KeysCount; i > 0; i--)
                         {
                             tmp.keys[i] = tmp.keys[i - 1];
                         }
                         tmp.keys[0] = devider;
-                        for (int i = tmp.countNodes + 1; i > 0; i--)
+                        for (int i = tmp.KeysCount + 1; i > 0; i--)
                         {
-                            tmp.child[i] = tmp.child[i - 1];
+                            tmp.AssignChild(i, tmp.GetChild(i - 1));
                         }
-                        tmp.child[0] = child;
-                        tmp.countNodes++;
+                        tmp.AssignChild(0, child);
+                        tmp.KeysCount++;
                         Remove(tmp, key);
                         return;
                     }
                     else
                     {
-                        Node leftSubtree = null;
-                        Node rightSubtree = null;
-                        bool last = false;
-                        if (pos != node.countNodes)
+                        Node leftSubtree;
+                        Node rightSubtree;
+                        bool last;
+                        if (pos != node.KeysCount)
                         {
                             devider = node.keys[pos];
-                            leftSubtree = node.child[pos];
-                            rightSubtree = node.child[pos + 1];
+                            leftSubtree = node.GetChild(pos);
+                            rightSubtree = node.GetChild(pos + 1);
                         }
                         else
                         {
                             devider = node.keys[pos - 1];
-                            rightSubtree = node.child[pos];
-                            leftSubtree = node.child[pos - 1];
+                            leftSubtree = node.GetChild(pos - 1);
+                            rightSubtree = node.GetChild(pos);
                             last = true;
                             pos--;
                         }
-                        for (int i = pos; i < node.countNodes - 1; i++)
+                        for (int i = pos; i < node.KeysCount - 1; i++)
                         {
                             node.keys[i] = node.keys[i + 1];
                         }
-                        for (int i = pos + 1; i < node.countNodes; i++)
+                        for (int i = pos + 1; i < node.KeysCount; i++)
                         {
-                            node.child[i] = node.child[i + 1];
+                            node.AssignChild(i, node.GetChild(i + 1));
                         }
-                        node.countNodes--;
-                        leftSubtree.keys[leftSubtree.countNodes++] = devider;
+                        node.KeysCount--;
+                        leftSubtree.keys[leftSubtree.KeysCount++] = devider;
 
-                        for (int i = 0, j = leftSubtree.countNodes; i < rightSubtree.countNodes + 1; i++, j++)
+                        for (int i = 0, j = leftSubtree.KeysCount; i < rightSubtree.KeysCount + 1; i++, j++)
                         {
-                            if (i < rightSubtree.countNodes)
+                            if (i < rightSubtree.KeysCount)
                             {
                                 leftSubtree.keys[j] = rightSubtree.keys[i];
                             }
-                            leftSubtree.child[j] = rightSubtree.child[i];
+                            leftSubtree.AssignChild(j, rightSubtree.GetChild(i));
                         }
-                        leftSubtree.countNodes += rightSubtree.countNodes;
-                        if (node.countNodes == 0)
+                        leftSubtree.KeysCount += rightSubtree.KeysCount;
+                        if (node.KeysCount == 0)
                         {
                             if (node == root)
                             {
-                                root = node.child[0];
+                                root = node.GetChild(0);
                             }
-                            node = node.child[0];
+                            node = node.GetChild(0);
                         }
                         Remove(leftSubtree, key);
                         return;
                     }
                 }
             }
-        }
+        }*/
 
-        public void Remove(string key)
+        /// <summary>
+        /// Removes key from the tree
+        /// </summary>
+        public void RemoveKey(string key)
         {
-            Node x = FindValueByKey(root, key);
-            if (x == null)
+            if (FindValue(root, key) == null)
             {
                 return;
             }

@@ -6,10 +6,10 @@ namespace BTree
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Please define order of the tree");
+            Console.WriteLine("Please define degree of the tree");
             string read = Console.ReadLine();
             string[] numbers = read.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var treeOrder = int.Parse(numbers[0]);
+            var treeDegree = int.Parse(numbers[0]);
         }
     }
 }
