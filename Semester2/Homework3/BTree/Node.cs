@@ -6,6 +6,18 @@
     class Node
     {
         /// <summary>
+        /// Tree data type class
+        /// </summary>
+        public struct TreeData
+        {
+            public string Key;
+            public string Value;
+        }
+
+        public static TreeData ConvertToTreeData(string key, string value)
+            => new TreeData { Key = key, Value = value };
+
+        /// <summary>
         /// Shows whether current node is leaf
         /// </summary>
         public bool IsLeaf { get; set; }
@@ -18,7 +30,7 @@
         /// <summary>
         /// B-tree nodes values
         /// </summary>
-        public (string Key, string Value)[] Data { get; set; }
+        public TreeData[] Data { get; set; }
 
         /// <summary>
         /// Current node children
@@ -31,22 +43,22 @@
         /// <param name="degree">Tree degree</param>
         public Node(int degree)
         {
-            Data = new (string Key, string Value)[2 * degree];
+            Data = new TreeData[2 * degree];
             Children = new Node[2 * degree];
             IsLeaf = true;
             KeysCount = 0;
         }
 
+        /// <summary>
+        /// Returns the index of the first key that is equal or greater than given key
+        /// </summary>
         public int FindInNode(string key)
         {
-            for (int i = 0; i < KeysCount; i++)
+            int i = 0;
+            for (; i < KeysCount && string.Compare(Data[i].Key, key) < 0; i++)
             {
-                if (string.Compare(Data[i].Key, key) == 0)
-                {
-                    return i;
-                }
             }
-            return -1;
+            return i;
         }
     }
 }
