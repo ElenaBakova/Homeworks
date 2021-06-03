@@ -187,7 +187,7 @@ namespace BTree
                     FillChild(position, node);
                 }
 
-                if (flag)
+                if (flag && position > node.KeysCount)
                 {
                     Remove(node.Children[position - 1], key);
                 }
