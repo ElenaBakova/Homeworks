@@ -319,11 +319,19 @@ namespace BTree
         {
             var child = node.Children[position];
             var sibling = node.Children[position + 1];
-            child.Data[node.KeysCount - 1] = node.Data[position];
+            child.Data[treeDegree - 1] = node.Data[position];
 
             for (int i = 0; i < sibling.KeysCount; i++)
             {
-                child.Data[i + node.KeysCount] = sibling.Data[i];
+                child.Data[i + treeDegree] = sibling.Data[i];
+            }
+
+            if (!child.IsLeaf)
+            {
+                for (int i = 0; i < sibling.KeysCount; i++)
+                {
+                    child.Children[i + treeDegree] = sibling.Children[i];
+                }
             }
 
             for (int i = position + 1; i < node.KeysCount; i++)
