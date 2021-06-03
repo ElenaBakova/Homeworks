@@ -7,7 +7,7 @@ namespace BTree
     /// </summary>
     public class BTree
     {
-        readonly int treeDegree;
+        private readonly int treeDegree;
         private Node root;
         
         /// <summary>
@@ -82,7 +82,7 @@ namespace BTree
         /// <summary>
         /// Replaces value if given value differs from actual value
         /// </summary>
-        private void ReplaceByNewValue(string key, string value, Node node, int position)
+        private void ReplaceByNewValue(string value, Node node, int position)
             => node.Data[position].Value = value;
 
         private void InsertValue(Node root, string key, string value)
@@ -96,7 +96,7 @@ namespace BTree
                 }
                 if (i >= 0 && string.Compare(key, root.Data[i].Key) == 0)
                 {
-                    ReplaceByNewValue(key, value, root, i);
+                    ReplaceByNewValue(value, root, i);
                     return;
                 }
                 root.Data[i + 1] = Node.ConvertToTreeData(key, value);
@@ -109,7 +109,7 @@ namespace BTree
                 }
                 if (i >= 0 && string.Compare(key, root.Data[i].Key) == 0)
                 {
-                    ReplaceByNewValue(key, value, root, i);
+                    ReplaceByNewValue(value, root, i);
                     return;
                 }
                 i++;
@@ -126,38 +126,38 @@ namespace BTree
             }
         }
 
-        private void SplitNodes(Node first, Node second, int position)
+        private void SplitNodes(Node parent, Node childToSplit, int position)
         {
             var temp = new Node(treeDegree);
-            temp.IsLeaf = second.IsLeaf;
+            temp.IsLeaf = childToSplit.IsLeaf;
             temp.KeysCount = treeDegree - 1;
 
             for (int i = 0; i < treeDegree - 1; i++)
             {
-                temp.Data[i] = second.Data[i + treeDegree];
+                temp.Data[i] = childToSplit.Data[i + treeDegree];
             }
 
-            if (!second.IsLeaf)
+            if (!childToSplit.IsLeaf)
             {
                 for (int i = 0; i < treeDegree; i++)
                 {
-                    temp.Children[i] = second.Children[i + treeDegree];
+                    temp.Children[i] = childToSplit.Children[i + treeDegree];
                 }
             }
-            second.KeysCount = treeDegree - 1;
+            childToSplit.KeysCount = treeDegree - 1;
 
-            for (int i = first.KeysCount; i >= position + 1; i--)
+            for (int i = parent.KeysCount; i >= position + 1; i--)
             {
-                first.Children[i + 1] = first.Children[i];
+                parent.Children[i + 1] = parent.Children[i];
             }
-            first.Children[position + 1] = temp;
+            parent.Children[position + 1] = temp;
 
-            for (int i = first.KeysCount - 1; i >= position; i--)
+            for (int i = parent.KeysCount - 1; i >= position; i--)
             {
-                first.Data[i + 1] = first.Data[i];
+                parent.Data[i + 1] = parent.Data[i];
             }
-            first.Data[position] = second.Data[treeDegree - 1];
-            first.KeysCount++;
+            parent.Data[position] = childToSplit.Data[treeDegree - 1];
+            parent.KeysCount++;
         }
 
         private void Remove(Node node, string key)

@@ -26,11 +26,11 @@ namespace BTree.Tests
         {
             tree.Insert("1", "2");
             tree.Insert("2", "3");
-            bool result = tree.IsContain("1") && tree.IsContain("2") && !tree.IsContain("3") && !tree.IsContain("4");
+            Assert.IsTrue(tree.IsContain("1") && tree.IsContain("2") && !tree.IsContain("3") && !tree.IsContain("4"));
             tree.Insert("3", "4");
-            result &= tree.IsContain("3");
+            Assert.IsTrue(tree.IsContain("3"));
             tree.Insert("4", "5");
-            Assert.IsTrue(result && tree.IsContain("4"));
+            Assert.IsTrue(tree.IsContain("4"));
         }
         
         [Test]
