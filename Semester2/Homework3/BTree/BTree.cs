@@ -350,23 +350,12 @@ namespace BTree
                 throw new ArgumentOutOfRangeException("Key not found");
             }
             Remove(root, key);
-
-            /*if (root.KeysCount == 0)
-            {
-                if (root.IsLeaf)
-                {
-                    root = null;
-                }
-                else
-                {
-                    root = root.Children[0];
-                }
-            }*/
         }
 
-        public void ReplaceValue(string key)
-        {
-
-        }
+        /// <summary>
+        /// Replaces key value by new
+        /// </summary>
+        public void ReplaceValue(string key, string value)
+            => InsertValue(root, key, value);
     }
 }
