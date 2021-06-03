@@ -63,5 +63,15 @@
             }
             return i;
         }
+        
+        public override string ToString()
+        {
+            var result = "";
+            for (var i = 0; i < KeysCount; ++i)
+            {
+                result += $"({Data[i]}), ";
+            }
+            return result;
+        }
     }
 }
