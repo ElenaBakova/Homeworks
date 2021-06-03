@@ -187,7 +187,7 @@ namespace BTree
                     FillChild(position, node);
                 }
 
-                if (flag && position > node.KeysCount)
+                if (flag)
                 {
                     Remove(node.Children[position - 1], key);
                 }
@@ -278,9 +278,9 @@ namespace BTree
             var predecessor = node.Children[position];
             var currentKey = node.Data[position].Key;
 
-            if (node.Children[position].KeysCount >= treeDegree)
+            if (predecessor.KeysCount >= treeDegree)
             {
-                var predecessorData = GetPredecessor(node.Children[position]);
+                var predecessorData = GetPredecessor(predecessor);
                 node.Data[position] = predecessorData;
                 Remove(predecessor, predecessorData.Key);
             }
