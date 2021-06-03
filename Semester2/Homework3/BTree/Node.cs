@@ -12,6 +12,9 @@
         {
             public string Key;
             public string Value;
+            
+            public override string ToString()
+                => Key + ": " + Value;
         }
 
         public static TreeData ConvertToTreeData(string key, string value)
