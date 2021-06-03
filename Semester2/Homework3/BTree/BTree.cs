@@ -23,7 +23,7 @@ namespace BTree
         /// <summary>
         /// Returns number of keys in the root
         /// </summary>
-        public int RootKeysCount { get => root.KeysCount; }
+        public int RootKeysCount => root.KeysCount;
 
         private string FindValue(Node root, string key)
         {
