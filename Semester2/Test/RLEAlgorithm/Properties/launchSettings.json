@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RLEAlgorithm": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../input.txt -c"
+    }
+  }
+}
