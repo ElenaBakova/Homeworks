@@ -16,7 +16,7 @@ namespace RLEAlgorithm
             public byte Count;
 
             public override string ToString()
-                => Count.ToString() + Symbol;
+                => Count.ToString() + (char)Symbol;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace RLEAlgorithm
             for (int i = 1; i < array.Length; )
             {
                 int count = 1;
-                while (array[i] == array[i - 1] && i < array.Length)
+                while (i < array.Length && array[i] == array[i - 1])
                 {
                     i++;
                     count++;
