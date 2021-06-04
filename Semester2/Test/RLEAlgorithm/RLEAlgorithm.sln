@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RLEAlgorithm", "RLEAlgorithm.csproj", "{7517D202-B4BB-4364-9BF6-3CACB7A3ACAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RLEAlgorithm.Tests", "..\RLEAlgorithm.Tests\RLEAlgorithm.Tests.csproj", "{32D8F323-334F-46AC-BC89-11CD6444811C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7517D202-B4BB-4364-9BF6-3CACB7A3ACAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7517D202-B4BB-4364-9BF6-3CACB7A3ACAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7517D202-B4BB-4364-9BF6-3CACB7A3ACAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7517D202-B4BB-4364-9BF6-3CACB7A3ACAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32D8F323-334F-46AC-BC89-11CD6444811C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32D8F323-334F-46AC-BC89-11CD6444811C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32D8F323-334F-46AC-BC89-11CD6444811C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32D8F323-334F-46AC-BC89-11CD6444811C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0017DE7-2C47-4A5F-B13E-B6FBCC817DFD}
+	EndGlobalSection
+EndGlobal

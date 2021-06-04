@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RLEAlgorithm": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\lenab\\source\\repos\\Homeworks\\Semester2\\Test\\RLEAlgorithm\\input.txt -c"
+    }
+  }
+}
