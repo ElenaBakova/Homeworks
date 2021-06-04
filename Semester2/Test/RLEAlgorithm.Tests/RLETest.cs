@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using System.Collections.Generic;
+using static RLEAlgorithm.RLE;
 
 namespace RLEAlgorithm.Tests
 {
@@ -7,15 +9,9 @@ namespace RLEAlgorithm.Tests
     /// </summary>
     public class RLETests
     {
-        private bool AreEqual()
-        {
-            return true;
-        }
-
-        [TestCase("\\..\\..\\..\\testInput.txt", "\\..\\..\\..\\answers.txt")]
-        public void CompressionTest(string inputPath, string answerPath)
-        {
-            
-        }
+        [TestCase("WWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWBWWWWWWWWWWWWWW", ExpectedResult = "9W3B24W1B14W")]
+        [TestCase("ABCABCABCDDDFFFFFF", ExpectedResult = "1A1B1C1A1B1C1A1B1C3D6F")]
+        public string CompressionTest(byte[] input)
+            => ConvertToString(Compress(input));
     }
 }
