@@ -2,7 +2,7 @@
   "profiles": {
     "RLEAlgorithm": {
       "commandName": "Project",
-      "commandLineArgs": "\\..\\..\\..\\input.txt -c"
+      "commandLineArgs": "../../../input.txt -c"
     }
   }
 }
