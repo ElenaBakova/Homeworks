@@ -23,9 +23,7 @@ namespace MatrixMultiplication
 
             var firstMatrix = new Matrix(firstMatrixPath);
             var secondMatrix = new Matrix(secoindMatrixPath);
-            // var resultMatrix = MultiplicationMatrixesMethod;
-            // Write resultMatrix to file
-            Console.WriteLine($"Elapsed time: {Matrix.MultiplicateMatrices(firstMatrix, secondMatrix).TotalSeconds} sec");
+            Console.WriteLine($"Elapsed time: {Matrix.MeasureTimeInUsualMultiplication(firstMatrix, secondMatrix).TotalSeconds} sec");
         }
     }
 }

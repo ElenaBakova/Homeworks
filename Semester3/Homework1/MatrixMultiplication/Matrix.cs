@@ -54,7 +54,7 @@ namespace MatrixMultiplication
         /// Method measures elapsed time to multiply matrices usual way
         /// </summary>
         /// <returns>Elapsed time</returns>
-        public static TimeSpan MultiplicateMatrices(Matrix first, Matrix second)
+        public static TimeSpan MeasureTimeInUsualMultiplication(Matrix first, Matrix second)
         {
             if (first.Size.columns != second.Size.rows)
             {
@@ -74,9 +74,23 @@ namespace MatrixMultiplication
                     }
                 }
             }
-
             stopwatch.Stop();
             return stopwatch.Elapsed;
+        }
+
+        /// <summary>
+        /// Concurrent matrix multiplication
+        /// </summary>
+        /// <param name="first">First matrix</param>
+        /// <param name="second">Second matrix</param>
+        /// <returns>Product matrix</returns>
+        public Matrix MultiplicateMatrices(Matrix first, Matrix second)
+        {
+            if (first.Size.columns != second.Size.rows)
+            {
+                return null;
+            }
+            var product = new Matrix(first.Size.rows, second.Size.columns);
         }
     }
 }
