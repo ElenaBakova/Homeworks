@@ -23,10 +23,10 @@ namespace MatrixMultiplication
                 secoindMatrixPath = args[1];
             }
 
-            using (StreamReader stream = File.OpenText(firstMatrixPath))
-            {
-
-            }
+            var firstMatrix = new Matrix(firstMatrixPath);
+            var secondMatrix = new Matrix(secoindMatrixPath);
+            // var resultMatrix = MultiplicationMatrixesMethod;
+            // Write resultMatrix to file
         }
     }
 }
