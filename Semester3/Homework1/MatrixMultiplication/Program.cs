@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Threading;
 
 namespace MatrixMultiplication
 {
@@ -27,6 +25,7 @@ namespace MatrixMultiplication
             var secondMatrix = new Matrix(secoindMatrixPath);
             // var resultMatrix = MultiplicationMatrixesMethod;
             // Write resultMatrix to file
+            Console.WriteLine($"Elapsed time: {Matrix.MultiplicateMatrices(firstMatrix, secondMatrix).TotalSeconds} sec");
         }
     }
 }
