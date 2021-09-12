@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace MatrixMultiplication
 {
@@ -11,6 +12,12 @@ namespace MatrixMultiplication
     /// </summary>
     public class Matrix
     {
+        /// <summary>
+        /// Number of rows and columns in the matrix
+        /// </summary>
+        public (int rows, int columns) Size { get; private set; }
+        private List<int>[] matrix;
+
         /// <summary>
         /// Reads size of matrix and matrix from file
         /// </summary>
@@ -45,16 +52,10 @@ namespace MatrixMultiplication
         }
 
         /// <summary>
-        /// Number of rows and columns in the matrix
-        /// </summary>
-        public (int rows, int columns) Size { get; private set; }
-        private List<int>[] matrix;
-
-        /// <summary>
         /// Method measures elapsed time to multiply matrices usual way
         /// </summary>
         /// <returns>Elapsed time</returns>
-        public static TimeSpan MeasureTimeInUsualMultiplication(Matrix first, Matrix second)
+        public static TimeSpan MeasureElapsedTime(Matrix first, Matrix second, Func<Matrix, Matrix, Matrix> func)
         {
             if (first.Size.columns != second.Size.rows)
             {
@@ -62,6 +63,25 @@ namespace MatrixMultiplication
             }
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
+            func(first, second);
+
+            stopwatch.Stop();
+            return stopwatch.Elapsed;
+        }
+
+        /// <summary>
+        /// Matrix multiplication usual way
+        /// </summary>
+        /// <param name="first">First matrix</param>
+        /// <param name="second">Second matrix</param>
+        /// <returns>Product matrix</returns>
+        public static Matrix MultiplicateMatricesUsually(Matrix first, Matrix second)
+        {
+            if (first.Size.columns != second.Size.rows)
+            {
+                return null;
+            }
 
             var product = new Matrix(first.Size.rows, second.Size.columns);
             for (int i = 0; i < first.Size.rows; i++)
@@ -74,8 +94,7 @@ namespace MatrixMultiplication
                     }
                 }
             }
-            stopwatch.Stop();
-            return stopwatch.Elapsed;
+            return product;
         }
 
         /// <summary>
@@ -84,13 +103,63 @@ namespace MatrixMultiplication
         /// <param name="first">First matrix</param>
         /// <param name="second">Second matrix</param>
         /// <returns>Product matrix</returns>
-        public Matrix MultiplicateMatrices(Matrix first, Matrix second)
+        public static Matrix MultiplicateMatrices(Matrix first, Matrix second)
         {
             if (first.Size.columns != second.Size.rows)
             {
                 return null;
             }
             var product = new Matrix(first.Size.rows, second.Size.columns);
+            var threads = new Thread[4];
+            var length = first.Size.rows;
+            var chunkSize = length / threads.Length + 1;
+
+            for (int i = 0; i < threads.Length; ++i)
+            {
+                var localI = i;
+                threads[i] = new Thread(() => {
+                    for (int p = localI * chunkSize; p < (localI + 1) * chunkSize && p < length; p++)
+                    {
+                        for (int j = 0; j < second.Size.columns; j++)
+                        {
+                            for (int k = 0; k < first.Size.columns; k++)
+                            {
+                                product.matrix[p][j] += first.matrix[p][k] * second.matrix[k][j];
+                            }
+                        }
+                    }
+                }); 
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.Start();
+            }
+            foreach (var thread in threads)
+            {
+                thread.Join();
+            }
+
+            return product;
+        }
+
+        /// <summary>
+        /// Writes matrix to the "Result.txt"
+        /// </summary>
+        public static void WriteMatrixToTheFile(Matrix matrix)
+        {
+            var path = "../../../Result.txt";
+            using (var stream = new StreamWriter(path))
+            {
+                for (int i = 0; i < matrix.Size.rows; i++)
+                {
+                    for (int j = 0; j < matrix.Size.columns; j++)
+                    {
+                        stream.Write($"{matrix.matrix[i][j]} ");
+                    }
+                    stream.Write("\n");
+                }
+            }
         }
     }
 }
