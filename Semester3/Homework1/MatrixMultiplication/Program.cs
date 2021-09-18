@@ -6,7 +6,12 @@ namespace MatrixMultiplication
     {
         static void Main(string[] args)
         {
-            string firstMatrixPath;
+            Console.WriteLine("Concurrent method");
+            MethodsComparison.Compare(Matrix.MultiplicateMatrices);
+            Console.WriteLine("---------------------\nSequential method");
+            MethodsComparison.Compare(Matrix.MultiplicateMatricesUsually);
+
+            /*string firstMatrixPath;
             string secoindMatrixPath;
             if (args.Length < 2)
             {
@@ -23,9 +28,9 @@ namespace MatrixMultiplication
 
             var firstMatrix = new Matrix(firstMatrixPath);
             var secondMatrix = new Matrix(secoindMatrixPath);
-            Console.WriteLine($"Elapsed time(usual way): {Matrix.MeasureElapsedTime(firstMatrix, secondMatrix, Matrix.MultiplicateMatricesUsually).TotalSeconds} sec");
+            Console.WriteLine($"Elapsed time(Sequential way): {Matrix.MeasureElapsedTime(firstMatrix, secondMatrix, Matrix.MultiplicateMatricesUsually).TotalSeconds} sec");
             Console.WriteLine($"Elapsed time(concurrent): {Matrix.MeasureElapsedTime(firstMatrix, secondMatrix, Matrix.MultiplicateMatrices).TotalSeconds} sec");
-            Matrix.WriteMatrixToTheFile(Matrix.MultiplicateMatrices(firstMatrix, secondMatrix));
+            Matrix.WriteMatrixToTheFile(Matrix.MultiplicateMatrices(firstMatrix, secondMatrix));*/
         }
     }
 }

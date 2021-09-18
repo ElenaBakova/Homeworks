@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MatrixMultiplication
 {
@@ -11,26 +7,42 @@ namespace MatrixMultiplication
     /// </summary>
     class MethodsComparison
     {
-        /// <summary>
-        /// Generates matrix with given size into the file
-        /// </summary>
-        /// <param name="size">Size of matrix</param>
-        /// <param name="path">File path for the matrix</param>
-        public void GenerateMatrix((int rows, int columns) size, string path)
+        public static void Compare(Func<Matrix, Matrix, Matrix> func)
         {
-            var rand = new Random();
-            using (var stream = new StreamWriter(path))
+            const int countExperiments = 10;
+            const int firstMatrixRows = 500;
+            (int i, int j, double time) maxTime = (0, 0, 0);
+            (int i, int j, double time) minTime = (0, 0, 1000000);
+            for (int i = 500; i <= 2000; i += 500)
             {
-                stream.WriteLine($"{size.rows} {size.columns}");
-                for (int i = 0; i < size.rows; i++)
+                for (int j = i; j <= 2000; j += 500)
                 {
-                    for (int j = 0; j < size.columns; j++)
+                    double average = 0;
+                    double variance = 0;
+                    var first = Matrix.GenerateMatrix((i, firstMatrixRows));
+                    var second = Matrix.GenerateMatrix((firstMatrixRows, j));
+                    for (int k = 0; k < countExperiments; k++)
                     {
-                        stream.Write((rand.Next() % 50).ToString() + " ");
+                        var time = Matrix.MeasureElapsedTime(first, second, func).TotalSeconds;
+                        average += time;
+                        variance += time * time;
+                        if (maxTime.time - time < 1e-4)
+                        {
+                            maxTime = (i, j, time);
+                        }
+                        if (time - minTime.time < 1e-4)
+                        {
+                            minTime = (i, j, time);
+                        }
                     }
-                    stream.Write("\n");
+                    average /= countExperiments;
+                    variance /= countExperiments;
+                    variance -= average * average;
+                    Console.WriteLine($"Matrix size = {i}x{j}, average = {average:f4}sec, standard deviation = {Math.Sqrt(variance):f4}sec");
                 }
             }
+            Console.WriteLine($"Maximum elapsed time = {maxTime.time:f4}sec, matrix size = {maxTime.i}x{maxTime.j}");
+            Console.WriteLine($"Minimum elapsed time = {minTime.time:f4}sec, matrix size = {minTime.i}x{minTime.j}");
         }
     }
 }

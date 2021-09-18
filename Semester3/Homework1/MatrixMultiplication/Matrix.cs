@@ -19,7 +19,7 @@ namespace MatrixMultiplication
         private List<int>[] matrix;
 
         /// <summary>
-        /// Reads size of matrix and matrix from file
+        /// Reads matrix from file
         /// </summary>
         /// <param name="path">File path</param>
         public Matrix(string path)
@@ -52,8 +52,27 @@ namespace MatrixMultiplication
         }
 
         /// <summary>
-        /// Method measures elapsed time to multiply matrices usual way
+        /// Generates matrix with given size
         /// </summary>
+        /// <param name="size">Size of matrix</param>
+        public static Matrix GenerateMatrix((int rows, int columns) size)
+        {
+            var rand = new Random();
+            var matrix = new Matrix(size.rows, size.columns);
+            for (int i = 0; i < size.rows; i++)
+            {
+                for (int j = 0; j < size.columns; j++)
+                {
+                    matrix.matrix[i][j] = rand.Next() % 50;
+                }
+            }
+            return matrix;
+        }
+
+        /// <summary>
+        /// Method measures elapsed time to multiply matrices
+        /// </summary>
+        /// <param name="func">Matrix multiplication function</param>
         /// <returns>Elapsed time</returns>
         public static TimeSpan MeasureElapsedTime(Matrix first, Matrix second, Func<Matrix, Matrix, Matrix> func)
         {
@@ -71,7 +90,7 @@ namespace MatrixMultiplication
         }
 
         /// <summary>
-        /// Matrix multiplication usual way
+        /// Sequential matrix multiplication
         /// </summary>
         /// <param name="first">First matrix</param>
         /// <param name="second">Second matrix</param>
@@ -144,11 +163,11 @@ namespace MatrixMultiplication
         }
 
         /// <summary>
-        /// Writes matrix to the "Result.txt"
+        /// Writes matrix to the file
         /// </summary>
-        public static void WriteMatrixToTheFile(Matrix matrix)
+        /// <param name="path">File path</param>
+        public static void WriteMatrixToTheFile(Matrix matrix, string path)
         {
-            var path = "../../../Result.txt";
             using (var stream = new StreamWriter(path))
             {
                 for (int i = 0; i < matrix.Size.rows; i++)
