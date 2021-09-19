@@ -181,6 +181,10 @@ namespace MatrixMultiplication
             }
         }
 
+        /// <summary>
+        /// Checks whether matrices are equal
+        /// </summary>
+        /// <returns>True if two matrices equal</returns>
         public static bool AreEqual(Matrix first, Matrix second)
         {
             if (first.Size.rows != second.Size.rows || first.Size.columns != second.Size.columns)
