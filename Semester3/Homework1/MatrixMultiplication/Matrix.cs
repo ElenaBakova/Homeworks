@@ -180,5 +180,23 @@ namespace MatrixMultiplication
                 }
             }
         }
+
+        public static bool AreEqual(Matrix first, Matrix second)
+        {
+            if (first.Size.rows != second.Size.rows || first.Size.columns != second.Size.columns)
+            {
+                return false;
+            }
+            
+            for (int i = 0; i < first.Size.rows; i++)
+            {
+                if (first.matrix[i].SequenceEqual(second.matrix[i]) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

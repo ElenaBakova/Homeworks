@@ -7,7 +7,11 @@ namespace MatrixMultiplication
     /// </summary>
     class MethodsComparison
     {
-        public static void Compare(Func<Matrix, Matrix, Matrix> func)
+        /// <summary>
+        /// Counts max and min time, average and standart deviation
+        /// </summary>
+        /// <param name="func">Matrix multiplication function</param>
+        public static void Count(Func<Matrix, Matrix, Matrix> func)
         {
             const int countExperiments = 10;
             const int firstMatrixRows = 500;
