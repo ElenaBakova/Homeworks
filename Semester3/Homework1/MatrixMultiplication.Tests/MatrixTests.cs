@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System;
 
 namespace MatrixMultiplication.Tests
 {
@@ -12,6 +11,7 @@ namespace MatrixMultiplication.Tests
         [TestCase(1, 20, 5)]
         [TestCase(1, 1, 1)]
         [TestCase(100, 150, 500)]
+        [TestCase(500, 100, 500)]
         public void BothMethodsResultShouldBeEqual(int firstRows, int firstColumns, int secondColumns)
         {
             var firstMatrix = Matrix.GenerateMatrix((firstRows, firstColumns));

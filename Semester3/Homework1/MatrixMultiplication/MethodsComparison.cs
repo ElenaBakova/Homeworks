@@ -8,7 +8,7 @@ namespace MatrixMultiplication
     class MethodsComparison
     {
         /// <summary>
-        /// Counts max and min time, average and standart deviation
+        /// Counts max and min time, average and standard deviation
         /// </summary>
         /// <param name="func">Matrix multiplication function</param>
         public static void Count(Func<Matrix, Matrix, Matrix> func)
