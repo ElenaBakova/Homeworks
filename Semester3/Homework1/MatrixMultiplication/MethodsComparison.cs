@@ -30,11 +30,11 @@ namespace MatrixMultiplication
                         var time = Matrix.MeasureElapsedTime(first, second, func).TotalSeconds;
                         average += time;
                         variance += time * time;
-                        if (maxTime.time - time < 1e-4)
+                        if (maxTime.time < time)
                         {
                             maxTime = (i, j, time);
                         }
-                        if (time - minTime.time < 1e-4)
+                        if (minTime.time > time)
                         {
                             minTime = (i, j, time);
                         }
