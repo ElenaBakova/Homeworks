@@ -24,15 +24,17 @@ namespace MatrixMultiplication
         /// <param name="path">File path</param>
         public Matrix(string path)
         {
-            using StreamReader stream = File.OpenText(path);
-            var readString = stream.ReadLine();
-            var numbers = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            Size = new (int.Parse(numbers[0]), int.Parse(numbers[1]));
-            matrix = new List<int>[Size.rows];
-            for (int i = 0; i < Size.rows; i++)
+            using (StreamReader stream = File.OpenText(path))
             {
-                readString = stream.ReadLine();
-                matrix[i] = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+                var readString = stream.ReadLine();
+                var numbers = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                Size = new(int.Parse(numbers[0]), int.Parse(numbers[1]));
+                matrix = new List<int>[Size.rows];
+                for (int i = 0; i < Size.rows; i++)
+                {
+                    readString = stream.ReadLine();
+                    matrix[i] = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+                }
             }
         }
 
@@ -127,7 +129,7 @@ namespace MatrixMultiplication
                 throw new ArgumentException("Ivalid matrix size");
             }
             var product = new Matrix(first.Size.rows, second.Size.columns);
-            var threads = new Thread[4];
+            var threads = new Thread[Environment.ProcessorCount];
             var length = first.Size.rows;
             var chunkSize = length / threads.Length + 1;
 
@@ -166,14 +168,16 @@ namespace MatrixMultiplication
         /// <param name="path">File path</param>
         public static void WriteMatrixToTheFile(Matrix matrix, string path)
         {
-            using (var stream = new StreamWriter(path)) ;
-            for (int i = 0; i < matrix.Size.rows; i++)
+            using (var stream = new StreamWriter(path))
             {
-                for (int j = 0; j < matrix.Size.columns; j++)
+                for (int i = 0; i < matrix.Size.rows; i++)
                 {
-                    stream.Write($"{matrix.matrix[i][j]} ");
+                    for (int j = 0; j < matrix.Size.columns; j++)
+                    {
+                        stream.Write($"{matrix.matrix[i][j]} ");
+                    }
+                    stream.Write("\n");
                 }
-                stream.Write("\n");
             }
         }
 
