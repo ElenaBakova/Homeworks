@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace MatrixMultiplication.Tests
 {
@@ -27,8 +28,8 @@ namespace MatrixMultiplication.Tests
         {
             var firstMatrix = Matrix.GenerateMatrix((rowsFirst, columnsFirst));
             var secondMatrix = Matrix.GenerateMatrix((rowsSecond, columnsSecond));
-            Assert.IsNull(Matrix.MultiplicateMatrices(firstMatrix, secondMatrix));
-            Assert.IsNull(Matrix.MultiplicateMatricesUsually(firstMatrix, secondMatrix));
+            Assert.Throws<ArgumentException>(() => Matrix.MultiplicateMatrices(firstMatrix, secondMatrix));
+            Assert.Throws<ArgumentException>(() => Matrix.MultiplicateMatricesUsually(firstMatrix, secondMatrix));
         }
     }
 }

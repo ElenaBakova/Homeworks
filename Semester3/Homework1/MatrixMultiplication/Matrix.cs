@@ -78,7 +78,7 @@ namespace MatrixMultiplication
         {
             if (first.Size.columns != second.Size.rows)
             {
-                return TimeSpan.Zero;
+                throw new ArgumentException("Ivalid matrix size");
             }
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -99,7 +99,7 @@ namespace MatrixMultiplication
         {
             if (first.Size.columns != second.Size.rows)
             {
-                return null;
+                throw new ArgumentException("Ivalid matrix size");
             }
 
             var product = new Matrix(first.Size.rows, second.Size.columns);
@@ -126,7 +126,7 @@ namespace MatrixMultiplication
         {
             if (first.Size.columns != second.Size.rows)
             {
-                return null;
+                throw new ArgumentException("Ivalid matrix size");
             }
             var product = new Matrix(first.Size.rows, second.Size.columns);
             var threads = new Thread[4];
