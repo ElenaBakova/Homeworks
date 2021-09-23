@@ -80,7 +80,7 @@ namespace MatrixMultiplication
             {
                 throw new ArgumentException("Ivalid matrix size");
             }
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             func(first, second);
