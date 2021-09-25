@@ -33,7 +33,7 @@ namespace Lazy.Tests
         public void GetShouldNotChangeValue<T>(ILazy<T> lazy)
         {
             var value = lazy.Get();
-            Assert.Equals(value, lazy.Get());
+            Assert.AreEqual(value, lazy.Get());
         }
     }
 }
