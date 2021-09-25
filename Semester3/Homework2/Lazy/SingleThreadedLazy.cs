@@ -5,7 +5,7 @@ namespace Lazy
     /// <summary>
     /// Single-threaded lazy realization
     /// </summary>
-    class SingleThreadedLazy<T> : ILazy<T>
+    public class SingleThreadedLazy<T> : ILazy<T>
     {
         private Func<T> supplier;
         private T value;
@@ -16,7 +16,13 @@ namespace Lazy
         /// </summary>
         /// <param name="supplier">Counting function</param>
         public SingleThreadedLazy(Func<T> supplier)
-            => this.supplier = supplier;
+        {
+            if (supplier == null)
+            {
+                throw new ArgumentNullException();
+            }
+            this.supplier = supplier;
+        }
 
         public T Get()
         {
