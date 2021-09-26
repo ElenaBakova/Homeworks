@@ -12,7 +12,7 @@ namespace Lazy
         /// </summary>
         /// <param name="supplier">Counting function</param>
         /// <returns>Single-threaded realization</returns>
-        public static ILazy<T> CreateSingleThreadedLazy<T>(Func<T> supplier)
+        public static Lazy<T> CreateSingleThreadedLazy<T>(Func<T> supplier)
             => new SingleThreadedLazy<T>(supplier);
 
         /// <summary>

@@ -5,11 +5,8 @@ namespace Lazy
     /// <summary>
     /// Multi-threaded lazy realization
     /// </summary>
-    public class MultiThreadedLazy<T> : ILazy<T>
+    public class MultiThreadedLazy<T> : Lazy<T>
     {
-        private Func<T> supplier;
-        private T value;
-        public bool IsValueCreated { get; private set; }
         private object lockObject = new();
 
         /// <summary>
@@ -17,23 +14,19 @@ namespace Lazy
         /// </summary>
         /// <param name="supplier">Counting function</param>
         public MultiThreadedLazy(Func<T> supplier)
+            :base(supplier)
         {
-            if (supplier == null)
-            {
-                throw new ArgumentNullException();
-            }
-            this.supplier = supplier;
         }
 
-        public T Get()
+        public override T Get()
         {
-            if (IsValueCreated)
+            if (isValueCreated)
             {
                 return value;
             }
             lock (lockObject)
             {
-                IsValueCreated = true;
+                isValueCreated = true;
                 value = supplier();
                 return value;
             }

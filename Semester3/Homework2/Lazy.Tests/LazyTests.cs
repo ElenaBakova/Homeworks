@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Lazy.Tests
 {
@@ -25,7 +26,7 @@ namespace Lazy.Tests
         private static IEnumerable<TestCaseData> Lazies
             => testData.SelectMany(data => new TestCaseData[]
                {
-                    new TestCaseData(LazyFactory.CreateSingleThreadedLazy(() => data)),
+                   new TestCaseData(LazyFactory.CreateSingleThreadedLazy(() => data)),
                    new TestCaseData(LazyFactory.CreateMultiThreadedLazy(() => data))
                });
 
@@ -34,6 +35,33 @@ namespace Lazy.Tests
         {
             var value = lazy.Get();
             Assert.AreEqual(value, lazy.Get());
+        }
+
+        [Test]
+        public void RaceConditionsCheck()
+        {
+            var count = 0;
+            var lazy = LazyFactory.CreateSingleThreadedLazy(() => Interlocked.Increment(ref count));
+            const int threadsCount = 100;
+            var threads = new Thread[threadsCount];
+
+            for (int i = 0; i < threads.Length; ++i)
+            {
+                threads[i] = new Thread(() => {
+                    lazy.Get();
+                });
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.Start();
+            }
+            foreach (var thread in threads)
+            {
+                thread.Join();
+            }
+
+            Assert.AreEqual(1, count);
         }
     }
 }
