@@ -20,7 +20,7 @@ namespace Lazy
         /// </summary>
         /// <param name="supplier">Counting function</param>
         /// <returns>Multi-threaded realization</returns>
-        public static ILazy<T> CreateMultiThreadedLazy<T>(Func<T> supplier)
+        public static Lazy<T> CreateMultiThreadedLazy<T>(Func<T> supplier)
             => new MultiThreadedLazy<T>(supplier);
     }
 }
