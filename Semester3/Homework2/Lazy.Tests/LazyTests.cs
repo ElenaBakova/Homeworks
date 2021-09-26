@@ -6,6 +6,9 @@ using System.Threading;
 
 namespace Lazy.Tests
 {
+    /// <summary>
+    /// Lazy class tests
+    /// </summary>
     public class Tests
     {
         [Test]
