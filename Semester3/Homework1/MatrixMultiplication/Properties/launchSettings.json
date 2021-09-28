@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MatrixMultiplication": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../MatrixA.txt  ../../../MatrixB.txt"
+    }
+  }
+}
