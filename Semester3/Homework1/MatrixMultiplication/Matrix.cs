@@ -24,8 +24,8 @@ namespace MatrixMultiplication
         /// <param name="path">File path</param>
         public Matrix(string path)
         {
-            using (StreamReader stream = File.OpenText(path))
-            {
+            using StreamReader stream = File.OpenText(path);
+          //  {
                 var readString = stream.ReadLine();
                 var numbers = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 Size = new(int.Parse(numbers[0]), int.Parse(numbers[1]));
@@ -34,7 +34,7 @@ namespace MatrixMultiplication
                 {
                     readString = stream.ReadLine();
                     matrix[i] = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
-                }
+              //  }
             }
         }
 
