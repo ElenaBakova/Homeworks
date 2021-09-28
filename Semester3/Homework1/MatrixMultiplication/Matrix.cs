@@ -25,16 +25,14 @@ namespace MatrixMultiplication
         public Matrix(string path)
         {
             using StreamReader stream = File.OpenText(path);
-          //  {
-                var readString = stream.ReadLine();
-                var numbers = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                Size = new(int.Parse(numbers[0]), int.Parse(numbers[1]));
-                matrix = new List<int>[Size.rows];
-                for (int i = 0; i < Size.rows; i++)
-                {
-                    readString = stream.ReadLine();
-                    matrix[i] = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
-              //  }
+            var readString = stream.ReadLine();
+            var numbers = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            Size = new(int.Parse(numbers[0]), int.Parse(numbers[1]));
+            matrix = new List<int>[Size.rows];
+            for (int i = 0; i < Size.rows; i++)
+            {
+                readString = stream.ReadLine();
+                matrix[i] = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
             }
         }
 
@@ -168,16 +166,14 @@ namespace MatrixMultiplication
         /// <param name="path">File path</param>
         public static void WriteMatrixToTheFile(Matrix matrix, string path)
         {
-            using (var stream = new StreamWriter(path))
+            using var stream = new StreamWriter(path);
+            for (int i = 0; i < matrix.Size.rows; i++)
             {
-                for (int i = 0; i < matrix.Size.rows; i++)
+                for (int j = 0; j < matrix.Size.columns; j++)
                 {
-                    for (int j = 0; j < matrix.Size.columns; j++)
-                    {
-                        stream.Write($"{matrix.matrix[i][j]} ");
-                    }
-                    stream.Write("\n");
+                    stream.Write($"{matrix.matrix[i][j]} ");
                 }
+                stream.Write("\n");
             }
         }
 
