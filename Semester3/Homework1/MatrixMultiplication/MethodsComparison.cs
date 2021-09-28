@@ -13,13 +13,16 @@ namespace MatrixMultiplication
         /// <param name="func">Matrix multiplication function</param>
         public static void Count(Func<Matrix, Matrix, Matrix> func)
         {
+            (int i, int j, double time) minTime = (0, 0, 1000000);
+            (int i, int j, double time) maxTime = (0, 0, 0);
             const int countExperiments = 10;
             const int firstMatrixRows = 500;
-            (int i, int j, double time) maxTime = (0, 0, 0);
-            (int i, int j, double time) minTime = (0, 0, 1000000);
-            for (int i = 500; i <= 2000; i += 500)
+            const int upperBound = 2000;
+            const int lowerBound = 500;
+            const int step = 500;
+            for (int i = lowerBound; i <= upperBound; i += step)
             {
-                for (int j = i; j <= 2000; j += 500)
+                for (int j = i; j <= upperBound; j += step)
                 {
                     double average = 0;
                     double variance = 0;
