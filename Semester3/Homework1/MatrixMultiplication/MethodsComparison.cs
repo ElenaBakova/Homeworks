@@ -5,7 +5,7 @@ namespace MatrixMultiplication
     /// <summary>
     /// Class for comparing multiplicating methods
     /// </summary>
-    class MethodsComparison
+    static class MethodsComparison
     {
         /// <summary>
         /// Counts max and min time, average and standard deviation

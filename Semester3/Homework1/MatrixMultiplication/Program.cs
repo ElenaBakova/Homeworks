@@ -37,22 +37,22 @@ namespace MatrixMultiplication
              */
 
                string firstMatrixPath;
-               string secoindMatrixPath;
+               string secondMatrixPath;
                if (args.Length < 2)
                {
                    Console.WriteLine("Couldn't find input files path\nPlease enter Matrix A path");
                    firstMatrixPath = Console.ReadLine();
                    Console.WriteLine("Please enter Matrix B path");
-                   secoindMatrixPath = Console.ReadLine();
+                   secondMatrixPath = Console.ReadLine();
                }
                else
                {
                    firstMatrixPath = args[0];
-                   secoindMatrixPath = args[1];
+                   secondMatrixPath = args[1];
                }
 
                var firstMatrix = new Matrix(firstMatrixPath);
-               var secondMatrix = new Matrix(secoindMatrixPath);
+               var secondMatrix = new Matrix(secondMatrixPath);
                Console.WriteLine($"Elapsed time(sequential way): {Matrix.MeasureElapsedTime(firstMatrix, secondMatrix, Matrix.MultiplicateMatricesUsually).TotalSeconds} sec");
                Console.WriteLine($"Elapsed time(concurrent): {Matrix.MeasureElapsedTime(firstMatrix, secondMatrix, Matrix.MultiplicateMatrices).TotalSeconds} sec");
                Matrix.WriteMatrixToTheFile(Matrix.MultiplicateMatrices(firstMatrix, secondMatrix), "../../../Result.txt");
