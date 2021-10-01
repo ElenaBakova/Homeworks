@@ -3,7 +3,7 @@
     /// <summary>
     /// Lazy interface
     /// </summary>
-    public interface ILazy<T>
+    public interface ILazy<out T>
     { 
         /// <summary>
         /// Lazy counting
