@@ -28,6 +28,7 @@ namespace Lazy
             {
                 isValueCreated = true;
                 value = supplier();
+                supplier = null;
                 return value;
             }
         }

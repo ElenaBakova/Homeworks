@@ -44,7 +44,7 @@ namespace Lazy.Tests
         public void RaceConditionsCheck()
         {
             var count = 0;
-            var lazy = LazyFactory.CreateSingleThreadedLazy(() => Interlocked.Increment(ref count));
+            var lazy = LazyFactory.CreateMultiThreadedLazy(() => Interlocked.Increment(ref count));
             const int threadsCount = 100;
             var threads = new Thread[threadsCount];
 
