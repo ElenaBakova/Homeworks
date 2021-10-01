@@ -26,8 +26,12 @@ namespace Lazy
             }
             lock (lockObject)
             {
-                isValueCreated = true;
+                if (isValueCreated)
+                {
+                    return value;
+                }
                 value = supplier();
+                isValueCreated = true;
                 supplier = null;
                 return value;
             }
