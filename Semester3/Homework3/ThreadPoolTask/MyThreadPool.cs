@@ -6,10 +6,11 @@ namespace ThreadPoolTask
     /// <summary>
     /// Thread pool class
     /// </summary>
-    class MyThreadPool
+    public class MyThreadPool
     {
-        private readonly int threadsCount;
         private Thread[] threads;
+        private object lockObject = new();
+        private CancellationTokenSource source = new();
 
         /// <summary>
         /// Thread pool constructor
@@ -21,7 +22,8 @@ namespace ThreadPoolTask
             {
                 throw new ArgumentOutOfRangeException("Number of threads can't be zero or less");
             }
-            this.threadsCount = threadsCount;
+            threads = new Thread[threadsCount];
+
             for (int i = 0; i < threadsCount; i++)
             {
                // threads[i] = new Thread();
