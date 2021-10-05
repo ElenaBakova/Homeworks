@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Threading;
 
 namespace ThreadPoolTask
@@ -11,6 +12,7 @@ namespace ThreadPoolTask
         private Thread[] threads;
         private object lockObject = new();
         private CancellationTokenSource source = new();
+        private ConcurrentQueue<Action> tasksQueue = new();
 
         /// <summary>
         /// Thread pool constructor
@@ -26,7 +28,11 @@ namespace ThreadPoolTask
 
             for (int i = 0; i < threadsCount; i++)
             {
-               // threads[i] = new Thread();
+               // threads[i] = new Thread(() => {
+               //
+               // });
+
+               // threads[i].Start();
             }
         }
 
@@ -36,6 +42,14 @@ namespace ThreadPoolTask
         public void Shutdown()
         {
 
+        }
+
+        public void AddTask<T>(Action<T> action)
+        {
+            if (action == null)
+            {
+                throw new AggregateException(innerExceptions: new ArgumentNullException());
+            }
         }
     }
 }
