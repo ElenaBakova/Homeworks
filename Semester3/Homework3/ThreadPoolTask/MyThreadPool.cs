@@ -24,8 +24,8 @@ namespace ThreadPoolTask
             {
                 throw new ArgumentOutOfRangeException("Number of threads can't be zero or less");
             }
-            threads = new Thread[threadsCount];
 
+            threads = new Thread[threadsCount];
             for (int i = 0; i < threadsCount; i++)
             {
                // threads[i] = new Thread(() => {
@@ -44,12 +44,18 @@ namespace ThreadPoolTask
 
         }
 
-        public void AddTask<T>(Action<T> action)
+        /// <summary>
+        /// Adds task to the thread queue
+        /// </summary>
+        /// <param name="action"></param>
+        public void AddTask(Action action)
         {
             if (action == null)
             {
-                throw new AggregateException(innerExceptions: new ArgumentNullException());
+                throw new ArgumentNullException();
             }
+
+            tasksQueue.Enqueue(action);
         }
     }
 }
