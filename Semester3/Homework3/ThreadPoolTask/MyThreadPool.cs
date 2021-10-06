@@ -10,9 +10,9 @@ namespace ThreadPoolTask
     public class MyThreadPool
     {
         private Thread[] threads;
-        private object lockObject = new();
         private CancellationTokenSource cancellationTokenSource = new();
         private ConcurrentQueue<Action> tasksQueue = new();
+        private AutoResetEvent newTaskWait = new(false);
 
         /// <summary>
         /// Thread pool constructor
@@ -30,11 +30,19 @@ namespace ThreadPoolTask
             {
                 threads[i] = new Thread(() =>
                 {
-                    while (!cancellationTokenSource.IsCancellationRequested || !tasksQueue.IsEmpty)
+                    while (!cancellationTokenSource.IsCancellationRequested)
                     {
                         if (tasksQueue.TryDequeue(out Action action))
                         {
                             action();
+                        }
+                        else
+                        {
+                            newTaskWait.WaitOne();
+                            if(!tasksQueue.IsEmpty)
+                            {
+                                newTaskWait.Set();
+                            }
                         }
                     }
                 });
@@ -54,7 +62,6 @@ namespace ThreadPoolTask
         /// <summary>
         /// Adds task to the thread queue
         /// </summary>
-        /// <param name="action"></param>
         public Task<TResult> AddTask<TResult>(Func<TResult> function)
         {
             if (function == null)
