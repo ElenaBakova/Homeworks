@@ -6,7 +6,7 @@ namespace ThreadPoolTask
     public class Task<TResult> : IMyTask<TResult>
     {
         private Func<TResult> function;
-        public bool IsCompleted { get; }
+        public bool IsCompleted { get; private set; }
         public TResult Result { get; private set; }
         private ManualResetEvent lockResult = new(false);
 
@@ -23,8 +23,16 @@ namespace ThreadPoolTask
         public void Start()
         {
             lockResult.WaitOne();
-            Result = function();
+            try
+            {
+                Result = function();
+            }
+            catch (Exception e)
+            {
+                throw new AggregateException(e);
+            }
             function = null;
+            IsCompleted = true;
             lockResult.Set();
         }
 
