@@ -24,6 +24,6 @@ namespace ThreadPoolTask
         /// <param name="func">New function</param>
         /// <typeparam name="TNewResult">New result type</typeparam>
         /// <returns>New task</returns>
-        public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func);
+        //public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func);
     }
 }

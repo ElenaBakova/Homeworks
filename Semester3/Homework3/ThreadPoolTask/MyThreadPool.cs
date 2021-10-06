@@ -11,7 +11,7 @@ namespace ThreadPoolTask
     {
         private Thread[] threads;
         private object lockObject = new();
-        private CancellationTokenSource source = new();
+        private CancellationTokenSource cancellationTokenSource = new();
         private ConcurrentQueue<Action> tasksQueue = new();
 
         /// <summary>
@@ -28,34 +28,43 @@ namespace ThreadPoolTask
             threads = new Thread[threadsCount];
             for (int i = 0; i < threadsCount; i++)
             {
-               // threads[i] = new Thread(() => {
-               //
-               // });
+                threads[i] = new Thread(() =>
+                {
+                    while (!cancellationTokenSource.IsCancellationRequested || !tasksQueue.IsEmpty)
+                    {
+                        if (tasksQueue.TryDequeue(out Action action))
+                        {
+                            action();
+                        }
+                    }
+                });
 
-               // threads[i].Start();
+                threads[i].Start();
             }
         }
 
         /// <summary>
         /// Shutting down all threads: previously submitted tasks are executed, but no new tasks will be accepted
         /// </summary>
-        public void Shutdown()
+        /*public void Shutdown()
         {
 
-        }
+        }*/
 
         /// <summary>
         /// Adds task to the thread queue
         /// </summary>
         /// <param name="action"></param>
-        public void AddTask(Action action)
+        public Task<TResult> AddTask<TResult>(Func<TResult> function)
         {
-            if (action == null)
+            if (function == null)
             {
                 throw new ArgumentNullException();
             }
 
-            tasksQueue.Enqueue(action);
+            var task = new Task<TResult>(function);
+            tasksQueue.Enqueue(task.Start);
+            return task;
         }
     }
 }
