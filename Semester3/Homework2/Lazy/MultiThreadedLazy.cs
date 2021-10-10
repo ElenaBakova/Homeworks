@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Lazy
 {
@@ -20,18 +21,18 @@ namespace Lazy
 
         public override T Get()
         {
-            if (isValueCreated)
+            if (Volatile.Read(ref isValueCreated))
             {
                 return value;
             }
             lock (lockObject)
             {
-                if (isValueCreated)
+                if (Volatile.Read(ref isValueCreated))
                 {
                     return value;
                 }
                 value = supplier();
-                isValueCreated = true;
+                Volatile.Write(ref isValueCreated, true);
                 supplier = null;
                 return value;
             }
