@@ -30,7 +30,10 @@ namespace Lazy.Tests
         {
             var value = lazy.Get();
             Assert.AreEqual(value, 1);
-            Assert.AreEqual(value, lazy.Get());
+            for (int i = 0; i < 50; i++)
+            {
+                Assert.AreEqual(value, lazy.Get());
+            }
         }
 
         [Test]
