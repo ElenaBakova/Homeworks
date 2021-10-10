@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace Lazy.Tests
@@ -18,25 +17,19 @@ namespace Lazy.Tests
             Assert.Throws<ArgumentNullException>(() => LazyFactory.CreateMultiThreadedLazy<int>(null));
         }
 
-        private static object[] testData = new[]
+        private static IEnumerable<TestCaseData> Lazies()
         {
-            2,
-            10,
-            "aabacaba",
-            "bbaa" as object
-        };
-
-        private static IEnumerable<TestCaseData> Lazies
-            => testData.SelectMany(data => new TestCaseData[]
-               {
-                   new TestCaseData(LazyFactory.CreateSingleThreadedLazy(() => data)),
-                   new TestCaseData(LazyFactory.CreateMultiThreadedLazy(() => data))
-               });
+            int countSingle = 0;
+            int count = 0;
+            yield return new TestCaseData(LazyFactory.CreateSingleThreadedLazy(() => ++countSingle));
+            yield return new TestCaseData(LazyFactory.CreateMultiThreadedLazy(() => Interlocked.Increment(ref count)));
+        }
 
         [TestCaseSource(nameof(Lazies))]
         public void GetShouldNotChangeValue<T>(ILazy<T> lazy)
         {
             var value = lazy.Get();
+            Assert.AreEqual(value, 1);
             Assert.AreEqual(value, lazy.Get());
         }
 
