@@ -7,7 +7,7 @@ namespace Lazy
     /// </summary>
     public abstract class Lazy<T> : ILazy<T>
     {
-        protected Func<T> supplier;
+        protected volatile Func<T> supplier;
         protected T value;
         protected bool isValueCreated; 
 
