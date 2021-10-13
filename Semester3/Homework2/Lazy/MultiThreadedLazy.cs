@@ -21,7 +21,7 @@ namespace Lazy
 
         public override T Get()
         {
-            if (Volatile.Read(ref isValueCreated))
+            if (isValueCreated)
             {
                 return value;
             }
