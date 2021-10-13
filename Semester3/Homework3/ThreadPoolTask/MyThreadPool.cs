@@ -12,7 +12,7 @@ namespace ThreadPoolTask
         private Thread[] threads;
         private CancellationTokenSource cancellationTokenSource = new();
         private ConcurrentQueue<Action> tasksQueue = new();
-        private AutoResetEvent newTaskWait = new(false);
+        private ManualResetEvent newTaskWait = new(false);
 
         /// <summary>
         /// Thread pool constructor
@@ -30,7 +30,7 @@ namespace ThreadPoolTask
             {
                 threads[i] = new Thread(() =>
                 {
-                    while (!cancellationTokenSource.IsCancellationRequested)
+                    while (!cancellationTokenSource.IsCancellationRequested || !tasksQueue.IsEmpty)
                     {
                         if (tasksQueue.TryDequeue(out Action action))
                         {
@@ -52,16 +52,9 @@ namespace ThreadPoolTask
         }
 
         /// <summary>
-        /// Shutting down all threads: previously submitted tasks are executed, but no new tasks will be accepted
-        /// </summary>
-        /*public void Shutdown()
-        {
-
-        }*/
-
-        /// <summary>
         /// Adds task to the thread queue
         /// </summary>
+        /// <param name="function">Task function</param>
         public Task<TResult> AddTask<TResult>(Func<TResult> function)
         {
             if (function == null)
@@ -71,7 +64,16 @@ namespace ThreadPoolTask
 
             var task = new Task<TResult>(function);
             tasksQueue.Enqueue(task.Start);
+            newTaskWait.Set();
             return task;
+        }
+
+        /// <summary>
+        /// Shutting down all threads: previously submitted tasks are executed, but no new tasks will be accepted
+        /// </summary>
+        public void Shutdown()
+        {
+            cancellationTokenSource.Cancel();
         }
     }
 }

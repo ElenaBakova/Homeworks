@@ -8,8 +8,16 @@ namespace ThreadPoolTask
         private Func<TResult> function;
         private TResult result;
         public bool IsCompleted { get; private set; }
-        public TResult Result { get; }
         private ManualResetEvent lockResult = new(false);
+        private object lockObject = new();
+        public TResult Result 
+        {
+            get
+            {
+                lockResult.WaitOne();
+                return result;
+            }
+        }
 
         /// <summary>
         /// Creates new task
@@ -17,15 +25,12 @@ namespace ThreadPoolTask
         public Task(Func<TResult> func)
             => function = func;
 
-
         /// <summary>
         /// Starts counting the task result
         /// </summary>
         /// <returns>Task result</returns>
         public void Start()
         {
-            lockResult.WaitOne();
-
             try
             {
                 result = function();
