@@ -3,6 +3,10 @@ using System.Threading;
 
 namespace ThreadPoolTask
 {
+    /// <summary>
+    /// IMyTask instance
+    /// </summary>
+    /// <typeparam name="TResult">Task type</typeparam>
     public class Task<TResult> : IMyTask<TResult>
     {
         private Func<TResult> function;
@@ -32,17 +36,16 @@ namespace ThreadPoolTask
         /// <returns>Task result</returns>
         public void Start()
         {
-            lock(lockObject)
+            try
             {
-                try
-                {
-                    result = function();
-                }
-                catch (Exception e)
-                {
-                    throw new AggregateException(e);
-                }
-
+                result = function();
+            }
+            catch (Exception e)
+            {
+                throw new AggregateException(e);
+            }
+            lock (lockObject)
+            {
                 function = null;
                 IsCompleted = true;
                 lockResult.Set();
