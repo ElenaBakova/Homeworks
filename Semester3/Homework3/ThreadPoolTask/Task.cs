@@ -10,6 +10,7 @@ namespace ThreadPoolTask
         public bool IsCompleted { get; private set; }
         private ManualResetEvent lockResult = new(false);
         private object lockObject = new();
+
         public TResult Result 
         {
             get
@@ -31,18 +32,21 @@ namespace ThreadPoolTask
         /// <returns>Task result</returns>
         public void Start()
         {
-            try
+            lock(lockObject)
             {
-                result = function();
-            }
-            catch (Exception e)
-            {
-                throw new AggregateException(e);
-            }
+                try
+                {
+                    result = function();
+                }
+                catch (Exception e)
+                {
+                    throw new AggregateException(e);
+                }
 
-            function = null;
-            IsCompleted = true;
-            lockResult.Set();
+                function = null;
+                IsCompleted = true;
+                lockResult.Set();
+            }
         }
 
         /*public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func)
