@@ -20,6 +20,8 @@ namespace TemporaryProject
             Console.WriteLine(task2.Result);
             Console.WriteLine(task3.Result);
             Console.WriteLine(task1.Result);
+            /*var task5 = pool.AddTask<object>(() => throw new Exception());
+            Console.WriteLine(task5.Result);*/
             pool.Shutdown();
         }
     }

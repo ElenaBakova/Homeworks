@@ -11,15 +11,20 @@ namespace ThreadPoolTask
     {
         private Func<TResult> function;
         private TResult result;
-        public bool IsCompleted { get; private set; }
+        private Exception resultException = null;
         private ManualResetEvent lockResult = new(false);
         private object lockObject = new();
+        public bool IsCompleted { get; private set; }
 
         public TResult Result 
         {
             get
             {
                 lockResult.WaitOne();
+                if (resultException != null)
+                {
+                    throw new AggregateException(resultException);
+                }
                 return result;
             }
         }
@@ -42,7 +47,7 @@ namespace ThreadPoolTask
             }
             catch (Exception e)
             {
-                throw new AggregateException(e);
+                resultException = e;
             }
             lock (lockObject)
             {
