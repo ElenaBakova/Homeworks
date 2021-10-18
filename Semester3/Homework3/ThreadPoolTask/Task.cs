@@ -60,9 +60,13 @@ namespace ThreadPoolTask
             }
         }
 
-        /*public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func)
+        public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func, CancellationToken token)
         {
-
-        }*/
+            // Check whether Result is ready
+            token.ThrowIfCancellationRequested();
+            var task = new Task<TNewResult>(() => func(Result));
+            task.Start();
+            return task;
+        }
     }
 }

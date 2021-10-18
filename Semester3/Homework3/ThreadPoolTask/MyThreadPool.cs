@@ -62,10 +62,7 @@ namespace ThreadPoolTask
         /// <param name="function">Task function</param>
         public Task<TResult> AddTask<TResult>(Func<TResult> function)
         {
-            if (cancellationTokenSource.IsCancellationRequested)
-            {
-                throw new InvalidOperationException("Shutdown is requested, can't add new task");
-            }
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             if (function == null)
             {
                 throw new ArgumentNullException();
@@ -86,8 +83,12 @@ namespace ThreadPoolTask
             {
                 cancellationTokenSource.Cancel();
             }
-            newTaskWait.Set();
-            tasksExecutionWait.WaitOne();
+
+            while (executedThreadsCount != threads.Length)
+            {
+                newTaskWait.Set();
+                tasksExecutionWait.WaitOne();
+            }
         }
     }
 }
