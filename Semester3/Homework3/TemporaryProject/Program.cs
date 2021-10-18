@@ -15,14 +15,16 @@ namespace TemporaryProject
             Console.WriteLine(task2.Result);
             Console.WriteLine(task1.Result);
             var task3 = pool.AddTask(() => Interlocked.Increment(ref count));
-            var task4 = pool.AddTask(() => "yeeah");
-            Console.WriteLine(task4.Result);
             Console.WriteLine(task2.Result);
+            var task4 = pool.AddTask(() => "yeeah");
+            pool.Shutdown();
+            Console.WriteLine(task4.Result);
             Console.WriteLine(task3.Result);
             Console.WriteLine(task1.Result);
             /*var task5 = pool.AddTask<object>(() => throw new Exception());
             Console.WriteLine(task5.Result);*/
-            pool.Shutdown();
+            var task6 = pool.AddTask(() => "ab");
+            Console.WriteLine(task6.Result);
         }
     }
 }

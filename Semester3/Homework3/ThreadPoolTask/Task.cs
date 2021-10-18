@@ -16,6 +16,9 @@ namespace ThreadPoolTask
         private object lockObject = new();
         public bool IsCompleted { get; private set; }
 
+        /// <summary>
+        /// Result of the task function
+        /// </summary>
         public TResult Result 
         {
             get

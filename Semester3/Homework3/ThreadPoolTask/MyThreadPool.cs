@@ -13,6 +13,9 @@ namespace ThreadPoolTask
         private CancellationTokenSource cancellationTokenSource = new();
         private ConcurrentQueue<Action> tasksQueue = new();
         private ManualResetEvent newTaskWait = new(false);
+        private ManualResetEvent tasksExecutionWait = new(false);
+        private int executedThreadsCount = 0;
+        private object lockObject = new();
 
         /// <summary>
         /// Thread pool constructor
@@ -45,6 +48,8 @@ namespace ThreadPoolTask
                             }
                         }
                     }
+                    Interlocked.Increment(ref executedThreadsCount);
+                    tasksExecutionWait.Set();
                 });
 
                 threads[i].Start();
@@ -57,6 +62,10 @@ namespace ThreadPoolTask
         /// <param name="function">Task function</param>
         public Task<TResult> AddTask<TResult>(Func<TResult> function)
         {
+            if (cancellationTokenSource.IsCancellationRequested)
+            {
+                throw new InvalidOperationException("Shutdown is requested, can't add new task");
+            }
             if (function == null)
             {
                 throw new ArgumentNullException();
@@ -73,7 +82,12 @@ namespace ThreadPoolTask
         /// </summary>
         public void Shutdown()
         {
-            cancellationTokenSource.Cancel();
+            lock (lockObject)
+            {
+                cancellationTokenSource.Cancel();
+            }
+            newTaskWait.Set();
+            tasksExecutionWait.WaitOne();
         }
     }
 }
