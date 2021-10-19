@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace ThreadPoolTask
@@ -15,7 +15,7 @@ namespace ThreadPoolTask
         private Exception resultException = null;
         private ManualResetEvent lockResult = new(false);
         private object lockObject = new();
-        private Queue continuationTasksQueue = new();
+        private Queue<Action> continuationTasksQueue = new();
         public bool IsCompleted { get; private set; }
 
         /// <summary>
@@ -68,14 +68,14 @@ namespace ThreadPoolTask
             lock (lockObject)
             {
                 var task = new Task<TNewResult>(() => func(Result));
-                continuationTasksQueue.Enqueue(task);
+                continuationTasksQueue.Enqueue(task.Start);
                 return pool.AddTask(() => func(Result));
             }
         }
 
         private void DoContinueWith()
         {
-
+            
         }
     }
 }
