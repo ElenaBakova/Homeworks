@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Threading;
 
 namespace ThreadPoolTask
@@ -14,6 +15,7 @@ namespace ThreadPoolTask
         private Exception resultException = null;
         private ManualResetEvent lockResult = new(false);
         private object lockObject = new();
+        private Queue continuationTasksQueue = new();
         public bool IsCompleted { get; private set; }
 
         /// <summary>
@@ -62,11 +64,13 @@ namespace ThreadPoolTask
 
         public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func, CancellationToken token)
         {
-            // Check whether Result is ready
             token.ThrowIfCancellationRequested();
-            var task = new Task<TNewResult>(() => func(Result));
-            task.Start();
-            return task;
+            lock (lockObject)
+            {
+                var task = new Task<TNewResult>(() => func(Result));
+                task.Start();
+                return task;
+            }
         }
     }
 }
