@@ -75,6 +75,19 @@ namespace ThreadPoolTask
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        /*public Task<TResult> AddAction<TResult>(Task<TResult> task)
+        {
+            tasksQueue.Enqueue(task.Start);
+            newTaskWait.Set();
+            return task;
+        }*/
+
+        /// <summary>
         /// Shutting down all threads: previously submitted tasks are executed, but no new tasks will be accepted
         /// </summary>
         public void Shutdown()

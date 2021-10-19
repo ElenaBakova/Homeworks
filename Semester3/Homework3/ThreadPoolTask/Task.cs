@@ -60,17 +60,22 @@ namespace ThreadPoolTask
                 IsCompleted = true;
                 lockResult.Set();
             }
+            DoContinueWith();
         }
 
-        public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func, CancellationToken token)
+        public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func, MyThreadPool pool)
         {
-            token.ThrowIfCancellationRequested();
             lock (lockObject)
             {
                 var task = new Task<TNewResult>(() => func(Result));
-                task.Start();
-                return task;
+                continuationTasksQueue.Enqueue(task);
+                return pool.AddTask(() => func(Result));
             }
+        }
+
+        private void DoContinueWith()
+        {
+
         }
     }
 }
