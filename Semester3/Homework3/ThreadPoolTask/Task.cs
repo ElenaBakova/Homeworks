@@ -16,6 +16,7 @@ namespace ThreadPoolTask
         private ManualResetEvent lockResult = new(false);
         private object lockObject = new();
         private Queue<Action> continuationTasksQueue = new();
+        private MyThreadPool pool;
         public bool IsCompleted { get; private set; }
 
         /// <summary>
@@ -37,8 +38,11 @@ namespace ThreadPoolTask
         /// <summary>
         /// Creates new task
         /// </summary>
-        public Task(Func<TResult> func)
-            => function = func;
+        public Task(Func<TResult> func, MyThreadPool pool)
+        {
+            function = func;
+            this.pool = pool;
+        }
 
         /// <summary>
         /// Starts counting the task result
@@ -63,19 +67,27 @@ namespace ThreadPoolTask
             DoContinueWith();
         }
 
-        public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func, MyThreadPool pool)
+        public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func)
         {
             lock (lockObject)
             {
-                var task = new Task<TNewResult>(() => func(Result));
+                var task = new Task<TNewResult>(() => func(Result), pool);
                 continuationTasksQueue.Enqueue(task.Start);
-                return pool.AddTask(() => func(Result));
+                if (IsCompleted)
+                {
+                    DoContinueWith();
+                }
+                return task;
             }
         }
 
         private void DoContinueWith()
         {
-            
+            while (continuationTasksQueue.Count > 0)
+            {
+                var action = continuationTasksQueue.Dequeue();
+                pool.EnqueueTask(action);
+            }
         }
     }
 }

@@ -68,24 +68,20 @@ namespace ThreadPoolTask
                 throw new ArgumentNullException();
             }
 
-            var task = new Task<TResult>(function);
-            tasksQueue.Enqueue(task.Start);
-            newTaskWait.Set();
+            var task = new Task<TResult>(function, this);
+            EnqueueTask(task.Start);
             return task;
         }
 
         /// <summary>
-        /// 
+        /// Adds task to the queue
         /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="task"></param>
-        /// <returns></returns>
-        /*public Task<TResult> AddAction<TResult>(Task<TResult> task)
+        public void EnqueueTask(Action action)
         {
-            tasksQueue.Enqueue(task.Start);
+            cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            tasksQueue.Enqueue(action);
             newTaskWait.Set();
-            return task;
-        }*/
+        }
 
         /// <summary>
         /// Shutting down all threads: previously submitted tasks are executed, but no new tasks will be accepted
