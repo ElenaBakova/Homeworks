@@ -20,9 +20,9 @@ namespace TemporaryProject
             Console.WriteLine(task4.Result);
             Console.WriteLine(task3.Result);
             Console.WriteLine(task1.Result);
-            var task5 = task3.ContinueWith(x => string.Concat(x.ToString(), "hh"));
+            var task5 = task3.ContinueWith(x => string.Concat(x, "hh"));
             Console.WriteLine(task5.Result);
-            var task6 = pool.AddTask(() => "ab");
+            var task6 = task5.ContinueWith(x => string.Concat(x, "qq"));
             Console.WriteLine(task6.Result);
             pool.Shutdown();
         }
