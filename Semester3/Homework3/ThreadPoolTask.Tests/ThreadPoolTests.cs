@@ -13,15 +13,11 @@ namespace ThreadPoolTask.Tests
 
         [SetUp]
         public void Setup()
-        {
-            pool = new(numberOfThreads);
-        }
+            => pool = new(numberOfThreads);
         
         [TearDown]
         public void Teardown()
-        {
-            pool.Shutdown();
-        }
+            => pool.Shutdown();
 
         [Test]
         public void MinimumRunningThreadsCount()
@@ -37,14 +33,14 @@ namespace ThreadPoolTask.Tests
         [Test]
         public void ResultShouldThrowException()
         {
-            var task= pool.AddTask<object>(() => throw new ArgumentOutOfRangeException());
+            var task = pool.AddTask<object>(() => throw new ArgumentOutOfRangeException());
             Assert.Throws<AggregateException>(() => Result(task));
         }
         
         [Test]
         public void ResultShouldNotChange()
         {
-            var task= pool.AddTask(() => Interlocked.Increment(ref count));
+            var task = pool.AddTask(() => Interlocked.Increment(ref count));
             var taskResult = task.Result;
             for (int i = 0; i < 50; i++)
             {

@@ -42,7 +42,7 @@ namespace ThreadPoolTask
                         else
                         {
                             newTaskWait.WaitOne();
-                            if(!tasksQueue.IsEmpty)
+                            if (!tasksQueue.IsEmpty)
                             {
                                 newTaskWait.Set();
                             }
@@ -65,7 +65,7 @@ namespace ThreadPoolTask
             cancellationTokenSource.Token.ThrowIfCancellationRequested();
             if (function == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(function));
             }
 
             var task = new Task<TResult>(function, this);
