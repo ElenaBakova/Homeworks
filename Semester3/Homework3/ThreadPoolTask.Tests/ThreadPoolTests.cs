@@ -72,7 +72,7 @@ namespace ThreadPoolTask.Tests
         {
             var task = pool.AddTask(() => 3 * 7);
             pool.Shutdown();
-            Assert.Throws<OperationCanceledException>(() => task.ContinueWith(x => string.Concat(x, "twenty one")));
+            Assert.Throws<InvalidOperationException>(() => task.ContinueWith(x => string.Concat(x, "twenty one")));
         }
         
         [Test]
