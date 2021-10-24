@@ -62,7 +62,10 @@ namespace ThreadPoolTask
         /// <param name="function">Task function</param>
         public Task<TResult> AddTask<TResult>(Func<TResult> function)
         {
-            cancellationTokenSource.Token.ThrowIfCancellationRequested();
+            if (cancellationTokenSource.IsCancellationRequested)
+            {
+                throw new InvalidOperationException("Thread pool is shutting down");
+            }
             if (function == null)
             {
                 throw new ArgumentNullException(nameof(function));

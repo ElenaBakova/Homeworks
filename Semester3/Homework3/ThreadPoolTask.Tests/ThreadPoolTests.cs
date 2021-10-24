@@ -54,7 +54,7 @@ namespace ThreadPoolTask.Tests
             var task1 = pool.AddTask(() => Interlocked.Increment(ref count));
             var task2 = pool.AddTask(() => "abacaba");
             pool.Shutdown();
-            Assert.Throws<OperationCanceledException>(() => pool.AddTask(() => Interlocked.Increment(ref count)));
+            Assert.Throws<InvalidOperationException>(() => pool.AddTask(() => Interlocked.Increment(ref count)));
         }
        
         [Test]
@@ -65,16 +65,6 @@ namespace ThreadPoolTask.Tests
             pool.Shutdown();
             Assert.AreEqual("abacaba", task2.Result);
             Assert.AreEqual(1, task1.Result);
-        }
-        
-        [Test]
-        public void NumberOfThreadsShouldDecrease()
-        {
-            var task1 = pool.AddTask(() => Interlocked.Increment(ref count));
-            var task2 = pool.AddTask(() => "abacaba");
-            var numberOfRunningThreads = Process.GetCurrentProcess().Threads.Count;
-            pool.Shutdown();
-            Assert.AreEqual(numberOfThreads, numberOfRunningThreads - Process.GetCurrentProcess().Threads.Count);
         }
         
         [Test]
