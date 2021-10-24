@@ -13,7 +13,7 @@ namespace ThreadPoolTask
         private Thread[] threads;
         private CancellationTokenSource cancellationTokenSource = new();
         private ConcurrentQueue<Action> tasksQueue = new();
-        private ManualResetEvent newTaskWait = new(false);
+        private AutoResetEvent newTaskWait = new(false);
         private ManualResetEvent tasksExecutionWait = new(false);
         private int executedThreadsCount = 0;
         private object lockObject = new();
@@ -82,7 +82,6 @@ namespace ThreadPoolTask
         /// </summary>
         public void EnqueueTask(Action action)
         {
-            cancellationTokenSource.Token.ThrowIfCancellationRequested();
             tasksQueue.Enqueue(action);
             newTaskWait.Set();
         }
@@ -101,6 +100,7 @@ namespace ThreadPoolTask
             {
                 newTaskWait.Set();
                 tasksExecutionWait.WaitOne();
+                tasksExecutionWait.Reset();
             }
         }
 
@@ -164,7 +164,10 @@ namespace ThreadPoolTask
                     IsCompleted = true;
                     lockResult.Set();
                 }
-                DoContinueWith();
+                lock (lockObject)
+                {
+                    DoContinueWith();
+                }
             }
 
             public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func)
