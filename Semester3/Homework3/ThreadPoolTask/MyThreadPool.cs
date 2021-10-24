@@ -26,7 +26,7 @@ namespace ThreadPoolTask
         {
             if (threadsCount < 1)
             {
-                throw new ArgumentOutOfRangeException("Number of threads can't be zero or less");
+                throw new ArgumentOutOfRangeException(nameof(threadsCount), "Number of threads can't be zero or less");
             }
 
             threads = new Thread[threadsCount];
@@ -34,7 +34,7 @@ namespace ThreadPoolTask
             {
                 threads[i] = new Thread(() =>
                 {
-                    while (!cancellationTokenSource.IsCancellationRequested || !tasksQueue.IsEmpty)
+                    while (!cancellationTokenSource.IsCancellationRequested)
                     {
                         if (tasksQueue.TryDequeue(out Action action))
                         {
@@ -172,6 +172,10 @@ namespace ThreadPoolTask
 
             public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func)
             {
+                if (pool.cancellationTokenSource.IsCancellationRequested)
+                {
+                    throw new InvalidOperationException("Thread pool shut down");
+                }
                 lock (lockObject)
                 {
                     var task = new Task<TNewResult>(() => func(Result), pool);
