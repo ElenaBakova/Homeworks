@@ -27,7 +27,7 @@ namespace ThreadPoolTask.Tests
         public void NullFunctionShouldThrowException()
             => Assert.Throws<ArgumentNullException>(() => pool.AddTask<object>(null));
 
-        private object Result<TResult>(Task<TResult> task)
+        private object Result<TResult>(IMyTask<TResult> task)
             => task.Result;
         
         [Test]
