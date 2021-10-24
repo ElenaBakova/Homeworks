@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -34,12 +31,12 @@ namespace MyFTP
         /// <summary>
         /// Starts server
         /// </summary>
-        public void Start()
+        public async Task StartAsync()
         {
             listener.Start();
             while (!cancellationTokenSource.IsCancellationRequested)
             {
-                Execute(listener.AcceptTcpClient());
+                Execute(await listener.AcceptTcpClientAsync());
             }
             listener.Stop();
         }
@@ -52,18 +49,18 @@ namespace MyFTP
         {
             Interlocked.Increment(ref runningTasks);
             using var stream = client.GetStream();
+            var writer = new StreamWriter(stream) { AutoFlush = true};
             var reader = new StreamReader(stream);
-            var writer = new StreamWriter(stream);
             var requestString = await reader.ReadLineAsync();
             var request = requestString.Split(' ');
 
             switch (request[0])
             {
                 case "1":
-                    List(request[1]);
+                    List(request[1], writer);
                     break;
                 case "2":
-                    Get(request[1]);
+                    Get(request[1], writer);
                     break;
                 default:
                     break;
@@ -72,14 +69,36 @@ namespace MyFTP
             shutdownControl.Set();
         }
 
-        private void List(string path)
+        private void List(string path, StreamWriter writer)
         {
-
+            var directory = new DirectoryInfo(path);
+            if (!directory.Exists)
+            {
+                writer.WriteLine(-1);
+                return;
+            }
+            var directories = directory.GetDirectories();
+            var files = directory.GetFiles();
+            writer.WriteLine(files.Length + directories.Length);
+            foreach (var folder in directories)
+            {
+                writer.WriteLine($"{folder.Name} true");
+            }
+            foreach (var file in files)
+            {
+                writer.WriteLine($"{file.Name} false");
+            }
         }
 
-        private void Get(string path)
+        private void Get(string path, StreamWriter writer)
         {
-
+            var file = new FileInfo(path);
+            if (!file.Exists)
+            {
+                writer.WriteLine(-1);
+                return;
+            }
+            writer.WriteLine(file);
         }
 
         /// <summary>
