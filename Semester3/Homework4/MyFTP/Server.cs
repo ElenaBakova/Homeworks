@@ -77,6 +77,7 @@ namespace MyFTP
                 writer.WriteLine(-1);
                 return;
             }
+
             var directories = directory.GetDirectories();
             var files = directory.GetFiles();
             writer.WriteLine(files.Length + directories.Length);
