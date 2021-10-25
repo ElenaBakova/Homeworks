@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -26,12 +27,13 @@ namespace MyFTP
             this.port = port;
             this.iP = iP;
             listener = new TcpListener(iP, port);
+            new Client(port, iP);
         }
 
         /// <summary>
         /// Starts server
         /// </summary>
-        public async Task StartAsync()
+        public async Task Start()
         {
             listener.Start();
             while (!cancellationTokenSource.IsCancellationRequested)
@@ -63,6 +65,7 @@ namespace MyFTP
                     Get(request[1], writer);
                     break;
                 default:
+                    Console.WriteLine("Invalid request");
                     break;
             }
             Interlocked.Decrement(ref runningTasks);

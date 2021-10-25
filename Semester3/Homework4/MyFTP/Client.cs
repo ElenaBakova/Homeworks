@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace MyFTP
 {
     /// <summary>
     /// FTP client class
     /// </summary>
-    class Client
+    public class Client
     {
+        int port;
+        IPAddress iP;
+
         /// <summary>
         /// Clent's constructor
         /// </summary>
-        public Client()
+        public Client(int port, IPAddress iP)
         {
-
+            this.port = port;
+            this.iP = iP;
         }
-
-
     }
 }
