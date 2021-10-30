@@ -27,7 +27,6 @@ namespace MyFTP
             this.port = port;
             this.iP = iP;
             listener = new TcpListener(iP, port);
-            new Client(port, iP);
         }
 
         /// <summary>
@@ -38,7 +37,8 @@ namespace MyFTP
             listener.Start();
             while (!cancellationTokenSource.IsCancellationRequested)
             {
-                Execute(await listener.AcceptTcpClientAsync());
+                var client = await listener.AcceptTcpClientAsync();
+                await Task.Run(() => Execute(client));
             }
             listener.Stop();
         }
@@ -47,7 +47,7 @@ namespace MyFTP
         /// Query processing method
         /// </summary>
         /// <param name="client">TCP client</param>
-        public async void Execute(TcpClient client)
+        private async void Execute(TcpClient client)
         {
             Interlocked.Increment(ref runningTasks);
             using var stream = client.GetStream();
