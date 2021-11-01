@@ -14,8 +14,6 @@ namespace MyFTP
     {
         private AutoResetEvent shutdownControl = new(false);
         private CancellationTokenSource cancellationTokenSource = new();
-        private readonly int port;
-        private readonly IPAddress iP;
         private TcpListener listener;
         private int runningTasks = 0;
 
@@ -23,11 +21,7 @@ namespace MyFTP
         /// Server's constructor
         /// </summary>
         public Server(int port, IPAddress iP)
-        {
-            this.port = port;
-            this.iP = iP;
-            listener = new TcpListener(iP, port);
-        }
+            => listener = new TcpListener(iP, port);
 
         /// <summary>
         /// Starts server
@@ -47,7 +41,7 @@ namespace MyFTP
         /// Query processing method
         /// </summary>
         /// <param name="client">TCP client</param>
-        private async void Execute(TcpClient client)
+        private async Task Execute(TcpClient client)
         {
             Interlocked.Increment(ref runningTasks);
             using var stream = client.GetStream();
@@ -65,44 +59,46 @@ namespace MyFTP
                     Get(request[1], writer);
                     break;
                 default:
-                    Console.WriteLine("Invalid request");
-                    break;
+                    throw new ArgumentOutOfRangeException("Invalid request");
             }
             Interlocked.Decrement(ref runningTasks);
             shutdownControl.Set();
         }
 
-        private void List(string path, StreamWriter writer)
+        private async Task List(string path, StreamWriter writer)
         {
             var directory = new DirectoryInfo(path);
             if (!directory.Exists)
             {
-                writer.WriteLine(-1);
+                await writer.WriteLineAsync("-1");
                 return;
             }
 
             var directories = directory.GetDirectories();
             var files = directory.GetFiles();
-            writer.WriteLine(files.Length + directories.Length);
+            await writer.WriteLineAsync((files.Length + directories.Length).ToString());
             foreach (var folder in directories)
             {
-                writer.WriteLine($"{folder.Name} true");
+                await writer.WriteLineAsync($"{folder.Name} true");
             }
             foreach (var file in files)
             {
-                writer.WriteLine($"{file.Name} false");
+                await writer.WriteLineAsync($"{file.Name} false");
             }
         }
 
-        private void Get(string path, StreamWriter writer)
+        private async Task Get(string path, StreamWriter writer)
         {
             var file = new FileInfo(path);
             if (!file.Exists)
             {
-                writer.WriteLine(-1);
+                await writer.WriteLineAsync("-1");
                 return;
             }
-            writer.WriteLine(file);
+
+            await writer.WriteLineAsync(file.Length.ToString());
+            using var fileStream = File.OpenRead(path);
+            await fileStream.CopyToAsync(writer.BaseStream);
         }
 
         /// <summary>
