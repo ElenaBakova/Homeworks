@@ -53,10 +53,10 @@ namespace MyFTP
             switch (request[0])
             {
                 case "1":
-                    List(request[1], writer);
+                    await List(request[1], writer);
                     break;
                 case "2":
-                    Get(request[1], writer);
+                    await Get(request[1], writer);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Invalid request");
