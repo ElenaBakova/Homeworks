@@ -59,7 +59,7 @@ namespace MyFTP
                     await Get(request[1], writer);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("Invalid request");
+                    throw new ArgumentOutOfRangeException(nameof(Start), "Invalid request");
             }
             Interlocked.Decrement(ref runningTasks);
             shutdownControl.Set();
@@ -97,7 +97,7 @@ namespace MyFTP
             }
 
             await writer.WriteLineAsync(file.Length.ToString());
-            using var fileStream = File.OpenRead(path);
+            using var fileStream = file.OpenRead();
             await fileStream.CopyToAsync(writer.BaseStream);
         }
 

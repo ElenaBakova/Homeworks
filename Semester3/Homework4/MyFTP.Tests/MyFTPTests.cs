@@ -1,8 +1,6 @@
-using MyFTP;
-using NUnit.Framework;
-using System;
 using System.IO;
 using System.Net;
+using NUnit.Framework;
 using System.Threading.Tasks;
 using NUnit.Framework.Constraints;
 
@@ -42,13 +40,36 @@ namespace MyFTP.Tests
             Assert.Throws(exceptionCheck, () => client.List("Test").Wait());
         }
 
-        [Test]
-        public async Task GetTest()
+        [TestCase(path + "file.txt")]
+        [TestCase(path + "Files/textFile.txt")]
+        public async Task GetTest(string filePath)
         {
-            var filePath = path + "file.txt";
             var response = await client.Get(filePath);
             var fileBytes = File.ReadAllBytes(filePath);
             Assert.AreEqual(fileBytes, response.File);
+        }
+        
+        [TestCase(path)]
+        [TestCase(path + "Files")]
+        public async Task ListTest(string filePath)
+        {
+            var directory = new DirectoryInfo(filePath);
+            var directories = directory.GetDirectories();
+            var files = directory.GetFiles();
+            var response = await client.List(filePath);
+            Assert.AreEqual(files.Length + directories.Length, response.Count);
+
+            int index = 0;
+            foreach (var folder in directories)
+            {
+                Assert.AreEqual(response[index], (folder.Name.ToString(), true));
+                index++;
+            }
+            foreach (var file in files)
+            {
+                Assert.AreEqual(response[index], (file.Name.ToString(), false));
+                index++;
+            }
         }
     }
 }
