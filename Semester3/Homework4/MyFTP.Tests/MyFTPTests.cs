@@ -44,9 +44,15 @@ namespace MyFTP.Tests
         [TestCase(path + "Files/textFile.txt")]
         public async Task GetTest(string filePath)
         {
-            var response = await client.Get(filePath);
-            var fileBytes = File.ReadAllBytes(filePath);
-            Assert.AreEqual(fileBytes, response.File);
+            using var stream = await client.Get(filePath);
+            using var streamReader = new StreamReader(stream);
+            var file = await streamReader.ReadToEndAsync();
+
+            using var fileStream = File.OpenRead(filePath);
+            using var reader = new StreamReader(fileStream);
+            var answerFile = await reader.ReadToEndAsync();
+
+            Assert.AreEqual(answerFile, file);
         }
         
         [TestCase(path)]

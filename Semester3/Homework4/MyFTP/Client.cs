@@ -60,7 +60,7 @@ namespace MyFTP
         /// Returns file and its size
         /// </summary>
         /// <param name="path">File path</param>
-        public async Task<(long Size, byte[] File)> Get(string path)
+        public async Task<MemoryStream> Get(string path)
         {
             client = new TcpClient(ip.ToString(), port);
             using var stream = client.GetStream();
@@ -74,9 +74,10 @@ namespace MyFTP
                 throw new FileNotFoundException();
             }
 
-            var file = new byte[size];
-            await stream.ReadAsync(file);
-            return (size, file);
+            var respondStream = new MemoryStream();
+            await stream.CopyToAsync(respondStream);
+            respondStream.Position = 0;
+            return respondStream;
         }
     }
 }
