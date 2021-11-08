@@ -10,15 +10,15 @@ namespace MyFTP.Tests
     {
         private Server server;
         private Client client;
-        private readonly IPAddress iP = IPAddress.Parse("127.0.0.1");
+        private readonly IPAddress ip = IPAddress.Parse("127.0.0.1");
         private const int port = 8888;
         private const string path = "../../../Test/";
 
         [SetUp]
         public void SetupAsync()
         {
-            server = new Server(port, iP);
-            client = new Client(port, iP);
+            server = new Server(port, ip);
+            client = new Client(port, ip);
             server.Start();
         }
 

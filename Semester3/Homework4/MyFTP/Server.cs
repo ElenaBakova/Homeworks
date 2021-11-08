@@ -20,8 +20,8 @@ namespace MyFTP
         /// <summary>
         /// Server's constructor
         /// </summary>
-        public Server(int port, IPAddress iP)
-            => listener = new TcpListener(iP, port);
+        public Server(int port, IPAddress ip)
+            => listener = new TcpListener(ip, port);
 
         /// <summary>
         /// Starts server
@@ -76,14 +76,14 @@ namespace MyFTP
 
             var directories = directory.GetDirectories();
             var files = directory.GetFiles();
-            await writer.WriteLineAsync((files.Length + directories.Length).ToString());
+            await writer.WriteAsync($"{files.Length + directories.Length} ");
             foreach (var folder in directories)
             {
-                await writer.WriteLineAsync($"{folder.Name} true");
+                await writer.WriteAsync($"{folder.Name} true ");
             }
             foreach (var file in files)
             {
-                await writer.WriteLineAsync($"{file.Name} false");
+                await writer.WriteAsync($"{file.Name} false ");
             }
         }
 

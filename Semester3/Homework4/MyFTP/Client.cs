@@ -14,41 +14,44 @@ namespace MyFTP
     {
         private TcpClient client;
         private readonly int port;
-        private readonly IPAddress iP;
+        private readonly IPAddress ip;
 
         /// <summary>
         /// Clent's constructor
         /// </summary>
-        public Client(int port, IPAddress iP)
+        public Client(int port, IPAddress ip)
         {
             this.port = port;
-            this.iP = iP;
+            this.ip = ip;
+            client = new TcpClient();
         }
 
         /// <summary>
         /// Returns list of files in the directory 
         /// </summary>
         /// <param name="path">Directory path</param>
-        public async Task<List<(string, bool)>> List(string path)
+        public async Task<List<(string name, bool isDir)>> List(string path)
         {
-            client = new TcpClient(iP.ToString(), port);
+            await client.ConnectAsync(ip.ToString(), port);
             using var stream = client.GetStream();
             var writer = new StreamWriter(stream) { AutoFlush = true };
             writer.WriteLine($"1 {path}");
 
             var reader = new StreamReader(stream);
-            var size = int.Parse(await reader.ReadLineAsync());
+            var readString = await reader.ReadLineAsync();
+            var data = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var size = int.Parse(data[0]);
             if (size == -1)
             {
                 throw new DirectoryNotFoundException();
             }
 
             var list = new List<(string, bool)>();
-            for (int i = 0; i < size; i++)
+            for (int i = 1; i <= 2 * size; i += 2)
             {
-                var respondString = await reader.ReadLineAsync();
-                var respond = respondString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                list.Add((respond[0], bool.Parse(respond[1])));
+                var name = data[i];
+                var isDir = bool.Parse(data[i + 1]);
+                list.Add((name, isDir));
             }
             return list;
         }
@@ -59,7 +62,7 @@ namespace MyFTP
         /// <param name="path">File path</param>
         public async Task<(long Size, byte[] File)> Get(string path)
         {
-            client = new TcpClient(iP.ToString(), port);
+            client = new TcpClient(ip.ToString(), port);
             using var stream = client.GetStream();
             var writer = new StreamWriter(stream) { AutoFlush = true };
             writer.WriteLine($"2 {path}");
