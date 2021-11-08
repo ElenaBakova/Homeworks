@@ -44,10 +44,10 @@ namespace MyFTP
         {
             await client.ConnectAsync(ip.ToString(), port);
             using var stream = client.GetStream();
-            var writer = new StreamWriter(stream) { AutoFlush = true };
+            using var writer = new StreamWriter(stream) { AutoFlush = true };
             writer.WriteLine($"1 {path}");
 
-            var reader = new StreamReader(stream);
+            using var reader = new StreamReader(stream);
             var readString = await reader.ReadLineAsync();
             var data = readString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var size = int.Parse(data[0]);
@@ -74,10 +74,10 @@ namespace MyFTP
         {
             client = new TcpClient(ip.ToString(), port);
             using var stream = client.GetStream();
-            var writer = new StreamWriter(stream) { AutoFlush = true };
+            using var writer = new StreamWriter(stream) { AutoFlush = true };
             writer.WriteLine($"2 {path}");
 
-            var reader = new StreamReader(stream);
+            using var reader = new StreamReader(stream);
             var size = long.Parse(await reader.ReadLineAsync());
             if (size == -1)
             {

@@ -1,6 +1,5 @@
 ﻿using MyFTP;
 using System;
-using System.Net;
 
 namespace ClientApp
 {

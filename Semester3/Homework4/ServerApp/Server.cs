@@ -38,7 +38,7 @@ namespace MyFTP
             while (!cancellationTokenSource.IsCancellationRequested)
             {
                 var client = await listener.AcceptTcpClientAsync();
-                await Task.Run(() => Execute(client));
+                ThreadPool.QueueUserWorkItem(async obj => await Execute(client));
             }
             listener.Stop();
         }
@@ -51,8 +51,8 @@ namespace MyFTP
         {
             Interlocked.Increment(ref runningTasks);
             using var stream = client.GetStream();
-            var writer = new StreamWriter(stream) { AutoFlush = true};
-            var reader = new StreamReader(stream);
+            using var writer = new StreamWriter(stream) { AutoFlush = true};
+            using var reader = new StreamReader(stream);
             var requestString = await reader.ReadLineAsync();
             var request = requestString.Split(' ');
 
@@ -65,7 +65,8 @@ namespace MyFTP
                     await Get(request[1], writer);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(Start), "Invalid request");
+                    Console.WriteLine("Invalid request");
+                    break;
             }
             Interlocked.Decrement(ref runningTasks);
             shutdownControl.Set();
