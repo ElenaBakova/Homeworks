@@ -27,6 +27,16 @@ namespace MyFTP
         }
 
         /// <summary>
+        /// Clent's constructor
+        /// </summary>
+        public Client(int port, string ip)
+        {
+            this.port = port;
+            this.ip = IPAddress.Parse(ip);
+            client = new TcpClient();
+        }
+
+        /// <summary>
         /// Returns list of files in the directory 
         /// </summary>
         /// <param name="path">Directory path</param>

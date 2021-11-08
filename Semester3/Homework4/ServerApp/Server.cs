@@ -22,6 +22,12 @@ namespace MyFTP
         /// </summary>
         public Server(int port, IPAddress ip)
             => listener = new TcpListener(ip, port);
+        
+        /// <summary>
+        /// Server's constructor
+        /// </summary>
+        public Server(int port, string ip)
+            => listener = new TcpListener(IPAddress.Parse(ip), port);
 
         /// <summary>
         /// Starts server
