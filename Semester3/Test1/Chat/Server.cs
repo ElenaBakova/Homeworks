@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Chat
@@ -32,8 +31,8 @@ namespace Chat
                 client = await listener.AcceptTcpClientAsync();
                 Console.WriteLine("Client connected");
 
-                GetMessage(client.GetStream());
                 SendMessage(client.GetStream());
+                GetMessage(client.GetStream());
             }
         }
 
@@ -61,13 +60,12 @@ namespace Chat
                 using var writer = new StreamWriter(stream) { AutoFlush = true };
                 while (true)
                 {
-                    Console.WriteLine("Your message: ");
                     var data = Console.ReadLine();
+                    await writer.WriteLineAsync(data);
                     if (data == "exit")
                     {
                         Shutdown();
                     }
-                    await writer.WriteLineAsync(data);
                 }
             });
         }

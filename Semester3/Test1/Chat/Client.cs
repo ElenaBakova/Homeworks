@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -35,32 +34,32 @@ namespace Chat
             {
                 await client.ConnectAsync(ip, port);
             }
-            catch (Exception)
+            catch (SocketException)
             {
                 Console.WriteLine("Connecting error");
                 Shutdown();
             }
             Console.WriteLine("Connected to the server");
 
-            SendMessage(client.GetStream());
-            GetMessage(client.GetStream());
+            while (true)
+            {
+                SendMessage(client.GetStream());
+                await GetMessage(client.GetStream());
+            }
         }
 
-        private void GetMessage(NetworkStream stream)
+        private async Task GetMessage(NetworkStream stream)
         {
-            Task.Run(async () =>
+            using var reader = new StreamReader(stream);
+            while (true)
             {
-                using var reader = new StreamReader(stream);
-                while (true)
+                var data = await reader.ReadLineAsync();
+                if (data == "exit")
                 {
-                    var data = await reader.ReadLineAsync();
-                    if (data == "exit")
-                    {
-                        Shutdown();
-                    }
-                    Console.WriteLine($"Server message: {data}");
+                    Shutdown();
                 }
-            });
+                Console.WriteLine($"Server message: {data}");
+            }
         }
 
         private void SendMessage(NetworkStream stream)
@@ -70,13 +69,12 @@ namespace Chat
                 using var writer = new StreamWriter(stream) { AutoFlush = true };
                 while (true)
                 {
-                    Console.WriteLine("Your message: ");
                     var data = Console.ReadLine();
+                    await writer.WriteLineAsync(data);
                     if (data == "exit")
                     {
                         Shutdown();
                     }
-                    await writer.WriteLineAsync(data);
                 }
             });
         }

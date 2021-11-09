@@ -1,8 +1,9 @@
 {
   "profiles": {
-    "Chat": {
+
+    "Chat2": {
       "commandName": "Project",
-      "commandLineArgs": "8888"
+      "commandLineArgs": "127.0.0.1 9999"
     }
   }
 }
