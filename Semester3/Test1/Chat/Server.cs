@@ -5,17 +5,15 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MyFTP
+namespace Chat
 {
     /// <summary>
     /// Server class
     /// </summary>
     public class Server
     {
-        private AutoResetEvent shutdownControl = new(false);
-        private CancellationTokenSource cancellationTokenSource = new();
         private TcpListener listener;
-        private int runningTasks = 0;
+        private TcpClient client;
 
         /// <summary>
         /// Server's constructor
@@ -24,46 +22,64 @@ namespace MyFTP
             => listener = new TcpListener(IPAddress.Any, port);
 
         /// <summary>
-        /// Starts server
+        /// Runs the server
         /// </summary>
-        public async Task Start()
+        public async Task RunAsync()
         {
-            listener.Start();
-            while (!cancellationTokenSource.IsCancellationRequested)
+            while (true)
             {
-                var client = await listener.AcceptTcpClientAsync();
-                ThreadPool.QueueUserWorkItem(async obj => await Execute(client));
+                listener.Start();
+                client = await listener.AcceptTcpClientAsync();
+                Console.WriteLine("Client connected");
+
+                GetMessage(client.GetStream());
+                SendMessage(client.GetStream());
             }
-            listener.Stop();
         }
 
-        /// <summary>
-        /// Query processing method
-        /// </summary>
-        /// <param name="client">TCP client</param>
-        private async Task Execute(TcpClient client)
+        private void GetMessage(NetworkStream stream)
         {
-            Interlocked.Increment(ref runningTasks);
-            using var stream = client.GetStream();
-            using var writer = new StreamWriter(stream) { AutoFlush = true};
-            using var reader = new StreamReader(stream);
-            var requestString = await reader.ReadLineAsync();
-            var request = requestString.Split(' ');
-
-            Interlocked.Decrement(ref runningTasks);
-            shutdownControl.Set();
+            Task.Run(async () =>
+            {
+                using var reader = new StreamReader(stream);
+                while (true)
+                {
+                    var data = await reader.ReadLineAsync();
+                    if (data == "exit")
+                    {
+                        Shutdown();
+                    }
+                    Console.WriteLine($"Client message: {data}");
+                }
+            });
+        }
+        
+        private void SendMessage(NetworkStream stream)
+        {
+            Task.Run(async () =>
+            {
+                using var writer = new StreamWriter(stream) { AutoFlush = true };
+                while (true)
+                {
+                    Console.WriteLine("Your message: ");
+                    var data = Console.ReadLine();
+                    if (data == "exit")
+                    {
+                        Shutdown();
+                    }
+                    await writer.WriteLineAsync(data);
+                }
+            });
         }
 
         /// <summary>
         /// Shuts down server
         /// </summary>
-        public void Shutdown()
+        private void Shutdown()
         {
-            cancellationTokenSource.Cancel();
-            while (runningTasks > 0)
-            {
-                shutdownControl.WaitOne();
-            }
+            listener.Stop();
+            client.Close();
+            Environment.Exit(0);
         }
     }
 }
