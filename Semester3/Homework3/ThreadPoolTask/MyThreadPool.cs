@@ -80,10 +80,13 @@ namespace ThreadPoolTask
         /// <summary>
         /// Adds task to the queue
         /// </summary>
-        public void EnqueueTask(Action action)
+        private void EnqueueTask(Action action)
         {
-            tasksQueue.Enqueue(action);
-            newTaskWait.Set();
+            lock (lockObject)
+            {
+                tasksQueue.Enqueue(action);
+                newTaskWait.Set();
+            }
         }
 
         /// <summary>
@@ -172,12 +175,13 @@ namespace ThreadPoolTask
 
             public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> func)
             {
-                if (pool.cancellationTokenSource.IsCancellationRequested)
-                {
-                    throw new InvalidOperationException("Thread pool shut down");
-                }
                 lock (lockObject)
                 {
+                    if (pool.cancellationTokenSource.IsCancellationRequested)
+                    {
+                        throw new InvalidOperationException("Thread pool shut down");
+                    }
+
                     var task = new Task<TNewResult>(() => func(Result), pool);
                     continuationTasksQueue.Enqueue(task.Start);
                     if (IsCompleted)
