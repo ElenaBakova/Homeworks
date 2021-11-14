@@ -3,6 +3,7 @@ using System.Net;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using NUnit.Framework.Constraints;
+using System.Threading;
 
 namespace MyFTP.Tests
 {
@@ -13,6 +14,7 @@ namespace MyFTP.Tests
         private readonly IPAddress ip = IPAddress.Parse("127.0.0.1");
         private const int port = 8888;
         private const string path = "../../../Test/";
+        private CancellationTokenSource cts = new();
 
         [SetUp]
         public void SetupAsync()
@@ -30,21 +32,21 @@ namespace MyFTP.Tests
         public void IncorrectPathGetShouldThrowException()
         {
             var exceptionCheck = new ResolvableConstraintExpression().InnerException.TypeOf<FileNotFoundException>();
-            Assert.Throws(exceptionCheck, () => client.Get("Test/text.txt").Wait());
+            Assert.Throws(exceptionCheck, () => client.Get("Test/text.txt", cts).Wait());
         }
 
         [Test]
         public void IncorrectPathListShouldThrowException()
         {
             var exceptionCheck = new ResolvableConstraintExpression().InnerException.TypeOf<DirectoryNotFoundException>();
-            Assert.Throws(exceptionCheck, () => client.List("Test").Wait());
+            Assert.Throws(exceptionCheck, () => client.List("Test", cts).Wait());
         }
 
         [TestCase(path + "file.txt")]
         [TestCase(path + "Files/textFile.txt")]
         public async Task GetTest(string filePath)
         {
-            using var stream = await client.Get(filePath);
+            using var stream = await client.Get(filePath, cts);
             using var streamReader = new StreamReader(stream);
             var file = await streamReader.ReadToEndAsync();
 
@@ -62,7 +64,7 @@ namespace MyFTP.Tests
             var directory = new DirectoryInfo(filePath);
             var directories = directory.GetDirectories();
             var files = directory.GetFiles();
-            var response = await client.List(filePath);
+            var response = await client.List(filePath, cts);
             Assert.AreEqual(files.Length + directories.Length, response.Count);
 
             int index = 0;
