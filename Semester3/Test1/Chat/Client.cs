@@ -9,7 +9,7 @@ namespace Chat
     /// <summary>
     /// Client class
     /// </summary>
-    public class Client
+    public class Client : IDisposable
     {
         private TcpClient client;
         private readonly int port;
@@ -37,7 +37,7 @@ namespace Chat
             catch (SocketException)
             {
                 Console.WriteLine("Connecting error");
-                Shutdown();
+                Dispose();
             }
             Console.WriteLine("Connected to the server");
 
@@ -56,7 +56,7 @@ namespace Chat
                 var data = await reader.ReadLineAsync();
                 if (data == "exit")
                 {
-                    Shutdown();
+                    Dispose();
                 }
                 Console.WriteLine($"Server message: {data}");
             }
@@ -73,7 +73,7 @@ namespace Chat
                     await writer.WriteLineAsync(data);
                     if (data == "exit")
                     {
-                        Shutdown();
+                        Dispose();
                     }
                 }
             });
@@ -82,7 +82,7 @@ namespace Chat
         /// <summary>
         /// Shuts down client
         /// </summary>
-        public void Shutdown()
+        public void Dispose()
         {
             client.Close();
             Environment.Exit(0);

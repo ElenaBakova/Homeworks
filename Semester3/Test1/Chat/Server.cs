@@ -25,9 +25,9 @@ namespace Chat
         /// </summary>
         public async Task RunAsync()
         {
+            listener.Start();
             while (true)
             {
-                listener.Start();
                 client = await listener.AcceptTcpClientAsync();
                 Console.WriteLine("Client connected");
 
