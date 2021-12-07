@@ -2,8 +2,16 @@
 
 namespace MD5Algorithm
 {
-    public class SingleThreadedMD5
+    /// <summary>
+    /// Single-threaded check-sum counting class
+    /// </summary>
+    public class SingleThreadedCounting
     {
+        /// <summary>
+        /// Counts check-sum
+        /// </summary>
+        /// <param name="path">File or directory path</param>
+        /// <returns>Check-sum</returns>
         public byte[] CountCheckSum(string path)
         {
             if (!Directory.Exists(path) && !File.Exists(path))

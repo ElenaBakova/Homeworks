@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5", "MD5.csproj", "{632EFE4B-D8B9-460A-B4A6-8168081BE457}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5Algorithm", "MD5Algorithm.csproj", "{632EFE4B-D8B9-460A-B4A6-8168081BE457}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5Algorithm.Tests", "..\MD5Algorithm.Tests\MD5Algorithm.Tests.csproj", "{AAA5BDBB-427D-46C8-95AC-E62BC80B2124}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{632EFE4B-D8B9-460A-B4A6-8168081BE457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{632EFE4B-D8B9-460A-B4A6-8168081BE457}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{632EFE4B-D8B9-460A-B4A6-8168081BE457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAA5BDBB-427D-46C8-95AC-E62BC80B2124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAA5BDBB-427D-46C8-95AC-E62BC80B2124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAA5BDBB-427D-46C8-95AC-E62BC80B2124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAA5BDBB-427D-46C8-95AC-E62BC80B2124}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
