@@ -22,12 +22,14 @@ namespace MD5Algorithm.Tests
                 {
                     new TestCaseData(new SingleThreadedCounting(), data),
                     new TestCaseData(new MultiThreadedCounting(), data)
-});
+                });
 
         [TestCaseSource(nameof(Cases))]
-        public void CheckSumShouldNotChange()
+        public void CheckSumShouldNotChange(ICheckSumCounting sumCounting, string path)
         {
-            
+            var firstResult = sumCounting.CountCheckSum(path);
+            var secondResult = sumCounting.CountCheckSum(path);
+            Assert.AreEqual(firstResult, secondResult);
         }
     }
 }

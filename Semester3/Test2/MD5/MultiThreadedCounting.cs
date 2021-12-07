@@ -5,7 +5,7 @@ namespace MD5Algorithm
     /// <summary>
     /// Multi-threaded check-sum counting class
     /// </summary>
-    public class MultiThreadedCounting
+    public class MultiThreadedCounting : ICheckSumCounting
     {
         /// <summary>
         /// Counts check-sum
