@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace PriorityQueue.Tests
 {
@@ -16,21 +17,16 @@ namespace PriorityQueue.Tests
         public void DeleteFromEmptyQueueTest()
         {
             var result = queue.Dequeue();
-            int element = 1;
-            queue.Enqueue(element, 2);
-            Assert.AreEqual(result, element);
+            Parallel.Invoke(() => queue.Enqueue(0, 1));
+            Assert.AreEqual(result, 0);
         }
 
         [Test]
         public void EnqueueTest()
         {
-            queue.Enqueue(3, 1);
-            queue.Enqueue(5, 0);
-            queue.Enqueue(2, 4);
-            queue.Enqueue(4, 1);
-            queue.Enqueue(1, 5);
+            Parallel.For(0, 10, index => queue.Enqueue(index, 10 - index));
             var result = true;
-            for (int i = 1; i < 6; i++)
+            for (int i = 0; i < 10; i++)
             {
                 result &= queue.Dequeue() == i;
             }
@@ -42,35 +38,6 @@ namespace PriorityQueue.Tests
         {
             queue.Enqueue(3, 1);
             Assert.AreEqual(1, queue.Size);
-        }
-
-        [Test]
-        public void AfterDequeueSizeShoulBeDecreased()
-        {
-            queue.Enqueue(3, 1);
-            queue.Enqueue(5, 0);
-            queue.Enqueue(2, 4);
-            int oldSize = queue.Size;
-            queue.Dequeue();
-            Assert.AreEqual(1, oldSize - queue.Size);
-        }
-        
-        [Test]
-        public void ValueTypeStringTest()
-        {
-            PriorityQueue<string> queueTest = new();
-            queueTest.Enqueue("c", 1);
-            queueTest.Enqueue("e", 0);
-            queueTest.Enqueue("b", 4);
-            queueTest.Enqueue("d", 1);
-            queueTest.Enqueue("a", 5);
-            var result = true;
-            string stringAnswer = "abcde";
-            for (int i = 0; i < 5; i++)
-            {
-                result &= Equals(queueTest.Dequeue(), stringAnswer[i].ToString());
-            }
-            Assert.IsTrue(result);
         }
     }
 }
