@@ -11,7 +11,7 @@ public class Server
     private readonly AutoResetEvent shutdownControl = new(false);
     private readonly CancellationTokenSource cancellationTokenSource = new();
     private readonly TcpListener listener;
-    private readonly List<Task> clientsList;
+    private readonly List<Task> clientsList = new List<Task>();
     private int runningTasks = 0;
 
     /// <summary>
