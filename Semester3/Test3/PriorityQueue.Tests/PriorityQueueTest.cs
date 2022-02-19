@@ -34,7 +34,7 @@ namespace PriorityQueue.Tests
         }
 
         [Test]
-        public void AfterEnqueueSizeShoulBeIncreased()
+        public void AfterEnqueueSizeShouldBeIncreased()
         {
             queue.Enqueue(3, 1);
             Assert.AreEqual(1, queue.Size);
