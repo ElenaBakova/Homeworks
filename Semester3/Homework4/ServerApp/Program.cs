@@ -1,20 +1,14 @@
 ﻿using MyFTP;
 using System;
-using System.Threading.Tasks;
 
-namespace ServerApp
+if (args.Length < 2)
 {
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            Console.WriteLine("Please enter port");
-            var port = int.Parse(Console.ReadLine());
-            Console.WriteLine("Please enter ip address");
-            var ip = Console.ReadLine();
-            var server = new Server(port, ip);
-            await server.Start();
-            server.Shutdown();
-        }
-    }
+    Console.WriteLine("args should provide ip and port");
+    return;
 }
+
+var port = int.Parse(args[0]);
+var ip = args[1];
+var server = new Server(port, ip);
+await server.Start();
+server.Shutdown();

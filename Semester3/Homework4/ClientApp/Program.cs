@@ -1,17 +1,11 @@
 ﻿using MyFTP;
-using System;
 
-namespace ClientApp
+if (args.Length < 2)
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Please enter port");
-            var port = int.Parse(Console.ReadLine());
-            Console.WriteLine("Please enter ip address");
-            var ip = Console.ReadLine();
-            var client = new Client(port, ip);
-        }
-    }
+    Console.WriteLine("Please, provide in args port and ip");
+    return;
 }
+
+var port = int.Parse(args[0]);
+var ip = args[1];
+new Client(port, ip);
