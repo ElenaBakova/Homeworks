@@ -8,31 +8,33 @@ namespace PriorityQueue
     /// <typeparam name="TValue">Type of the value</typeparam>
     public class PriorityQueue<TValue>
     {
-        private PriorityQueue<TValue> queue = new();
+        private PriorityQueue<TValue, int> queue = new();
         private object lockObject = new ();
 
         /// <summary>
         /// True if queue is empty 
         /// </summary>
         public bool Empty
-            => queue.Empty;
+            => queue.Count == 0;
 
         /// <summary>
         /// Returns size of the queue
         /// </summary>
         public int Size
-            => queue.Size;
+            => queue.Count;
 
         /// <summary>
         /// Adds new element to the queue
         /// </summary>
         /// <param name="value">New element value</param>
         /// <param name="priority">Priority of new element</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Enqueue(TValue value, int priority)
         {
-            queue.Enqueue(value, priority);
-            Monitor.PulseAll(lockObject);
+            lock (queue)
+            {
+                queue.Enqueue(value, priority);
+                Monitor.PulseAll(lockObject);
+            }
         }
 
         /// <summary>

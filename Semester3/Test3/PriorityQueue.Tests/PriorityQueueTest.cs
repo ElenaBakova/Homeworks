@@ -18,7 +18,7 @@ namespace PriorityQueue.Tests
         {
             var result = queue.Dequeue();
             Parallel.Invoke(() => queue.Enqueue(0, 1));
-            Assert.AreEqual(result, 0);
+            Assert.AreEqual(0, result);
         }
 
         [Test]
