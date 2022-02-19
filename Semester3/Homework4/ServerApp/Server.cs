@@ -36,7 +36,9 @@ public class Server
         {
             var client = await listener.AcceptTcpClientAsync();
             var clientTask = Task.Run(() => Execute(client));
+            clientsList.Add(clientTask);
         }
+        Task.WaitAll(clientsList.ToArray());
         listener.Stop();
     }
 
