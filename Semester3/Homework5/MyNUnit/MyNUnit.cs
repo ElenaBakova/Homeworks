@@ -6,7 +6,7 @@ using System.Reflection;
 /// </summary>
 class MyNUnit
 {
-   // List<TestInfo> testsResult;
+    List<ResultInfo> testsResult = new();
 
     /// <summary>
     /// Class constructor
@@ -36,8 +36,13 @@ class MyNUnit
         var properties = (TestAttribute?)method.GetCustomAttribute(typeof(TestAttribute));
         if (properties?.Ignore != null)
         {
-
+            testsResult.Add(new ResultInfo(method.Name, ResultState.Ignored, TimeSpan.Zero, properties.Ignore));
+            return;
         }
+
+
+
+        method.Invoke(testClass, null);
     }
 
     private MethodsList SortByAttributes(Type testClass)
