@@ -1,11 +1,9 @@
 ﻿if (args.Length == 0)
 {
-    Console.WriteLine("Args should provide tests path");
-    return;
+    throw new ArgumentException("Args should provide tests path");
 }
 
 if (Directory.Exists(args[0]))
 {
-    Console.WriteLine("There's no such directory");
-    return;
+    throw new ArgumentException("There's no such directory");
 }
