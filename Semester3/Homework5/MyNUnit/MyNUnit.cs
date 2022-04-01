@@ -13,11 +13,30 @@ class MyNUnit
     {
         var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
         var classes = files.Distinct()
-            .Select(Assembly.Load)
+            .Select(Assembly.LoadFrom)
             .SelectMany(a => a.ExportedTypes)
             .Where(t => t.IsClass);
         var testClasses = classes.Where(c => c.GetMethods().Any(m => m.GetCustomAttributes().Any(a => a is TestAttribute)));
         Parallel.ForEach(testClasses, StartTests);
+    }
+
+    public static void PrintResult()
+    {
+        foreach (var test in testsResult)
+        {
+            switch (test.Result)
+            {
+                case ResultState.Failed:
+                case ResultState.Passed:
+                    Console.WriteLine($"Test named \"{test.Name}\" {test.Result}. Elapsed time: {test.ElapsedTime.TotalMilliseconds} ms");
+                    break;
+                case ResultState.Ignored:
+                    Console.WriteLine($"Test named \"{test.Name}\" ignored. Reason: {test.IgnoreReason}. Elapsed time: {test.ElapsedTime.TotalMilliseconds} ms");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     /// <summary>
@@ -69,6 +88,7 @@ class MyNUnit
     /// <returns>Whether it's failed</returns>
     private static bool RunMethods(List<MethodInfo> methods, List<MethodInfo> tests)
     {
+        bool result = true;
         try
         {
             Parallel.ForEach(methods, method => method.Invoke(null, null));
@@ -80,9 +100,9 @@ class MyNUnit
                 testsResult.RemoveAll(item => item.Name == test.Name);
                 testsResult.Add(new TestResult(test.Name, ResultState.Ignored, TimeSpan.Zero, "Before or After class method failed"));
             }
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 
     /// <summary>
