@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Attributes\Attributes.csproj" />
-    <ProjectReference Include="..\MyNUnit\MyNUnit.csproj" />
+    <ProjectReference Include="..\MyNUnit\MyNUnitProject.csproj" />
   </ItemGroup>
 
 </Project>

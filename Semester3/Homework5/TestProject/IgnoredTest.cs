@@ -1,6 +1,6 @@
-﻿namespace TestProject;
+﻿using Attributes;
 
-using Attributes;
+namespace TestProject;
 
 public class IgnoredTest
 {

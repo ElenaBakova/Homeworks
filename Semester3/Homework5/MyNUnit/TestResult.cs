@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Class for tests result information
 /// </summary>
-internal class TestResult
+public class TestResult
 {
     public string Name { get; set; }
     public ResultState Result { get; set; }

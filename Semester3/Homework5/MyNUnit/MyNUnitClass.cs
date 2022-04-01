@@ -2,12 +2,16 @@
 using System.Reflection;
 using System.Diagnostics;
 
+namespace MyNUnit;
+
 /// <summary>
 /// MyNUnit testing class
 /// </summary>
-class MyNUnit
+public class MyNUnitClass
 {
     private static List<TestResult> testsResult = new();
+
+    public static List<TestResult> ResultList { get => testsResult; }
 
     public static void RunTesting(string path)
     {
@@ -62,11 +66,7 @@ class MyNUnit
             {
                 testsResult.Add(result);
                 continue;
-            }/*
-            else if (result.Result == ResultState.Failed)
-            {
-                testsResult.Add(result);
-            }*/
+            }
 
             if (!RunBeforeAfterTestMethod(methods.After, testClass))
             {

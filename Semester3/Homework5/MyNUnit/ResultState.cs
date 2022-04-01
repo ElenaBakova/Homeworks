@@ -1,4 +1,4 @@
-﻿internal enum ResultState
+﻿public enum ResultState
 {
     Failed,
     Ignored,
