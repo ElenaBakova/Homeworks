@@ -16,8 +16,7 @@ public class MyNUnitClass
     public static void RunTesting(string path)
     {
         var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
-        var classes = files.Distinct()
-            .Select(Assembly.LoadFrom)
+        var classes = files.Select(Assembly.LoadFrom)
             .SelectMany(a => a.ExportedTypes)
             .Where(t => t.IsClass);
         var testClasses = classes.Where(c => c.GetMethods().Any(m => m.GetCustomAttributes().Any(a => a is TestAttribute)));
@@ -35,7 +34,7 @@ public class MyNUnitClass
                     Console.WriteLine($"Test named \"{test.Name}\" {test.Result}. Elapsed time: {test.ElapsedTime.TotalMilliseconds} ms");
                     break;
                 case ResultState.Ignored:
-                    Console.WriteLine($"Test named \"{test.Name}\" ignored. Reason: {test.IgnoreReason}. Elapsed time: {test.ElapsedTime.TotalMilliseconds} ms");
+                    Console.WriteLine($"Test named \"{test.Name}\" Ignored. Reason: {test.IgnoreReason}. Elapsed time: {test.ElapsedTime.TotalMilliseconds} ms");
                     break;
                 default:
                     break;
@@ -53,6 +52,7 @@ public class MyNUnitClass
         {
             return;
         }
+
         foreach (var test in methods.Test)
         {
             if (!RunBeforeAfterTestMethod(methods.Before, testClass))
@@ -77,6 +77,7 @@ public class MyNUnitClass
                 testsResult.Add(result);
             }
         }
+
         RunMethods(methods.AfterClass, methods.Test);
     }
 
