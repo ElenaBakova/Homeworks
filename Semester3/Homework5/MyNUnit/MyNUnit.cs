@@ -58,15 +58,15 @@ class MyNUnit
             }
 
             var result = RunTest(test, testClass);
-            if (result.Result == ResultState.Ignored)
+            if (result.Result == ResultState.Ignored || result.Result == ResultState.Failed)
             {
                 testsResult.Add(result);
                 continue;
-            }
+            }/*
             else if (result.Result == ResultState.Failed)
             {
                 testsResult.Add(result);
-            }
+            }*/
 
             if (!RunBeforeAfterTestMethod(methods.After, testClass))
             {
@@ -133,7 +133,7 @@ class MyNUnit
         catch (Exception e)
         {
             stopwatch.Stop();
-            if (properties?.Expected != null && e.InnerException != properties.Expected)
+            if (properties?.Expected != null && e.InnerException?.GetType() != properties.Expected || properties?.Expected == null)
             {
                 return new TestResult(method.Name, ResultState.Failed, stopwatch.Elapsed, null);
             }

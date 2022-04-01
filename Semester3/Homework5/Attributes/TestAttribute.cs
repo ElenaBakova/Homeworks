@@ -11,7 +11,7 @@
 
         }
 
-        public Exception? Expected { get; set; }
+        public Type? Expected { get; set; }
 
         public string? Ignore { get; set; }
     }

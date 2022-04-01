@@ -11,6 +11,6 @@ public class FailingBeforeClass
     private int a = 1;
 
     [Test]
-    public void Test()
+    public void TestFromFailingBeforeClass()
         => a++;
 }
