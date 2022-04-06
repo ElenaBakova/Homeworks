@@ -63,32 +63,34 @@ public class MyNUnitClass
             return;
         }
 
-        foreach (var test in methods.Test)
-        {
-            if (!RunBeforeAfterTestMethod(methods.Before, testClass))
-            {
-                ResultList.Add(new TestResult(test.Name, ResultState.Ignored, TimeSpan.Zero, "Before test method failed"));
-                continue;
-            }
-
-            var result = RunTest(test, testClass);
-            if (result.Result == ResultState.Ignored || result.Result == ResultState.Failed)
-            {
-                ResultList.Add(result);
-                continue;
-            }
-
-            if (!RunBeforeAfterTestMethod(methods.After, testClass))
-            {
-                ResultList.Add(new TestResult(test.Name, ResultState.Failed, TimeSpan.Zero, null));
-            }
-            else
-            {
-                ResultList.Add(result);
-            }
-        }
+        Parallel.ForEach(methods.Test, test => ExecuteTest(methods, testClass, test));
 
         RunMethods(methods.AfterClass, methods.Test);
+    }
+
+    private void ExecuteTest(MethodsList methods, Type testClass, MethodInfo test)
+    {
+        if (!RunBeforeAfterTestMethod(methods.Before, testClass))
+        {
+            ResultList.Add(new TestResult(test.Name, ResultState.Ignored, TimeSpan.Zero, "Before test method failed"));
+            return;
+        }
+
+        var result = RunTest(test, testClass);
+        if (result.Result == ResultState.Ignored || result.Result == ResultState.Failed)
+        {
+            ResultList.Add(result);
+            return;
+        }
+
+        if (!RunBeforeAfterTestMethod(methods.After, testClass))
+        {
+            ResultList.Add(new TestResult(test.Name, ResultState.Failed, TimeSpan.Zero, null));
+        }
+        else
+        {
+            ResultList.Add(result);
+        }
     }
 
     /// <summary>
