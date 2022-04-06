@@ -10,5 +10,6 @@ if (!Directory.Exists(args[0]))
     throw new ArgumentException("There's no such directory");
 }
 
-MyNUnitClass.RunTesting(args[0]);
-MyNUnitClass.PrintResult();
+var nUnitClass = new MyNUnitClass();
+nUnitClass.RunTesting(args[0]);
+nUnitClass.PrintResult();

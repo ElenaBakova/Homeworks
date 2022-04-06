@@ -1,4 +1,5 @@
-﻿using Attributes;
+﻿using System.Collections.Concurrent;
+using Attributes;
 using System.Reflection;
 using System.Diagnostics;
 
@@ -9,16 +10,16 @@ namespace MyNUnit;
 /// </summary>
 public class MyNUnitClass
 {
-    // List with result of the testing
-    public static List<TestResult> ResultList => testsResult;
+    // Concurrent bag with result of the testing
+    public ConcurrentBag<TestResult> ResultList { get; private set; } = new();
 
-    private static List<TestResult> testsResult = new();
+    //private static ConcurrentBag<TestResult> testsResult = new();
 
     /// <summary>
     /// Runs tests in the given directory
     /// </summary>
     /// <param name="path">Directory path</param>
-    public static void RunTesting(string path)
+    public void RunTesting(string path)
     {
         var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
         var classes = files.Select(Assembly.LoadFrom)
@@ -31,9 +32,10 @@ public class MyNUnitClass
     /// <summary>
     /// Prints result of the testing
     /// </summary>
-    public static void PrintResult()
+    public void PrintResult()
     {
-        foreach (var test in testsResult)
+        var distinctResult = ResultList.DistinctBy(test => test.Name);
+        foreach (var test in distinctResult)
         {
             switch (test.Result)
             {
@@ -53,7 +55,7 @@ public class MyNUnitClass
     /// <summary>
     /// Starts testing
     /// </summary>
-    private static void StartTests(Type testClass)
+    private void StartTests(Type testClass)
     {
         var methods = SortByAttributes(testClass);
         if (!RunMethods(methods.BeforeClass, methods.Test))
@@ -65,24 +67,24 @@ public class MyNUnitClass
         {
             if (!RunBeforeAfterTestMethod(methods.Before, testClass))
             {
-                testsResult.Add(new TestResult(test.Name, ResultState.Ignored, TimeSpan.Zero, "Before test method failed"));
+                ResultList.Add(new TestResult(test.Name, ResultState.Ignored, TimeSpan.Zero, "Before test method failed"));
                 continue;
             }
 
             var result = RunTest(test, testClass);
             if (result.Result == ResultState.Ignored || result.Result == ResultState.Failed)
             {
-                testsResult.Add(result);
+                ResultList.Add(result);
                 continue;
             }
 
             if (!RunBeforeAfterTestMethod(methods.After, testClass))
             {
-                testsResult.Add(new TestResult(test.Name, ResultState.Failed, TimeSpan.Zero, null));
+                ResultList.Add(new TestResult(test.Name, ResultState.Failed, TimeSpan.Zero, null));
             }
             else
             {
-                testsResult.Add(result);
+                ResultList.Add(result);
             }
         }
 
@@ -95,21 +97,23 @@ public class MyNUnitClass
     /// <param name="methods">Before or After class methods</param>
     /// <param name="tests">Test methods</param>
     /// <returns>Whether it's failed</returns>
-    private static bool RunMethods(List<MethodInfo> methods, List<MethodInfo> tests)
+    private bool RunMethods(List<MethodInfo> methods, List<MethodInfo> tests)
     {
         bool result = true;
-        try
+        foreach (var method in methods)
         {
-            Parallel.ForEach(methods, method => method.Invoke(null, null));
-        }
-        catch (Exception)
-        {
-            foreach (var test in tests)
+            try
             {
-                testsResult.RemoveAll(item => item.Name == test.Name);
-                testsResult.Add(new TestResult(test.Name, ResultState.Ignored, TimeSpan.Zero, "Before or After class method failed"));
+                method.Invoke(null, null);
             }
-            result = false;
+            catch (Exception)
+            {
+                foreach (var test in tests)
+                {
+                    ResultList.Add(new TestResult(test.Name, ResultState.Ignored, TimeSpan.Zero, "Before or After class method failed"));
+                }
+                result = false;
+            }
         }
         return result;
     }

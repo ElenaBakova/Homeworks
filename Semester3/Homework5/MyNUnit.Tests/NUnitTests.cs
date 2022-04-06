@@ -1,11 +1,12 @@
 using NUnit.Framework;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace MyNUnit.Tests;
 
-public static class Tests
+public class Tests
 {
-    private static bool Check(List<TestResult> result, List<(string, ResultState)> list)
+    private static bool Check(ConcurrentBag<TestResult> result, List<(string, ResultState)> list)
     {
         bool areEqual = true;
         foreach (var item in result)
@@ -16,7 +17,7 @@ public static class Tests
     }
 
     [TestCase("..\\..\\..\\..\\TestProject\\bin")]
-    public static void Test(string path)
+    public void Test(string path)
     {
         var answer = new List<(string, ResultState)>
         {
@@ -32,7 +33,8 @@ public static class Tests
             ("TestFromBeforeTestFail", ResultState.Ignored),
             ("ExceptionTest", ResultState.Failed)
         };
-        MyNUnitClass.RunTesting(path);
-        Assert.IsTrue(Check(MyNUnitClass.ResultList, answer));
+        var nUnitClass = new MyNUnitClass();
+        nUnitClass.RunTesting(path);
+        Assert.IsTrue(Check(nUnitClass.ResultList, answer));
     }
 }
