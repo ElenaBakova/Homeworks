@@ -9,10 +9,15 @@ namespace MyNUnit;
 /// </summary>
 public class MyNUnitClass
 {
+    // List with result of the testing
+    public static List<TestResult> ResultList => testsResult;
+
     private static List<TestResult> testsResult = new();
 
-    public static List<TestResult> ResultList { get => testsResult; }
-
+    /// <summary>
+    /// Runs tests in the given directory
+    /// </summary>
+    /// <param name="path">Directory path</param>
     public static void RunTesting(string path)
     {
         var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
@@ -23,6 +28,9 @@ public class MyNUnitClass
         Parallel.ForEach(testClasses, StartTests);
     }
 
+    /// <summary>
+    /// Prints result of the testing
+    /// </summary>
     public static void PrintResult()
     {
         foreach (var test in testsResult)
@@ -34,7 +42,7 @@ public class MyNUnitClass
                     Console.WriteLine($"Test named \"{test.Name}\" {test.Result}. Elapsed time: {test.ElapsedTime.TotalMilliseconds} ms");
                     break;
                 case ResultState.Ignored:
-                    Console.WriteLine($"Test named \"{test.Name}\" Ignored. Reason: {test.IgnoreReason}. Elapsed time: {test.ElapsedTime.TotalMilliseconds} ms");
+                    Console.WriteLine($"Test named \"{test.Name}\" Ignored. Reason: {test.IgnoreReason}.");
                     break;
                 default:
                     break;

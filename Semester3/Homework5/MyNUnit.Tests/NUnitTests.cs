@@ -10,7 +10,7 @@ public static class Tests
         bool areEqual = true;
         foreach (var item in result)
         {
-            areEqual = list.Contains(new(item.Name, item.Result));
+            areEqual &= list.Contains(new(item.Name, item.Result));
         }
         return areEqual;
     }
