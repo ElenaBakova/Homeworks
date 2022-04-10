@@ -15,12 +15,13 @@ Console.WriteLine("Commands:\n0 - End session\n1 - List all files in the directo
 while (!cts.IsCancellationRequested)
 {
     Console.WriteLine("\nPlease enter command code and path: ");
-    var input = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-    if (input.Length != 2 && input[0] != "0")
+    var input = Console.ReadLine()?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    if (input == null || input.Length == 1 && input[0] != "0" || input.Length < 1)
     {
         Console.WriteLine("Invalid input, try again");
         continue;
     }
+
     switch (input[0])
     {
         case "0":
@@ -30,7 +31,7 @@ while (!cts.IsCancellationRequested)
             try
             {
                 var list = await client.List(input[1], cts.Token);
-                foreach(var element in list)
+                foreach (var element in list)
                 {
                     Console.WriteLine($"{element.name} -- {element.isDir}");
                 }
@@ -41,8 +42,14 @@ while (!cts.IsCancellationRequested)
             }
             break;
         case "2":
-            //await Get(request[1], writer, token);
+        {
+            using var respondStream = new MemoryStream();
+            await client.Get(input[1], cts.Token, respondStream);
+            using var streamReader = new StreamReader(respondStream);
+            var file = await streamReader.ReadToEndAsync();
+            Console.WriteLine(file);
             break;
+        }
         default:
             Console.WriteLine("Invalid request");
             break;

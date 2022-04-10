@@ -73,7 +73,7 @@ public class Client
         writer.WriteLine($"2 {path}");
 
         using var reader = new StreamReader(stream);
-        var size = long.Parse(await reader.ReadLineAsync());
+        long.TryParse(await reader.ReadLineAsync(), out var size);
         if (size == -1)
         {
             throw new FileNotFoundException();
