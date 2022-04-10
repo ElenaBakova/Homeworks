@@ -187,12 +187,32 @@ public class MyNUnitClass
                 switch (attribute)
                 {
                     case TestAttribute:
+                        if (method.ReturnType != typeof(void))
+                        {
+                            throw new InvalidOperationException("Test methods return type should be void");
+                        }
                         methodsList.Test.Add(method);
                         break;
                     case AfterAttribute:
+                        if (method.ReturnType != typeof(void))
+                        {
+                            throw new InvalidOperationException("After test methods return type should be void");
+                        }
+                        if (method.GetParameters() == null)
+                        {
+                            throw new InvalidOperationException("After test methods shouldn't have any parameters");
+                        }
                         methodsList.After.Add(method);
                         break;
                     case BeforeAttribute:
+                        if (method.ReturnType != typeof(void))
+                        {
+                            throw new InvalidOperationException("Before test methods return type should be void");
+                        }
+                        if (method.GetParameters().Length == null)
+                        {
+                            throw new InvalidOperationException("Before test methods shouldn't have any parameters");
+                        }
                         methodsList.Before.Add(method);
                         break;
                     case AfterClassAttribute:
