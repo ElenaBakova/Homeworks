@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientApp", "..\ClientApp\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerApp", "..\ServerApp\ServerApp.csproj", "{AF9865DB-8848-4C11-91FB-F55B6803C5E6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFTP.Tests", "..\MyFTP.Tests\MyFTP.Tests.csproj", "{2DC28B27-7528-4469-ABAE-483C16E50660}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,12 @@ Global
 		{AF9865DB-8848-4C11-91FB-F55B6803C5E6}.my|Any CPU.Build.0 = Debug|Any CPU
 		{AF9865DB-8848-4C11-91FB-F55B6803C5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF9865DB-8848-4C11-91FB-F55B6803C5E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DC28B27-7528-4469-ABAE-483C16E50660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DC28B27-7528-4469-ABAE-483C16E50660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DC28B27-7528-4469-ABAE-483C16E50660}.my|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DC28B27-7528-4469-ABAE-483C16E50660}.my|Any CPU.Build.0 = Debug|Any CPU
+		{2DC28B27-7528-4469-ABAE-483C16E50660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DC28B27-7528-4469-ABAE-483C16E50660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

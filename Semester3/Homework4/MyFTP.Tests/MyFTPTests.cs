@@ -4,6 +4,7 @@ using NUnit.Framework.Constraints;
 
 namespace MyFTP.Tests;
 
+[TestFixture]
 public class Tests
 {
     private Server server;
@@ -21,7 +22,7 @@ public class Tests
         _ = server.Start();
     }
 
-    [TearDown]
+    [OneTimeTearDown]
     public void Teardown()
         => server.Shutdown();
 
