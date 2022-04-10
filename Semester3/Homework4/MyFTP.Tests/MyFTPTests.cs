@@ -30,7 +30,7 @@ public class Tests
     public void IncorrectPathGetShouldThrowException()
     {
         var exceptionCheck = new ResolvableConstraintExpression().InnerException.TypeOf<FileNotFoundException>();
-        Assert.Throws(exceptionCheck, () => client.Get("Test/text.txt", cts.Token, new MemoryStream()).Wait());
+        Assert.Throws(exceptionCheck, () => client.Get("Test/text.txt", new MemoryStream(), cts.Token).Wait());
     }
 
     [Test]
@@ -45,7 +45,7 @@ public class Tests
     public async Task GetTest(string filePath)
     {
         using var stream = new MemoryStream();
-        await client.Get(filePath, cts.Token, stream);
+        await client.Get(filePath, stream, cts.Token);
         using var streamReader = new StreamReader(stream);
         var file = await streamReader.ReadToEndAsync();
 

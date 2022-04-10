@@ -44,7 +44,7 @@ while (!cts.IsCancellationRequested)
         case "2":
         {
             using var respondStream = new MemoryStream();
-            await client.Get(input[1], cts.Token, respondStream);
+            await client.Get(input[1], respondStream, cts.Token);
             using var streamReader = new StreamReader(respondStream);
             var file = await streamReader.ReadToEndAsync();
             Console.WriteLine(file);

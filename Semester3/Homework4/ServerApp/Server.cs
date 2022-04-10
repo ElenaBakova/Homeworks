@@ -59,7 +59,7 @@ public class Server
         switch (request[0])
         {
             case "1":
-                await List(request[1], writer, token);
+                await List(request[1], writer);
                 break;
             case "2":
                 await Get(request[1], writer, token);
@@ -70,7 +70,7 @@ public class Server
         shutdownControl.Set();
     }
 
-    private static async Task List(string path, StreamWriter writer, CancellationToken token)
+    private static async Task List(string path, StreamWriter writer)
     {
         var directory = new DirectoryInfo(path);
         if (!directory.Exists)

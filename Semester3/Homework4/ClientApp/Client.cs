@@ -64,7 +64,7 @@ public class Client
     /// Returns file and its size
     /// </summary>
     /// <param name="path">File path</param>
-    public async Task Get(string path, CancellationToken token, Stream respondStream)
+    public async Task Get(string path, Stream respondStream, CancellationToken token)
     {
         using var client = new TcpClient();
         await client.ConnectAsync(ip.ToString(), port, token);
