@@ -8,4 +8,10 @@ if (args.Length < 2)
 
 var port = int.Parse(args[0]);
 var ip = args[1];
-new Client(port, ip);
+var client = new Client(port, ip);
+var cts = new CancellationTokenSource();
+var list = client.List("..\\..\\..\\..\\..\\..\\", cts.Token);
+foreach(var element in list.Result)
+{
+    Console.WriteLine($"{element.name} -- {element.isDir}");
+}

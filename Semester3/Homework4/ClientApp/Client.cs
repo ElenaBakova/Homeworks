@@ -12,7 +12,7 @@ public class Client
     private readonly IPAddress ip;
 
     /// <summary>
-    /// Clent's constructor
+    /// Client's constructor
     /// </summary>
     public Client(int port, IPAddress ip)
     {
@@ -21,7 +21,7 @@ public class Client
     }
 
     /// <summary>
-    /// Clent's constructor
+    /// Client's constructor
     /// </summary>
     public Client(int port, string ip)
     {
@@ -33,10 +33,10 @@ public class Client
     /// Returns list of files in the directory 
     /// </summary>
     /// <param name="path">Directory path</param>
-    public async Task<List<(string name, bool isDir)>> List(string path, CancellationTokenSource cts)
+    public async Task<List<(string name, bool isDir)>> List(string path, CancellationToken token)
     {
         using var client = new TcpClient();
-        await client.ConnectAsync(ip.ToString(), port);
+        await client.ConnectAsync(ip.ToString(), port, token);
         using var stream = client.GetStream();
         using var writer = new StreamWriter(stream) { AutoFlush = true };
         writer.WriteLine($"1 {path}");
@@ -53,10 +53,6 @@ public class Client
         var list = new List<(string, bool)>();
         for (int i = 1; i <= 2 * size; i += 2)
         {
-            if (cts.IsCancellationRequested)
-            {
-                return null;
-            }
             var name = data[i];
             var isDir = bool.Parse(data[i + 1]);
             list.Add((name, isDir));
@@ -68,9 +64,10 @@ public class Client
     /// Returns file and its size
     /// </summary>
     /// <param name="path">File path</param>
-    public async Task Get(string path, CancellationTokenSource cts, Stream respondStream)
+    public async Task Get(string path, CancellationToken token, Stream respondStream)
     {
-        using var client = new TcpClient(ip.ToString(), port);
+        using var client = new TcpClient();
+        await client.ConnectAsync(ip.ToString(), port, token);
         using var stream = client.GetStream();
         using var writer = new StreamWriter(stream) { AutoFlush = true };
         writer.WriteLine($"2 {path}");
@@ -82,11 +79,11 @@ public class Client
             throw new FileNotFoundException();
         }
 
-        if (cts.IsCancellationRequested)
+        if (token.IsCancellationRequested)
         {
             return;
         }
-        await stream.CopyToAsync(respondStream);
+        await stream.CopyToAsync(respondStream, token);
         respondStream.Position = 0;
     }
 }
