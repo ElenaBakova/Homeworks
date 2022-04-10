@@ -29,14 +29,14 @@ public class Tests
     public void IncorrectPathGetShouldThrowException()
     {
         var exceptionCheck = new ResolvableConstraintExpression().InnerException.TypeOf<FileNotFoundException>();
-        Assert.Throws(exceptionCheck, () => client.Get("Test/text.txt", cts, new MemoryStream()).Wait());
+        Assert.Throws(exceptionCheck, () => client.Get("Test/text.txt", cts.Token, new MemoryStream()).Wait());
     }
 
     [Test]
     public void IncorrectPathListShouldThrowException()
     {
         var exceptionCheck = new ResolvableConstraintExpression().InnerException.TypeOf<DirectoryNotFoundException>();
-        Assert.Throws(exceptionCheck, () => client.List("Test", cts).Wait());
+        Assert.Throws(exceptionCheck, () => client.List("Test", cts.Token).Wait());
     }
 
     [TestCase(path + "file.txt")]
@@ -44,7 +44,7 @@ public class Tests
     public async Task GetTest(string filePath)
     {
         using var stream = new MemoryStream();
-        await client.Get(filePath, cts, stream);
+        await client.Get(filePath, cts.Token, stream);
         using var streamReader = new StreamReader(stream);
         var file = await streamReader.ReadToEndAsync();
 
@@ -62,7 +62,7 @@ public class Tests
         var directory = new DirectoryInfo(filePath);
         var directories = directory.GetDirectories();
         var files = directory.GetFiles();
-        var response = await client.List(filePath, cts);
+        var response = await client.List(filePath, cts.Token);
         Assert.AreEqual(files.Length + directories.Length, response.Count);
 
         int index = 0;

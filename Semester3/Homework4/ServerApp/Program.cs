@@ -11,4 +11,3 @@ var port = int.Parse(args[0]);
 var ip = args[1];
 var server = new Server(port, ip);
 await server.Start();
-server.Shutdown();

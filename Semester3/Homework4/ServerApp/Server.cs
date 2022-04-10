@@ -35,7 +35,7 @@ public class Server
         while (!cancellationTokenSource.IsCancellationRequested)
         {
             var client = await listener.AcceptTcpClientAsync();
-            var clientTask = Task.Run(() => Execute(client));
+            var clientTask = Task.Run(() => Execute(client, cancellationTokenSource.Token));
             clientsList.Add(clientTask);
         }
 
@@ -47,7 +47,7 @@ public class Server
     /// Query processing method
     /// </summary>
     /// <param name="client">TCP client</param>
-    private async Task Execute(TcpClient client)
+    private async Task Execute(TcpClient client, CancellationToken token)
     {
         Interlocked.Increment(ref runningTasks);
         using var stream = client.GetStream();
@@ -59,13 +59,10 @@ public class Server
         switch (request[0])
         {
             case "1":
-                await List(request[1], writer);
+                await List(request[1], writer, token);
                 break;
             case "2":
-                await Get(request[1], writer);
-                break;
-            default:
-                Console.WriteLine("Invalid request");
+                await Get(request[1], writer, token);
                 break;
         }
 
@@ -73,7 +70,7 @@ public class Server
         shutdownControl.Set();
     }
 
-    private static async Task List(string path, StreamWriter writer)
+    private static async Task List(string path, StreamWriter writer, CancellationToken token)
     {
         var directory = new DirectoryInfo(path);
         if (!directory.Exists)
@@ -96,7 +93,7 @@ public class Server
         }
     }
 
-    private static async Task Get(string path, StreamWriter writer)
+    private static async Task Get(string path, StreamWriter writer, CancellationToken token)
     {
         var file = new FileInfo(path);
         if (!file.Exists)
@@ -107,7 +104,7 @@ public class Server
 
         await writer.WriteLineAsync(file.Length.ToString());
         using var fileStream = file.OpenRead();
-        await fileStream.CopyToAsync(writer.BaseStream);
+        await fileStream.CopyToAsync(writer.BaseStream, token);
     }
 
     /// <summary>
