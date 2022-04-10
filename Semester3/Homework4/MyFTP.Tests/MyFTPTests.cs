@@ -69,12 +69,12 @@ public class Tests
         int index = 0;
         foreach (var folder in directories)
         {
-            Assert.AreEqual(response[index], (folder.Name.ToString(), true));
+            Assert.AreEqual((folder.Name, true), response[index]);
             index++;
         }
         foreach (var file in files)
         {
-            Assert.AreEqual(response[index], (file.Name.ToString(), false));
+            Assert.AreEqual((file.Name, false), response[index]);
             index++;
         }
     }

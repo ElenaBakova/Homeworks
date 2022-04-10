@@ -37,9 +37,9 @@ public class Client
     {
         using var client = new TcpClient();
         await client.ConnectAsync(ip.ToString(), port, token);
-        using var stream = client.GetStream();
-        using var writer = new StreamWriter(stream) { AutoFlush = true };
-        writer.WriteLine($"1 {path}");
+        await using var stream = client.GetStream();
+        await using var writer = new StreamWriter(stream) {AutoFlush = true};
+        await writer.WriteLineAsync($"1 {path}");
 
         using var reader = new StreamReader(stream);
         var readString = await reader.ReadLineAsync();
@@ -57,6 +57,7 @@ public class Client
             var isDir = bool.Parse(data[i + 1]);
             list.Add((name, isDir));
         }
+
         return list;
     }
 
@@ -68,9 +69,9 @@ public class Client
     {
         using var client = new TcpClient();
         await client.ConnectAsync(ip.ToString(), port, token);
-        using var stream = client.GetStream();
-        using var writer = new StreamWriter(stream) { AutoFlush = true };
-        writer.WriteLine($"2 {path}");
+        await using var stream = client.GetStream();
+        await using var writer = new StreamWriter(stream) {AutoFlush = true};
+        await writer.WriteLineAsync($"2 {path}");
 
         using var reader = new StreamReader(stream);
         long.TryParse(await reader.ReadLineAsync(), out var size);
@@ -79,10 +80,6 @@ public class Client
             throw new FileNotFoundException();
         }
 
-        if (token.IsCancellationRequested)
-        {
-            return;
-        }
         await stream.CopyToAsync(respondStream, token);
         respondStream.Position = 0;
     }

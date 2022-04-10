@@ -6,7 +6,12 @@ if (args.Length < 2)
     return;
 }
 
-int.TryParse(args[0], out var port);
+var parseResult = int.TryParse(args[0], out var port);
+if (!parseResult)
+{
+    Console.WriteLine("Couldn't get port");
+    return;
+}
 var ip = args[1];
 var client = new Client(port, ip);
 var cts = new CancellationTokenSource();

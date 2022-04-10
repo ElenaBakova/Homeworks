@@ -1,5 +1,4 @@
 ﻿using MyFTP;
-using System;
 
 if (args.Length < 2)
 {

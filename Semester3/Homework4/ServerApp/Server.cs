@@ -50,8 +50,8 @@ public class Server
     private async Task Execute(TcpClient client, CancellationToken token)
     {
         Interlocked.Increment(ref runningTasks);
-        using var stream = client.GetStream();
-        using var writer = new StreamWriter(stream) {AutoFlush = true};
+        await using var stream = client.GetStream();
+        await using var writer = new StreamWriter(stream) {AutoFlush = true};
         using var reader = new StreamReader(stream);
         var requestString = await reader.ReadLineAsync();
         var request = requestString.Split(' ');
@@ -103,7 +103,7 @@ public class Server
         }
 
         await writer.WriteLineAsync(file.Length.ToString());
-        using var fileStream = file.OpenRead();
+        await using var fileStream = file.OpenRead();
         await fileStream.CopyToAsync(writer.BaseStream, token);
     }
 
