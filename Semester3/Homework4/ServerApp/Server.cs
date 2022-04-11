@@ -34,9 +34,18 @@ public class Server
         listener.Start();
         while (!cancellationTokenSource.IsCancellationRequested)
         {
-            var client = await listener.AcceptTcpClientAsync();
-            var clientTask = Task.Run(() => Execute(client, cancellationTokenSource.Token));
-            clientsList.Add(clientTask);
+            cancellationTokenSource.Token.Register(() => listener.Stop());
+            try
+            {
+                var client = await listener.AcceptTcpClientAsync();
+                var clientTask = Task.Run(() => Execute(client, cancellationTokenSource.Token));
+                clientsList.Add(clientTask);
+            }
+            catch (SocketException)
+            {
+                Console.WriteLine("Server disconnected");
+                return;
+            }
         }
 
         Task.WaitAll(clientsList.ToArray());
@@ -49,7 +58,7 @@ public class Server
     /// <param name="client">TCP client</param>
     private async Task Execute(TcpClient client, CancellationToken token)
     {
-        using (client)
+        //using (client)
         {
             Interlocked.Increment(ref runningTasks);
             await using var stream = client.GetStream();

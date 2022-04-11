@@ -2,7 +2,7 @@
   "profiles": {
     "ClientApp": {
       "commandName": "Project",
-      "commandLineArgs": "8888 127.10.0.1"
+      "commandLineArgs": "8888 127.10.0.1 get ..\\..\\..\\..\\MyFTP.Tests\\Test\\Files\\textFIle.txt"
     }
   }
 }
