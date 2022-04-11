@@ -9,4 +9,9 @@ if (args.Length < 2)
 var port = int.Parse(args[0]);
 var ip = args[1];
 var server = new Server(port, ip);
-await server.Start();
+var serverTask = server.Start();
+Console.WriteLine("Press enter to stop");
+Console.ReadLine();
+server.Shutdown();
+await serverTask;
+

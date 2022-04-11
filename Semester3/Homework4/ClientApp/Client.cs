@@ -51,7 +51,7 @@ public class Client
         }
 
         var list = new List<(string, bool)>();
-        for (int i = 1; i <= 2 * size; i += 2)
+        for (var i = 1; i <= 2 * size; i += 2)
         {
             var name = data[i];
             var isDir = bool.Parse(data[i + 1]);
@@ -74,8 +74,8 @@ public class Client
         await writer.WriteLineAsync($"2 {path}");
 
         using var reader = new StreamReader(stream);
-        long.TryParse(await reader.ReadLineAsync(), out var size);
-        if (size == -1)
+        var parseResult = long.TryParse(await reader.ReadLineAsync(), out var size);
+        if (size == -1 || !parseResult)
         {
             throw new FileNotFoundException();
         }

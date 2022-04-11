@@ -49,25 +49,28 @@ public class Server
     /// <param name="client">TCP client</param>
     private async Task Execute(TcpClient client, CancellationToken token)
     {
-        Interlocked.Increment(ref runningTasks);
-        await using var stream = client.GetStream();
-        await using var writer = new StreamWriter(stream) {AutoFlush = true};
-        using var reader = new StreamReader(stream);
-        var requestString = await reader.ReadLineAsync();
-        var request = requestString.Split(' ');
-
-        switch (request[0])
+        using (client)
         {
-            case "1":
-                await List(request[1], writer);
-                break;
-            case "2":
-                await Get(request[1], writer, token);
-                break;
-        }
+            Interlocked.Increment(ref runningTasks);
+            await using var stream = client.GetStream();
+            await using var writer = new StreamWriter(stream) {AutoFlush = true};
+            using var reader = new StreamReader(stream);
+            var requestString = await reader.ReadLineAsync();
+            var request = requestString.Split(' ');
 
-        Interlocked.Decrement(ref runningTasks);
-        shutdownControl.Set();
+            switch (request[0])
+            {
+                case "1":
+                    await List(request[1], writer);
+                    break;
+                case "2":
+                    await Get(request[1], writer, token);
+                    break;
+            }
+
+            Interlocked.Decrement(ref runningTasks);
+            shutdownControl.Set();
+        }
     }
 
     private static async Task List(string path, StreamWriter writer)
