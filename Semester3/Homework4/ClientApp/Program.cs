@@ -15,12 +15,6 @@ if (!parseResult)
 
 var command = args[2];
 var path = args[3];
-if (!File.Exists(path) && !Directory.Exists(path))
-{
-    Console.WriteLine("Incorrect path");
-    return;
-}
-
 var ip = args[1];
 var client = new Client(port, ip);
 var cts = new CancellationTokenSource();
@@ -55,4 +49,3 @@ switch (command)
         Console.WriteLine("Invalid request");
         break;
 }
-cts.Cancel();

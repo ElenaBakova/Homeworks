@@ -37,7 +37,7 @@ public class Server
             cancellationTokenSource.Token.Register(() => listener.Stop());
             try
             {
-                var client = await listener.AcceptTcpClientAsync();
+                var client = await listener.AcceptTcpClientAsync(cancellationTokenSource.Token);
                 var clientTask = Task.Run(() => Execute(client, cancellationTokenSource.Token));
                 clientsList.Add(clientTask);
             }
@@ -58,7 +58,7 @@ public class Server
     /// <param name="client">TCP client</param>
     private async Task Execute(TcpClient client, CancellationToken token)
     {
-        //using (client)
+        using (client)
         {
             Interlocked.Increment(ref runningTasks);
             await using var stream = client.GetStream();
