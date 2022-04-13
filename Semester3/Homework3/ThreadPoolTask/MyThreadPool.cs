@@ -11,7 +11,7 @@ public class MyThreadPool
     private CancellationTokenSource cancellationTokenSource = new();
     private ConcurrentQueue<Action> tasksQueue = new();
     private AutoResetEvent newTaskWait = new(false);
-    private ManualResetEvent tasksExecutionWait = new(false);
+    private AutoResetEvent tasksExecutionWait = new(false);
     private int executedThreadsCount = 0;
     private object lockObject = new();
 
@@ -105,7 +105,6 @@ public class MyThreadPool
         {
             newTaskWait.Set();
             tasksExecutionWait.WaitOne();
-            tasksExecutionWait.Reset();
         }
     }
 

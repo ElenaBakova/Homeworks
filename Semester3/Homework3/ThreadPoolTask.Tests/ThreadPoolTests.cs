@@ -83,9 +83,9 @@ public class Tests
         var task2 = task1.ContinueWith(x => x + stringC);
         var task3 = task1.ContinueWith(x => x + stringD);
         var task4 = task2.ContinueWith(x => x + stringD);
-        Assert.AreEqual(task1.Result, stringA);
-        Assert.AreEqual(task2.Result, stringA + stringC);
-        Assert.AreEqual(task3.Result, stringA + stringD);
-        Assert.AreEqual(task4.Result, stringA + stringC + stringD);
+        Assert.AreEqual(stringA, task1.Result);
+        Assert.AreEqual(stringA + stringC, task2.Result);
+        Assert.AreEqual(stringA + stringD, task3.Result);
+        Assert.AreEqual(stringA + stringC + stringD, task4.Result);
     }
 }
