@@ -41,7 +41,7 @@ public class Server
                 var clientTask = Task.Run(() => Execute(client, cancellationTokenSource.Token));
                 clientsList.Add(clientTask);
             }
-            catch (SocketException)
+            catch (OperationCanceledException)
             {
                 Console.WriteLine("Server disconnected");
                 return;
