@@ -2,7 +2,7 @@
 
 if (args.Length < 4)
 {
-    Console.WriteLine("Please, provide in args port, ip, command(list or get) and path to the file or directory");
+    Console.WriteLine("Please, provide in args port, ip, command (list or get) and path to the file or directory");
     return;
 }
 
