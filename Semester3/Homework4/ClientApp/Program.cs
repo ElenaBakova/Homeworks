@@ -20,6 +20,7 @@ if (!File.Exists(path) && !Directory.Exists(path))
     Console.WriteLine("Incorrect path");
     return;
 }
+
 var ip = args[1];
 var client = new Client(port, ip);
 var cts = new CancellationTokenSource();
