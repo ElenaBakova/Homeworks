@@ -1,19 +1,19 @@
-﻿using System.Collections.Concurrent;
+﻿namespace MyNUnit;
+
+using System.Collections.Concurrent;
 using Attributes;
 using System.Reflection;
 using System.Diagnostics;
-
-namespace MyNUnit;
 
 /// <summary>
 /// MyNUnit testing class
 /// </summary>
 public class MyNUnitClass
 {
-    // Concurrent bag with result of the testing
+    /// <summary>
+    /// Concurrent bag with result of the testing
+    /// </summary>
     public ConcurrentBag<TestResult> ResultList { get; private set; } = new();
-
-    //private static ConcurrentBag<TestResult> testsResult = new();
 
     /// <summary>
     /// Runs tests in the given directory
@@ -198,7 +198,7 @@ public class MyNUnitClass
                         {
                             throw new InvalidOperationException("After test methods return type should be void");
                         }
-                        if (method.GetParameters() == null)
+                        if (method.GetParameters().Length != 0)
                         {
                             throw new InvalidOperationException("After test methods shouldn't have any parameters");
                         }
@@ -209,7 +209,7 @@ public class MyNUnitClass
                         {
                             throw new InvalidOperationException("Before test methods return type should be void");
                         }
-                        if (method.GetParameters().Length == null)
+                        if (method.GetParameters().Length != 0)
                         {
                             throw new InvalidOperationException("Before test methods shouldn't have any parameters");
                         }

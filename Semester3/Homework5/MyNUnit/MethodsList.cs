@@ -1,6 +1,6 @@
-﻿using System.Reflection;
+﻿namespace MyNUnit;
 
-namespace MyNUnit;
+using System.Reflection;
 
 /// <summary>
 /// Class for sorting methods by attributes
