@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ServerApp": {
+      "commandName": "Project",
+      "commandLineArgs": "8888 127.10.0.1"
+    }
+  }
+}
