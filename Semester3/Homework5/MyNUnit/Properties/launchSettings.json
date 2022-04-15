@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MyNUnit": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\..\\..\\TestProject\\bin"
+    }
+  }
+}
